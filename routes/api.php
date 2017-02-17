@@ -1,5 +1,6 @@
 <?php
 
+use Dingo\Api\Routing\Router;
 use Illuminate\Http\Request;
 
 /*
@@ -13,6 +14,67 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+$api = app(Router::class);
+$api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 200, 'expires' => 5], function ($api) {
+
+    $api->get('journals/', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalController@index',
+        'as' => 'journals.index'
+    ]);
+
+    $api->post('journals', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalController@store',
+        'as' => 'journals.store'
+    ]);
+
+    $api->get('journals/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalController@show',
+        'as' => 'journals.show'
+    ]);
+
+    $api->patch('journals/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalController@update',
+        'as' => 'journals.update'
+    ]);
+
+    $api->delete('journals/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalController@destroy',
+        'as' => 'journals.destroy'
+    ]);
+
+    // -----------------------------------------
+
+    $api->post('journal/{id}/entries', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@store',
+        'as' => 'journal.entries.store'
+    ]);
+
+    // -----------------------------------------
+
+    $api->get('entries/', [
+        'uses' => 'Diary\Api\Http\Controllers\EntryController@index',
+        'as' => 'entries.index'
+    ]);
+
+
+    $api->get('entries/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\EntryController@show',
+        'as' => 'entries.show'
+    ]);
+
+    $api->patch('entries/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\EntryController@update',
+        'as' => 'entries.update'
+    ]);
+
+    $api->delete('entries/{id}', [
+        'uses' => 'Diary\Api\Http\Controllers\EntryController@destroy',
+        'as' => 'entries.destroy'
+    ]);
+
 });

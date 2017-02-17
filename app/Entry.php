@@ -9,7 +9,6 @@ class Entry extends UuidModel
 {
     protected $fillable = ['content', 'journal_id', 'user_id'];
 
-
     /**
      * Retrieve the content attribute.
      *
