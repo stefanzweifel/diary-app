@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
             return new \Dingo\Api\Auth\Provider\Basic($app['auth'], 'email');
         });
 
+        app('Dingo\Api\Auth\Auth')->extend('jwt', function ($app) {
+            return new \Dingo\Api\Auth\Provider\JWT($app['Tymon\JWTAuth\JWTAuth']);
+        });
+
     }
 
     /**

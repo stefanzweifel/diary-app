@@ -37,6 +37,10 @@ acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
 
+aes-js:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/aes-js/-/aes-js-3.0.0.tgz#e21df10ad6c2053295bcbb8dab40b09dbea87e4d"
+
 after@0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.1.tgz#ab5d4fb883f596816d3515f8f791c0af486dd627"
@@ -212,6 +216,10 @@ autoprefixer@^6.7.3:
     num2fraction "^1.2.2"
     postcss "^5.2.13"
     postcss-value-parser "^3.2.3"
+
+autosize:
+  version "3.0.20"
+  resolved "https://registry.yarnpkg.com/autosize/-/autosize-3.0.20.tgz#e343ea7c5603834738169420f0349dc953e62a9e"
 
 aws-sign2@~0.6.0:
   version "0.6.0"
@@ -548,6 +556,14 @@ babel-plugin-transform-strict-mode@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
     babel-types "^6.22.0"
+
+babel-polyfill@^6.9.1:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.23.0.tgz#8364ca62df8eafb830499f699177466c3b03499d"
+  dependencies:
+    babel-runtime "^6.22.0"
+    core-js "^2.4.0"
+    regenerator-runtime "^0.10.0"
 
 babel-preset-es2015@^6.18.0:
   version "6.22.0"
@@ -1495,6 +1511,12 @@ error-stack-parser@^2.0.0:
   dependencies:
     stackframe "^1.0.2"
 
+es6-store:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/es6-store/-/es6-store-1.0.0.tgz#cf85c94489b8b56c0f708fa4d621f67921b11e7a"
+  dependencies:
+    babel-polyfill "^6.9.1"
+
 es6-templates@^0.2.2:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/es6-templates/-/es6-templates-0.2.3.tgz#5cb9ac9fb1ded6eb1239342b81d792bbb4078ee4"
@@ -2368,6 +2390,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
+laravel-echo:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.2.4.tgz#6f7d658af51d382abb226aa2cf3e89a981a022d4"
+
 laravel-mix@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-0.8.1.tgz#04ce73177a35f980e7873ffb6833b5933a12ac45"
@@ -2648,6 +2674,10 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
+marked, marked@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
+
 marked-terminal@^1.6.2:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/marked-terminal/-/marked-terminal-1.7.0.tgz#c8c460881c772c7604b64367007ee5f77f125904"
@@ -2657,10 +2687,6 @@ marked-terminal@^1.6.2:
     cli-table "^0.3.1"
     lodash.assign "^4.2.0"
     node-emoji "^1.4.1"
-
-marked@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
 md5@^2.0.0:
   version "2.2.1"
@@ -2774,6 +2800,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, "mkdirp@>=0.5 0", mkdirp@~0.5.0, mkdirp@~0.5.1, mk
 mkdirp@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.0.tgz#1bbf5ab1ba827af23575143490426455f481fe1e"
+
+moment:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
 
 ms@0.7.1:
   version "0.7.1"
@@ -4223,6 +4253,10 @@ vue-loader@^10.0.2:
     vue-style-loader "^2.0.0"
     vue-template-es2015-compiler "^1.2.2"
 
+vue-localstorage:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/vue-localstorage/-/vue-localstorage-0.1.3.tgz#929f740999985b93d01a910f66ec540062650f60"
+
 vue-style-loader@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-2.0.0.tgz#1a3bb55239ac541ee3af0301d66f16fc86786543"
@@ -4385,6 +4419,10 @@ window-size@^0.2.0:
 window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
+
+word-count:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/word-count/-/word-count-0.2.2.tgz#699192fca6829fe936d41cb0d95db9248c570451"
 
 wordwrap@0.0.2:
   version "0.0.2"

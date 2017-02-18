@@ -13,8 +13,22 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.component('app-drawer', require('./components/AppDrawer.vue'));
+
+import VueLocalStorage from 'vue-localstorage';
+Vue.use(VueLocalStorage)
 
 const app = new Vue({
-    el: '#app'
+
+    localStorage: {
+        applicationVersion: {
+            type: String,
+            default: '0.0.1'
+        }
+    },
+    el: '#app',
+    data: {
+        'password': ''
+    }
+
 });

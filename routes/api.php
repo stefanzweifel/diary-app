@@ -49,9 +49,14 @@ $api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 20
 
     // -----------------------------------------
 
-    $api->post('journal/{id}/entries', [
+    $api->post('journals/{id}/entries', [
         'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@store',
         'as' => 'journal.entries.store'
+    ]);
+
+    $api->patch('journals/{id}/entries/{entriesId}', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@update',
+        'as' => 'journal.entries.update'
     ]);
 
     // -----------------------------------------

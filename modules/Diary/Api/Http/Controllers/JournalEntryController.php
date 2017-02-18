@@ -19,6 +19,17 @@ class JournalEntryController extends Controller
      */
     public function store($journalId)
     {
+        $journal = Entry::create([
+            'content' => "Should be a random quote",
+            'journal_id' => $journalId,
+            'user_id' => app(Auth::class)->user()->id
+        ]);
+
+        return $this->response->created("/entries/{$journal->id}");
+    }
+
+    public function update($journalId, $entryId)
+    {
         $payload = app('request')->only('content');
 
         $validator = app('validator')->make($payload, [
@@ -26,15 +37,15 @@ class JournalEntryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not create new Entry.', $validator->errors());
+            throw new StoreResourceFailedException('Could not update Entry.', $validator->errors());
         }
 
-        $journal = Entry::create([
-            'content' => app('request')->content,
-            'journal_id' => $journalId,
-            'user_id' => app(Auth::class)->user()->id
+        $entry = Entry::findOrFail($entryId);
+
+        $entry->update([
+            'content' => app('request')->content
         ]);
 
-        return $this->response->created("/entries/{$journal->id}");
+        return $this->response->noContent();
     }
 }

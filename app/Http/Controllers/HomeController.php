@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Entry;
 use App\Journal;
-use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class HomeController extends Controller
 {
@@ -33,4 +34,13 @@ class HomeController extends Controller
 
         return view('home');
     }
+
+
+    public function jwtToken()
+    {
+        $token = JWTAuth::fromUser(auth()->user());
+
+        return ['token' => $token];
+    }
+
 }
