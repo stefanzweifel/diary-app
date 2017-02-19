@@ -1,5 +1,10 @@
 <?php
 
+use App\Entry;
+use App\Journal;
+use App\User;
+use Faker\Generator;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,7 +17,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(User::class, function (Generator $faker) {
     static $password;
 
     return [
@@ -20,5 +25,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(Journal::class, function(Generator $faker) {
+    return [
+        'user_id' => factory(User::class)->create()->id,
+        'title' => $faker->name
+    ];
+});
+
+$factory->define(Entry::class, function(Generator $faker) {
+    return [
+        'content' => $faker->text,
+        'journal_id' => factory(Journal::class)->create()->id,
+        'user_id' => factory(User::class)->create()->id
     ];
 });

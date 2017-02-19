@@ -20,12 +20,32 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./modules</directory>
+            <exclude>
+                <directory suffix="blade.php">./modules</directory>
+                <directory suffix="php">./modules/Diary/Http/routes</directory>
+            </exclude>
         </whitelist>
     </filter>
+
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+
+        <env name="API_PREFIX" value="api"/>
+        <env name="API_SUBTYPE" value="diary"/>
+
+
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
     </php>
+
+    <logging>
+        <log type="coverage-html" target="build/coverage" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="coverage-text" target="build/coverage.txt"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+
 </phpunit>

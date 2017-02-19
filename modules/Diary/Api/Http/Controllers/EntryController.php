@@ -8,6 +8,7 @@ use App\Journal;
 use Dingo\Api\Auth\Auth;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Routing\Helpers;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EntryController extends Controller
 {
@@ -17,55 +18,61 @@ class EntryController extends Controller
      * List all Journals for authenticated user
      * @return Response
      */
-    public function index()
-    {
-        return app(Auth::class)->user()->entries()->latest()->get();
-    }
+    // public function index()
+    // {
+    //     return app(Auth::class)->user()->entries()->latest()->get();
+    // }
 
     /**
-     * Show Details about a Journal
-     * @param  integer $journalId
+     * Return single Entry Resource
+     * @param  integer $entryId
      * @return Response
      */
-    public function show($journalId)
+    public function show($entryId)
     {
-        return app(Auth::class)->user()->entries()->findOrFail($journalId);
-    }
+        $entry = app(Auth::class)->user()->entries()->where('id', $entryId)->first();
 
-    /**
-     * Update a Journal
-     * @param  integer $journalId
-     * @return Response
-     */
-    public function update($journalId)
-    {
-        $payload = app('request')->only('content');
-
-        $validator = app('validator')->make($payload, [
-            'content' => ['required']
-        ]);
-
-        if ($validator->fails()) {
-            throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
+        if (is_null($entry)) {
+            throw new NotFoundHttpException;
         }
 
-        $journal = app(Auth::class)->user()->entries()->findOrFail($journalId);
-
-        $journal = $journal->update([
-            'content' => app('request')->content
-        ]);
-
-        return $this->response->created("/entries/{$journal->id}");
+        return $entry;
     }
 
     /**
-     * Destroy a Journal
-     * @param  integer $journalId
+     * Update an Entry
+     * @param  integer $entryId
      * @return Response
      */
-    public function destroy($journalId)
+    // public function update($entryId)
+    // {
+    //     $payload = app('request')->only('content');
+
+    //     $validator = app('validator')->make($payload, [
+    //         'content' => ['required']
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
+    //     }
+
+    //     $journal = app(Auth::class)->user()->entries()->findOrFail($entryId);
+
+    //     $journal = $journal->update([
+    //         'content' => app('request')->content
+    //     ]);
+
+    //     return $this->response->created("/entries/{$journal->id}");
+    // }
+
+    /**
+     * Destroy an Entry
+     * @param  integer $entryId
+     * @return Response
+     */
+    public function destroy($entryId)
     {
-        $journal = app(Auth::class)->user()->entries()->findOrFail($journalId);
+        $journal = app(Auth::class)->user()->entries()->findOrFail($entryId);
         $journal->delete();
 
         return $this->response->noContent();

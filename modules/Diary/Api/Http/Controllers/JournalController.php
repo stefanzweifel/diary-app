@@ -7,6 +7,7 @@ use App\Journal;
 use Dingo\Api\Auth\Auth;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Routing\Helpers;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JournalController extends Controller
 {
@@ -52,7 +53,13 @@ class JournalController extends Controller
      */
     public function show($journalId)
     {
-        return app(Auth::class)->user()->journals()->findOrFail($journalId);
+        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->first();
+
+        if (is_null($journal)) {
+            throw new NotFoundHttpException;
+        }
+
+        return $journal;
     }
 
     /**
@@ -62,11 +69,10 @@ class JournalController extends Controller
      */
     public function update($journalId)
     {
-        $payload = app('request')->only('title');
-
-        $validator = app('validator')->make($payload, [
-            'title' => ['required']
-        ]);
+        $validator = app('validator')->make(
+            app('request')->only('title'),
+            ['title' => ['required']]
+        );
 
         if ($validator->fails()) {
             throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
@@ -88,7 +94,12 @@ class JournalController extends Controller
      */
     public function destroy($journalId)
     {
-        $journal = app(Auth::class)->user()->journals()->findOrFail($journalId);
+        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->first();
+
+        if (is_null($journal)) {
+            throw new NotFoundHttpException;
+        }
+
         $journal->delete();
 
         return $this->response->noContent();
