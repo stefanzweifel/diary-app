@@ -49,6 +49,11 @@ $api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 20
 
     // -----------------------------------------
 
+    $api->get('journals/{id}/entries', [
+        'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@index',
+        'as' => 'journal.entries.index'
+    ]);
+
     $api->post('journals/{id}/entries', [
         'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@store',
         'as' => 'journal.entries.store'
@@ -80,6 +85,23 @@ $api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 20
     $api->delete('entries/{id}', [
         'uses' => 'Diary\Api\Http\Controllers\EntryController@destroy',
         'as' => 'entries.destroy'
+    ]);
+
+    // ----------------------------------------------------
+
+    $api->get('user/', [
+        'uses' => 'Diary\Api\Http\Controllers\UserController@index',
+        'as' => 'users.index'
+    ]);
+
+    $api->post('master-password', [
+        'uses' => 'Diary\Api\Http\Controllers\MasterPasswordController@store',
+        'as' => 'master-password.store'
+    ]);
+
+    $api->post('master-password/unlock', [
+        'uses' => 'Diary\Api\Http\Controllers\MasterPasswordController@unlock',
+        'as' => 'master-password.unlock'
     ]);
 
 });

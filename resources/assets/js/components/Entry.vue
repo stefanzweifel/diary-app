@@ -5,35 +5,33 @@
         v-bind:class="{ active: isActive }"
     >
         <p class="list-group-item-text">
-            {{ formatedDate }}
+            <p>{{ entry.content }}</p>
 
-            <br><br>
-
-            {{ entry.content }}
-            <br>
-            ID: <code>{{ entry.id }}</code>
+            <i>{{formatedDate }}</i>
         </p>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
+    import * as types from '../store/mutation-types.js';
 
     export default {
 
         props: ['entry'],
 
-        mounted() {
-            // console.log("Editor Mounted");
-        },
-
-        data: () => {
-            return {
-                isActive: false
-            }
-        },
-
         computed: {
+            isActive () {
+                if (this.active_entry) {
+                    return this.entry.id == this.active_entry.id;
+                }
+                return false;
+            },
+
+            active_entry () {
+                return this.$store.state.active_entry;
+            },
+
             formatedDate () {
                 return moment(this.entry.created_at).format();
             }
@@ -41,8 +39,7 @@
 
         methods: {
             selectEntry () {
-                this.isActive = true;
-                this.$emit('selectEntry', this.entry);
+                this.$store.commit(types.SELECT_ENTRY, this.entry);
             }
         }
     }

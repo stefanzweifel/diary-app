@@ -1,30 +1,25 @@
 <template>
     <div class="row">
         <div class="col-md-4">
-
-            <p v-if="selectedEntry">selectedEntryId: <code>{{ selectedEntry.id }}</code></p>
-
             <div class="o-entry-drawer">
-                <entry
-                    v-if="journal || journal.entries > 0"
-                    v-for="entry in journal.entries"
-                    v-bind:entry="entry"
-                    v-on:selectEntry="selectEntry">
-                </entry>
-                <div v-if="journal.entries == 0">
-                    <p>No Entries for this journal. Create one!</p>
-                </div>
-
+                <button @click="create" class="btn btn-success">Create new entry</button>
                 <hr>
 
-                <button v-on:click="create" class="btn btn-success">Create new entry</button>
+                <entry
+                    v-if="journal || entries > 0"
+                    v-for="entry in entries"
+                    :entry="entry">
+                </entry>
+                <div v-if="entries == 0">
+                    <p>No Entries for this journal. Create one!</p>
+                </div>
             </div>
 
         </div>
         <div class="col-md-8">
             <editor
                 v-if="selectedEntry"
-                v-bind:entry="selectedEntry"
+                :entry="selectedEntry"
             ></editor>
         </div>
     </div>
@@ -34,9 +29,9 @@
 
 <script>
     import Editor from './Editor.vue';
-    import localStorage from 'vue-localstorage';
-    import axios from 'axios';
     import Entry from './Entry.vue';
+
+    import * as types from '../store/mutation-types.js';
 
     export default {
         components: {
@@ -44,30 +39,20 @@
             'editor': Editor,
         },
         props: ['journal'],
-        data: () => {
-            return {
-                selectedEntry: null
+
+        computed: {
+            entries () {
+                return this.$store.state.entries;
+            },
+
+            selectedEntry () {
+                return this.$store.state.active_entry;
             }
         },
-        methods: {
-            selectEntry (entry) {
-                this.selectedEntry = entry;
-            },
-            create () {
 
-                let token = this.$localStorage.get('jwt-token');
-                axios.post(`/api/journals/${this.journal.id}/entries`, {}, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    this.$emit('EntryCreated');
-                })
-                .catch((response) => {
-                    console.error("An error accoured", response);
-                });
+        methods: {
+            create () {
+                this.$store.dispatch('createNewEntry');
             }
         }
     }

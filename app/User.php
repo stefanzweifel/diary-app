@@ -17,8 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'master_password'
     ];
+
+    protected $appends = ['has_master_password'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'master_password'
     ];
 
     /**
@@ -48,4 +50,48 @@ class User extends Authenticatable
     {
         return $this->hasMany(Entry::class);
     }
+
+    /**
+     * Set the masterPassword attribute.
+     *
+     * @param   mixed
+     * @return  void
+     */
+    public function setMasterPasswordAttribute($value)
+    {
+        $this->attributes['master_password'] = encrypt($value);
+    }
+
+    /**
+     * Retrieve the MasterPassword attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getMasterPasswordAttribute($value)
+    {
+        if (!is_null($value)) {
+            return decrypt($value);
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieve the HasMasterPassword attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getHasMasterPasswordAttribute()
+    {
+        // \Log::info($this->master_password);
+
+        // if (property_exists($this, 'master_password')) {
+            return ! is_null($this->master_password) ;
+        // }
+
+        return false;
+    }
+
 }

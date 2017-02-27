@@ -1,20 +1,16 @@
 <template>
     <div class="o-editor panel panel-default">
-        <div class="panel-heading">
-            Currently editing: <code>{{ entry.id }}</code>
-        </div>
         <div class="panel-body">
             <textarea :value="entry.content" @input="update"></textarea>
 
-            <!-- Preview -->
-            <div v-html="compiledMarkdown"></div>
+            <hr>
 
-            <button v-on:click="store" class="btn btn-success">Store Entry</button>
-
+            <button @click="store" @keyup.meta.31="store" class="btn btn-success btn-sm">Save</button>
+            <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
         </div>
         <div class="panel-footer">
             <editor-status-bar
-                v-bind:entry="entry"
+                :entry="entry"
             ></editor-status-bar>
         </div>
     </div>
@@ -25,8 +21,6 @@
     import EditorStatusBar from './EditorStatusBar.vue';
     import marked from 'marked';
     import autosize from 'autosize';
-    import localStorage from 'vue-localstorage';
-    import axios from 'axios';
 
     export default {
 
@@ -40,10 +34,6 @@
             autosize(document.querySelector('textarea'));
         },
 
-        data: () => {
-            return {}
-        },
-
         computed: {
             compiledMarkdown() {
                 return marked(this.entry.content, { sanitize: true })
@@ -55,21 +45,12 @@
                 this.entry.content = e.target.value
             },
 
-            store () {
-                let token = this.$localStorage.get('jwt-token');
-                axios.patch(`/api/journals/${this.entry.journal_id}/entries/${this.entry.id}`, { content: this.entry.content}, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    alert("Entry updated");
-                })
-                .catch((response) => {
-                    console.error("An error accoured", response);
-                });
+            destroy () {
+                this.$store.dispatch('deleteEntry');
+            },
 
+            store () {
+                this.$store.dispatch('updateEntry', this.entry);
             }
         }
     }

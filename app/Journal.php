@@ -9,8 +9,6 @@ class Journal extends UuidModel
 {
     protected $fillable = ['title', 'user_id'];
 
-    protected $with = ['entries', 'user'];
-
     /**
      * Set the title attribute.
      *

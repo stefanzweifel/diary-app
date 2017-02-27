@@ -13,6 +13,13 @@ class JournalEntryController extends Controller
 {
     use Helpers;
 
+    public function index($journalId)
+    {
+        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->firstOrFail();
+
+        return $journal->entries()->latest()->get();
+    }
+
     /**
      * Store new Journal
      * @return Response

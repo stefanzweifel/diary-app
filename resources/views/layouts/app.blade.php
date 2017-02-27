@@ -17,6 +17,7 @@
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
+            'salt' => config('app.key')
         ]) !!};
     </script>
 </head>
@@ -53,11 +54,6 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li class="navbar-form navbar-left">
-                                <div class="form-group">
-                                    <input type="password" v-model="password" class="form-control" placeholder="Your encryption password">
-                                </div>
-                            </li>
                             <li class="navbar-text">
                                 {{ Auth::user()->name }}
                             </li>

@@ -18,6 +18,7 @@
 
         computed: {
             wordCount() {
+                return count(this.$store.state.active_entry.content);
                 return count(this.entry.content);
             },
 
