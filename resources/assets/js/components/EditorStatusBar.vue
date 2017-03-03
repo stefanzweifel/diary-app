@@ -14,12 +14,11 @@
     import moment from 'moment';
 
     export default {
-        props: ['entry'],
+        props: ['entry', 'content'],
 
         computed: {
             wordCount() {
-                return count(this.$store.state.active_entry.content);
-                return count(this.entry.content);
+                return count(this.content);
             },
 
             lastUpdated() {

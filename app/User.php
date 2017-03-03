@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'master_password'
+        'name', 'email', 'password', 'master_password', 'encryption_key'
     ];
 
     protected $appends = ['has_master_password'];
@@ -28,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'master_password'
+        'password', 'remember_token', 'master_password', 'encryption_key'
     ];
 
     /**
@@ -49,6 +49,28 @@ class User extends Authenticatable
     public function entries()
     {
         return $this->hasMany(Entry::class);
+    }
+
+    /**
+     * Set the encryption_key attribute.
+     *
+     * @param   mixed
+     * @return  void
+     */
+    public function setEncryptionKeyAttribute($value)
+    {
+        $this->attributes['encryption_key'] = encrypt($value);
+    }
+
+    /**
+     * Retrieve the encryption_key attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getEncryptionKeyAttribute($value)
+    {
+        return decrypt($value);
     }
 
     /**

@@ -27,7 +27,8 @@ class MasterPasswordController extends Controller
         }
 
         app(Auth::class)->user()->update([
-            'master_password' => bcrypt($payload['password'])
+            'master_password' => bcrypt($payload['password']),
+            'encryption_key' => bcrypt(str_random(100))
         ]);
 
         return $this->response->noContent();
@@ -44,7 +45,7 @@ class MasterPasswordController extends Controller
 
         return $this->response->array([
             // Maybe we should encrypt the password hash again?
-            'master_password' => $user->master_password
+            'encryption_key' => $user->encryption_key
         ]);
     }
 }

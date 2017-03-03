@@ -1,20 +1,22 @@
 <template>
     <div style="margin-bottom: 1em;">
-        <div class="form-group">
-            <label for="journal-title">Journal Name</label>
-            <input type="text" id="journal-title" class="form-control" v-model="title" placeholder="Name of your Journal">
-        </div>
-
-        <button @click="store" class="btn btn-success">
-            Create Journal
-        </button>
+        <form @submit.prevent="store">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" v-model="title" placeholder="Name of your Journal">
+                    <span class="input-group-btn">
+                       <button type="submit" class="btn btn-success" v-bind:disabled="!title">
+                            Create Journal
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
-    import JournalClient from './../api/Journal';
-    import localStorage from 'vue-localstorage';
-    import axios from 'axios';
+    import Crypto from './../classes/Crypto.js';
 
     export default {
 
@@ -26,7 +28,13 @@
 
         methods: {
             store () {
-                this.$store.dispatch('createNewJournal', this.title);
+                let crypto = new Crypto(this.$store.state.encryption_password);
+
+                this.$store.dispatch('createNewJournal', crypto.encrypt(
+                    this.title
+                ));
+
+                this.title = '';
             }
         }
     }

@@ -4,14 +4,18 @@
             <div class="o-entry-drawer">
                 <button @click="create" class="btn btn-success">Create new entry</button>
                 <hr>
-
-                <entry
-                    v-if="journal || entries > 0"
-                    v-for="entry in entries"
-                    :entry="entry">
-                </entry>
+                <div class="list-group">
+                    <entry
+                        v-if="journal || entries > 0"
+                        v-for="entry in entries"
+                        :entry="entry">
+                    </entry>
+                </div>
                 <div v-if="entries == 0">
-                    <p>No Entries for this journal. Create one!</p>
+
+                    <div class="alert alert-info">
+                        No Entries for this journal. Create one!
+                    </div>
                 </div>
             </div>
 
@@ -19,7 +23,6 @@
         <div class="col-md-8">
             <editor
                 v-if="selectedEntry"
-                :entry="selectedEntry"
             ></editor>
         </div>
     </div>

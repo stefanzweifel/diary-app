@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->text('master_password')->nullable();
+            $table->text('encryption_key')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

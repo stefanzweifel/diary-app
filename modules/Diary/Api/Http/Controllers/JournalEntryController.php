@@ -27,7 +27,8 @@ class JournalEntryController extends Controller
     public function store($journalId)
     {
         $journal = Entry::create([
-            'content' => "Should be a random quote",
+            'content' => '',
+            'title' => '',
             'journal_id' => $journalId,
             'user_id' => app(Auth::class)->user()->id
         ]);
@@ -37,9 +38,10 @@ class JournalEntryController extends Controller
 
     public function update($journalId, $entryId)
     {
-        $payload = app('request')->only('content');
+        $payload = app('request')->all();
 
         $validator = app('validator')->make($payload, [
+            'title' => ['required'],
             'content' => ['required']
         ]);
 
@@ -50,6 +52,7 @@ class JournalEntryController extends Controller
         $entry = Entry::findOrFail($entryId);
 
         $entry->update([
+            'title' => app('request')->title,
             'content' => app('request')->content
         ]);
 

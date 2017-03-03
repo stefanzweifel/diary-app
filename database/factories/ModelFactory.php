@@ -37,6 +37,8 @@ $factory->define(Journal::class, function(Generator $faker) {
 
 $factory->define(Entry::class, function(Generator $faker) {
     return [
+        'title' => $faker->sentence,
+        'date' => $faker->date(),
         'content' => $faker->text,
         'journal_id' => factory(Journal::class)->create()->id,
         'user_id' => factory(User::class)->create()->id

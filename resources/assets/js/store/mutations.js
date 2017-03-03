@@ -12,6 +12,7 @@ export default {
     },
     [types.SELECT_JOURNAL] (state, payload) {
         state.active_journal = payload;
+        state.active_entry = null;
     },
     [types.RECEIVE_ENTRIES] (state, payload) {
         state.entries = payload;
@@ -29,6 +30,15 @@ export default {
         state.encryption_password = encryption_password;
     },
 
+    [types.LOCKED] (state) {
+        state.is_unlocked = false;
+        state.encryption_password = null;
+        state.active_journal = null;
+        state.journals = null;
+        state.active_entry = null;
+        state.entries = null;
+    },
+
     [types.GET_USER] (state, payload) {
         state.user = payload;
         state.has_master_password = payload.has_master_password;
@@ -39,6 +49,7 @@ export default {
     },
     [types.UPDATE_ENTRY] (state, payload) {
         // state.active_entry = payload;
+        // alert("Entry saved.");
     },
     [types.DELETE_ENTRY] (state, payload) {
         state.active_entry = null;

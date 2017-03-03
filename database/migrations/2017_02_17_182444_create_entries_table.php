@@ -19,6 +19,10 @@ class CreateEntriesTable extends Migration
             $table->uuid('journal_id');
 
             $table->integer('user_id');
+
+            $table->text('title')->nullable();
+            $table->date('date')->nullable();
+
             $table->text('content');
             $table->timestamps();
             $table->softDeletes();

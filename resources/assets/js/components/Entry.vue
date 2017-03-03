@@ -5,9 +5,8 @@
         v-bind:class="{ active: isActive }"
     >
         <p class="list-group-item-text">
-            <p>{{ entry.content }}</p>
-
-            <i>{{formatedDate }}</i>
+            <h4>{{ decryptedTitle }}</h4>
+            <i>{{ formatedDate }}</i>
         </p>
     </div>
 </template>
@@ -15,6 +14,10 @@
 <script>
     import moment from 'moment';
     import * as types from '../store/mutation-types.js';
+
+
+    import Crypto from './../classes/Crypto.js';
+
 
     export default {
 
@@ -34,6 +37,14 @@
 
             formatedDate () {
                 return moment(this.entry.created_at).format();
+            },
+
+            decryptedTitle () {
+                let crypto = new Crypto(this.$store.state.encryption_password);
+
+                return crypto.decrypt(
+                    this.entry.title
+                );
             }
         },
 

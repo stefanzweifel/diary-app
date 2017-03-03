@@ -54,7 +54,7 @@ export default {
             }
         })
         .then((response) => {
-            commit(types.UNLOCKED, response.data.master_password);
+            commit(types.UNLOCKED, response.data.encryption_key);
             dispatch('getJournals');
         })
         .catch(function (error) {
@@ -110,6 +110,7 @@ export default {
     updateEntry({ commit, state, dispatch}, entry) {
         axios.patch(`/api/journals/${state.active_journal.id}/entries/${state.active_entry.id}`,
         {
+            title: entry.title,
             content: entry.content
         },
         {

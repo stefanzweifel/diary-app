@@ -6,9 +6,7 @@
 
 <script>
     export default {
-        mounted() {
-            // console.log("Editor Mounted");
-        }
+
     }
 </script>
 

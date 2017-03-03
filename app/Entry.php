@@ -7,7 +7,7 @@ use App\User;
 
 class Entry extends UuidModel
 {
-    protected $fillable = ['content', 'journal_id', 'user_id'];
+    protected $fillable = ['title', 'content', 'date', 'journal_id', 'user_id'];
 
     /**
      * Retrieve the content attribute.
@@ -29,6 +29,28 @@ class Entry extends UuidModel
     public function setContentAttribute($value)
     {
         $this->attributes['content'] = encrypt($value);
+    }
+
+    /**
+     * Retrieve the title attribute.
+     *
+     * @param   mixed
+     * @return  string
+     */
+    public function getTitleAttribute($value)
+    {
+        return decrypt($value);
+    }
+
+    /**
+     * Set the title attribute.
+     *
+     * @param   mixed
+     * @return  void
+     */
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = encrypt($value);
     }
 
 

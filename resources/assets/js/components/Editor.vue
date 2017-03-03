@@ -1,16 +1,41 @@
 <template>
     <div class="o-editor panel panel-default">
         <div class="panel-body">
-            <textarea :value="entry.content" @input="update"></textarea>
+
+            <div class="row">
+                <div class="col-sm-12" v-show="edit_mode">
+                    <input
+                        type="text"
+                        v-model="title"
+                        placeholder="This is the title of your entry"
+                        class="form-control"
+                    >
+                    <textarea
+                        :value="content"
+                        placeholder="The content of your entry. **Markdown** is *supported*!"
+                        @input="update"
+                    ></textarea>
+
+                </div>
+                <div class="col-sm-12" v-show="!edit_mode">
+                    <h4>{{ title }}</h4>
+                    <div v-html="compiledMarkdown"></div>
+                </div>
+            </div>
 
             <hr>
 
-            <button @click="store" @keyup.meta.31="store" class="btn btn-success btn-sm">Save</button>
-            <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
+            <div class="btn-group">
+                <button @click="edit" class="btn btn-default btn-sm" v-if="!edit_mode">Edit</button>
+                <button @click="preview" class="btn btn-default btn-sm" v-if="edit_mode">Preview</button>
+                <button @click="store" @keyup.meta.31="store" class="btn btn-success btn-sm" v-if="edit_mode">Save</button>
+                <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
+            </div>
         </div>
         <div class="panel-footer">
             <editor-status-bar
                 :entry="entry"
+                :content="content"
             ></editor-status-bar>
         </div>
     </div>
@@ -21,6 +46,7 @@
     import EditorStatusBar from './EditorStatusBar.vue';
     import marked from 'marked';
     import autosize from 'autosize';
+    import Crypto from './../classes/Crypto.js';
 
     export default {
 
@@ -28,29 +54,76 @@
             'editorStatusBar': EditorStatusBar
         },
 
-        props: ['entry'],
+        data () {
+            return {
+                title: '',
+                content: '',
+                edit_mode: false
+            }
+        },
 
         mounted() {
             autosize(document.querySelector('textarea'));
+
+            // Decrypt Title and Content and store the encrypted Values inMemory
+            let crypto = new Crypto(this.$store.state.encryption_password);
+            let title =  crypto.decrypt(
+                this.entry.title
+            );
+
+            this.title = title;
+
+            let crypto2 = new Crypto(this.$store.state.encryption_password);
+            let content =  crypto2.decrypt(
+                this.entry.content
+            );
+
+            this.content = content;
+
         },
 
         computed: {
+            entry () {
+                return this.$store.state.active_entry;
+            },
+
             compiledMarkdown() {
-                return marked(this.entry.content, { sanitize: true })
+                return marked(this.content, { sanitize: true })
             }
         },
 
         methods: {
             update (e)  {
-                this.entry.content = e.target.value
+                this.content = e.target.value
             },
 
             destroy () {
                 this.$store.dispatch('deleteEntry');
             },
 
+            edit () {
+                this.edit_mode = ! this.edit_mode;
+                autosize(document.querySelector('textarea'));
+            },
+
+            preview () {
+                this.edit_mode = ! this.edit_mode;
+            },
+
             store () {
+                let crypto = new Crypto(this.$store.state.encryption_password);
+
+                this.entry.title = crypto.encrypt(
+                    this.title
+                )
+
+                this.entry.content = crypto.encrypt(
+                    this.content
+                )
+
                 this.$store.dispatch('updateEntry', this.entry);
+
+                this.edit_mode = false;
             }
         }
     }
@@ -58,10 +131,6 @@
 
 
 <style lang="scss" scoped>
-    .o-editor {
-        // background: gray;
-    }
-
     textarea {
       display: inline-block;
       width: 100%;
@@ -74,7 +143,5 @@
       outline: none;
       font-family: 'Monaco', courier, monospace;
     }
-
-
 </style>
 
