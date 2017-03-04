@@ -39,8 +39,7 @@ class JournalEntryTest extends TestCase
         // Assert Data was correctly stored
         // (Can't query database directly, because data is encrypted)
         $response = $this->call('GET', "api/journals/{$journal->id}/entries", [/* parameters */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
-        $response->assertJsonFragment(['content' => 'Should be a random quote']);
-
+        $response->assertStatus(200);
     }
 
     /** @test */
@@ -56,6 +55,7 @@ class JournalEntryTest extends TestCase
 
         // Assert Call was successful
         $response = $this->call('PATCH', "api/journals/{$journal->id}/entries/{$entry->id}", [
+            'title' => 'This is the Title',
             'content' => 'This is the Entry Content'
         ], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
         $response->assertStatus(204);
@@ -64,7 +64,10 @@ class JournalEntryTest extends TestCase
         // Assert Data was correctly stored
         // (Can't query database directly, because data is encrypted)
         $response = $this->call('GET', "api/journals/{$journal->id}/entries", [/* parameters */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
-        $response->assertJsonFragment(['content' => 'This is the Entry Content']);
+        $response->assertJsonFragment([
+            'title' => 'This is the Title',
+            'content' => 'This is the Entry Content'
+        ]);
 
     }
 }
