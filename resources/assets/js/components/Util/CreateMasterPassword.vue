@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="alert alert-warning">
             You haven't setup a Master Password yet. Creat Master Password now!
         </div>
@@ -16,7 +15,6 @@
                 <input type="password" class="form-control" v-model="password_confirmation" placeholder="Password Confirmation">
             </div>
 
-            <!-- If User doens't have a mater password, show him the Setup Screeen -->
             <button @click="create" v-bind:disabled="!password_match" class="btn btn-success">Create Master Password</button>
         </form>
     </div>

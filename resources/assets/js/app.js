@@ -14,19 +14,13 @@ require('./bootstrap');
  */
 
 
-import VueLocalStorage from 'vue-localstorage';
-Vue.use(VueLocalStorage);
+// import VueLocalStorage from 'vue-localstorage';
+// Vue.use(VueLocalStorage);
 
 import store from './store/index.js';
 import AppDrawer from './components/AppDrawer.vue';
 
 const app = new Vue({
-    localStorage: {
-        applicationVersion: {
-            type: String,
-            default: '0.0.1'
-        }
-    },
     el: '#app',
     components: { AppDrawer },
     store

@@ -1,7 +1,7 @@
 <template>
-    <div v-if="user">
-        <unlock-screen v-if="has_master_password"></unlock-screen>
-        <create-master-password v-if="! has_master_password"></create-master-password>
+    <div v-if="userHasBeenLoaded">
+        <unlock-screen v-if="masterPasswordHasBeenSet"></unlock-screen>
+        <create-master-password v-if="! masterPasswordHasBeenSet"></create-master-password>
     </div>
 </template>
 
@@ -17,11 +17,11 @@
         },
 
         computed: {
-            user () {
+            userHasBeenLoaded () {
                 return this.$store.state.user;
             },
 
-            has_master_password () {
+            masterPasswordHasBeenSet () {
                 return this.$store.state.has_master_password;
             },
         }
