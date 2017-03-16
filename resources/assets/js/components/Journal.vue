@@ -1,9 +1,10 @@
 <template>
-    <div class="o-journal-element list-group-item" @click="selectJournal" v-bind:class="{ active: isActive }">
+    <div class="o-journal-element list-group-item" v-bind:class="{ active: isActive }">
         <h4 class="list-group-item-heading">{{ decryptedTitle }}</h4>
         <p class="list-group-item-text">
             Created {{ createdAt }}
         </p>
+        <router-link :to="{ name: 'journals.show', params: { id: journal.id }}">{{ decryptedTitle }}</router-link>
     </div>
 </template>
 

@@ -33,7 +33,6 @@
 <script>
     import Editor from './Editor.vue';
     import Entry from './Entry.vue';
-
     import * as types from '../store/mutation-types.js';
 
     export default {

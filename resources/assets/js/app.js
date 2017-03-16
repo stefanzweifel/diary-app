@@ -14,14 +14,26 @@ require('./bootstrap');
  */
 
 
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// OfflinePluginRuntime.install();
+
 // import VueLocalStorage from 'vue-localstorage';
 // Vue.use(VueLocalStorage);
 
 import store from './store/index.js';
 import AppDrawer from './components/AppDrawer.vue';
+import VueRouter from 'vue-router';
+
+
+Vue.use(VueRouter);
+
+import router from './router/index.js';
+
+
 
 const app = new Vue({
     el: '#app',
     components: { AppDrawer },
-    store
+    store,
+    router
 });

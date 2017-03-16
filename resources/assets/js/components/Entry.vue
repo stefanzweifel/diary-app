@@ -36,7 +36,7 @@
             },
 
             formatedDate () {
-                return moment(this.entry.created_at).format();
+                return moment(this.entry.created_at).format('DD.MM.YYYY, h:mm');
             },
 
             decryptedTitle () {

@@ -4,22 +4,26 @@
 
             <div class="row">
                 <div class="col-sm-12" v-show="edit_mode">
-                    <input
-                        type="text"
-                        v-model="title"
-                        placeholder="This is the title of your entry"
-                        class="form-control"
-                    >
-                    <textarea
-                        :value="content"
-                        placeholder="The content of your entry. **Markdown** is *supported*!"
-                        @input="update"
-                    ></textarea>
-
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            v-model="title"
+                            placeholder="This is the title of your entry"
+                            class="form-control"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <textarea
+                            :value="content"
+                            placeholder="The content of your entry. **Markdown** is *supported*!"
+                            class="form-control"
+                            @input="update"
+                        ></textarea>
+                    </div>
                 </div>
                 <div class="col-sm-12" v-show="!edit_mode">
                     <h4>{{ title }}</h4>
-                    <div v-html="compiledMarkdown"></div>
+                    <vue-markdown :source="content"></vue-markdown>
                 </div>
             </div>
 
@@ -44,14 +48,16 @@
 <script>
 
     import EditorStatusBar from './EditorStatusBar.vue';
-    import marked from 'marked';
     import autosize from 'autosize';
     import Crypto from './../classes/Crypto.js';
+    import VueMarkdown from 'vue-markdown'
+
 
     export default {
 
         components: {
-            'editorStatusBar': EditorStatusBar
+            EditorStatusBar,
+            VueMarkdown
         },
 
         data () {
@@ -85,10 +91,6 @@
         computed: {
             entry () {
                 return this.$store.state.active_entry;
-            },
-
-            compiledMarkdown() {
-                return marked(this.content, { sanitize: true })
             }
         },
 
@@ -131,17 +133,17 @@
 
 
 <style lang="scss" scoped>
-    textarea {
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      vertical-align: top;
-      box-sizing: border-box;
-      padding: 20px;
-      border: none;
-      resize: none;
-      outline: none;
-      font-family: 'Monaco', courier, monospace;
-    }
+    // textarea {
+    //   display: inline-block;
+    //   width: 100%;
+    //   height: 100%;
+    //   vertical-align: top;
+    //   box-sizing: border-box;
+    //   padding: 20px;
+    //   border: none;
+    //   resize: none;
+    //   outline: none;
+    //   font-family: 'Monaco', courier, monospace;
+    // }
 </style>
 
