@@ -5,7 +5,7 @@ export default {
     jwtToken ({ commit, state, dispatch }) {
         axios.get('/token')
             .then((response) => {
-                commit(types.GET_JWT_TOKEN, response.data.token);
+                commit(types.GET_JWT_TOKEN, response.data);
 
                 // When we get the Token, we then start loading the journals
                 dispatch('getUser');
@@ -15,7 +15,7 @@ export default {
     getUser ({ commit, state}) {
         axios.get('/api/user', {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -32,7 +32,7 @@ export default {
             password_confirmation: payload.password_confirmation
         }, {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -50,11 +50,14 @@ export default {
             password: payload.password
         }, {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
-            commit(types.UNLOCKED, response.data.encryption_key);
+            commit(types.UNLOCKED, {
+                encryption_password: response.data.encryption_key,
+                redirect: payload.redirect
+            });
             dispatch('getJournals');
         })
         .catch(function (error) {
@@ -66,7 +69,7 @@ export default {
     getJournals ({ commit, state }) {
         axios.get('/api/journals', {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -77,10 +80,24 @@ export default {
         });
     },
 
-    getEntries ({ commit, state }) {
-        axios.get(`/api/journals/${state.active_journal.id}/entries`, {
+    getEntry({ commit, state}, entryId) {
+        axios.get(`/api/entries/${entryId}/`, {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
+            }
+        })
+        .then((response) => {
+            commit(types.SELECT_ENTRY, response.data.entry);
+        })
+        .catch(function (error) {
+            commit(types.ERROR_ENTRIES, error);
+        });
+    },
+
+    getEntries ({ commit, state }, journalId) {
+        axios.get(`/api/journals/${journalId}/entries`, {
+            headers: {
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -91,15 +108,15 @@ export default {
         });
     },
 
-    createNewEntry ({ commit, state, dispatch }) {
-        axios.post(`/api/journals/${state.active_journal.id}/entries`, {}, {
+    createNewEntry ({ commit, state, dispatch }, journalId) {
+        axios.post(`/api/journals/${journalId}/entries`, {}, {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
             commit(types.ADD_ENTRY);
-            dispatch('getEntries');
+            dispatch('getEntries', journalId);
         })
         .catch(function (error) {
             console.log(error);
@@ -115,7 +132,7 @@ export default {
         },
         {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -132,7 +149,7 @@ export default {
         axios.delete(`/api/entries/${state.active_entry.id}`,
         {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {
@@ -148,7 +165,7 @@ export default {
     createNewJournal({ commit, state, dispatch }, title) {
         axios.post(`/api/journals/`, { title: title}, {
             headers: {
-                'Authorization': `Bearer ${state.jwt_token}`
+                'Authorization': `Bearer ${state.jwt.token}`
             }
         })
         .then((response) => {

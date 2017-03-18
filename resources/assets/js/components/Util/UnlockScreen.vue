@@ -20,27 +20,26 @@
 </template>
 
 <script>
+export default {
 
-    export default {
-
-        data: () => {
-            return {
-                password: '',
-            }
-        },
-
-        methods: {
-            unlock () {
-                // Send Password to API
-                // API compares against stored MasterPassword in Database
-                // API returns encrypted Hash
-                // This Hash is used as the local AES Password Part
-                this.$store.dispatch('unlock', {
-                    password: this.password
-                });
-            }
+    data: () => {
+        return {
+            password: '',
         }
+    },
 
+    methods: {
+        unlock () {
+            // Send Password to API
+            // API compares against stored MasterPassword in Database
+            // API returns encrypted Hash
+            // This Hash is used as the local AES Password Part
+            this.$store.dispatch('unlock', {
+                password: this.password,
+                redirect: this.$route.query.redirect
+            });
+        }
     }
 
+}
 </script>

@@ -21,33 +21,33 @@
 </template>
 
 <script>
-    export default {
+export default {
 
-        data: () => {
-            return {
-                password: '',
-                password_confirmation: ''
-            }
-        },
+    data: () => {
+        return {
+            password: '',
+            password_confirmation: ''
+        }
+    },
 
-        computed: {
-            password_match () {
-                return this.password == this.password_confirmation;
-            }
-        },
+    computed: {
+        password_match () {
+            return this.password == this.password_confirmation;
+        }
+    },
 
-        methods: {
-            create () {
-                // Send Password and Password Confirmation to API
-                // API Validates Data (throws error)
-                // API creates bycrypt hash and stores it as MasterPassword
-                // API returns sucess.
-                // => User then has to unlock his diary and enter his password again.
-                this.$store.dispatch('createMasterPassword', {
-                    password: this.password,
-                    password_confirmation: this.password_confirmation
-                });
-            }
+    methods: {
+        create () {
+            // Send Password and Password Confirmation to API
+            // API Validates Data (throws error)
+            // API creates bycrypt hash and stores it as MasterPassword
+            // API returns sucess.
+            // => User then has to unlock his diary and enter his password again.
+            this.$store.dispatch('createMasterPassword', {
+                password: this.password,
+                password_confirmation: this.password_confirmation
+            });
         }
     }
+}
 </script>

@@ -1,3 +1,11 @@
+/**
+ * TODO:
+ * - Is this file really necessary?
+ * - If yes:
+ *     - Implement a naming convention
+ *     - Remove entries which are not used
+ */
+
 export const MASTERPASSWORD_CREATED = 'MASTERPASSWORD_CREATED';
 export const UNLOCKED = 'UNLOCKED';
 export const LOCKED = 'LOCKED';

@@ -8,18 +8,33 @@ import mutations from './mutations.js';
 
 export default new Vuex.Store({
     state: {
-        is_unlocked: false,
+
+        // Jwt / Auth could be a separate module
+        jwt: {
+            token: null,
+            expiresAt: null
+        },
+        hasMasterPassword: false,
+        isUnlocked: false,
+
+
         encryption_password: null,
-        jwt_token: null,
         journals: null,
-        active_journal: null,
         entries: null,
         active_entry: null,
         user: null,
-        has_master_password: false
     },
     getters: {
-
+        isUnlocked: state => {
+            return state.isUnlocked;
+        },
+        isLocked: state => {
+            return !state.isUnlocked
+        },
+        hasTokenExpired: state => {
+            let d = new Date();
+            return d.getTime() > state.jwt.expiresAt;
+        }
     },
     mutations,
     actions

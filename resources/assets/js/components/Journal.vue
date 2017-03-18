@@ -1,54 +1,32 @@
 <template>
-    <div class="o-journal-element list-group-item" v-bind:class="{ active: isActive }">
+    <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" tag="div" class="list-group-item">
         <h4 class="list-group-item-heading">{{ decryptedTitle }}</h4>
         <p class="list-group-item-text">
-            Created {{ createdAt }}
+            <small>created {{ createdAt }}</small>
         </p>
-        <router-link :to="{ name: 'journals.show', params: { id: journal.id }}">{{ decryptedTitle }}</router-link>
-    </div>
+    </router-link>
 </template>
 
 <script>
-    import * as types from '../store/mutation-types.js';
-    import moment from 'moment';
-    import Crypto from './../classes/Crypto.js';
+import moment from 'moment';
+import Crypto from './../classes/Crypto.js';
 
-    export default {
-        props: ['journal'],
+export default {
+    props: ['journal'],
 
-        methods: {
-            selectJournal () {
-                this.$store.commit(types.SELECT_JOURNAL, this.journal);
-                this.$store.dispatch('getEntries');
-            }
+    computed: {
+        createdAt () {
+            return moment(this.journal.created_at).fromNow();
         },
 
-        computed: {
-            isActive () {
-                if (this.active_journal) {
-                    return this.journal.id == this.$store.state.active_journal.id;
-                }
-                return false;
-            },
-
-            createdAt () {
-                return moment(this.journal.created_at).fromNow();
-            },
-
-            /**
-             * Encrypt Journal Title with User Encryption Key
-             * @return {string}
-             */
-            decryptedTitle () {
-                let crypto = new Crypto(this.$store.state.encryption_password);
-                return crypto.decrypt(
-                    this.journal.title
-                );
-
-                return decryptedTitle;
-            }
+        decryptedTitle () {
+            let crypto = new Crypto(this.$store.state.encryption_password);
+            return crypto.decrypt(
+                this.journal.title
+            );
         }
     }
+}
 </script>
 
 <style scoped>

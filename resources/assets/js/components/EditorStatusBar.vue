@@ -1,5 +1,5 @@
 <template>
-    <div class="o-editor-status-bar row">
+    <div class="row">
         <div class="col-sm-6">
             Words: {{ wordCount }}
         </div>
@@ -10,26 +10,20 @@
 </template>
 
 <script>
-    import count from 'word-count';
-    import moment from 'moment';
+import count from 'word-count';
+import moment from 'moment';
 
-    export default {
-        props: ['entry', 'content'],
+export default {
+    props: ['entry', 'content'],
 
-        computed: {
-            wordCount() {
-                return count(this.content);
-            },
+    computed: {
+        wordCount() {
+            return count(this.content);
+        },
 
-            lastUpdated() {
-                return moment(this.entry.updated_at).fromNow();
-            }
+        lastUpdated() {
+            return moment(this.entry.updated_at).fromNow();
         }
     }
+}
 </script>
-
-<style lang="scss" scoped>
-    .o-editor-status-bar {
-        // background: orange;
-    }
-</style>

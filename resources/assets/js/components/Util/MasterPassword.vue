@@ -6,24 +6,24 @@
 </template>
 
 <script>
-    import UnlockScreen from './UnlockScreen.vue';
-    import CreateMasterPassword from './CreateMasterPassword.vue';
+import UnlockScreen from './UnlockScreen.vue';
+import CreateMasterPassword from './CreateMasterPassword.vue';
 
-    export default {
+export default {
 
-        components: {
-            'unlock-screen': UnlockScreen,
-            'create-master-password': CreateMasterPassword
+    components: {
+        'unlock-screen': UnlockScreen,
+        'create-master-password': CreateMasterPassword
+    },
+
+    computed: {
+        userHasBeenLoaded () {
+            return this.$store.state.user;
         },
 
-        computed: {
-            userHasBeenLoaded () {
-                return this.$store.state.user;
-            },
-
-            masterPasswordHasBeenSet () {
-                return this.$store.state.has_master_password;
-            },
-        }
+        masterPasswordHasBeenSet () {
+            return this.$store.state.hasMasterPassword;
+        },
     }
+}
 </script>

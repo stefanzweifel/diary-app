@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entry;
 use App\Journal;
+use Carbon\Carbon;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -38,9 +39,10 @@ class HomeController extends Controller
 
     public function jwtToken()
     {
-        $token = JWTAuth::fromUser(auth()->user());
-
-        return ['token' => $token];
+        return [
+            'token' => JWTAuth::fromUser(auth()->user()),
+            'expires_at' => Carbon::now()->addHours(1)->timestamp
+        ];
     }
 
 }

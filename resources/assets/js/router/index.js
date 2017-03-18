@@ -1,71 +1,80 @@
 import VueRouter from 'vue-router';
 
-
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
-
-const User = {
-    props: ['id'],
-    template: '<div>User {{ id }}</div>'
-}
-
+// Import Vuex Store so we have access to our global state
+import store from './../store/index.js';
 
 const routes = [
     {
-        path: '/foo',
-        component: Foo
+        path: '/',
+        name: 'home',
+        component: require('./../views/Home.vue'),
+        meta: {
+            title: 'Home',
+            requiresAuth: true,
+            requiresUnlock: true
+        }
     },
     {
-        path: '/bar',
-        component: Bar
+        path: '/journals/:journalId',
+        name: 'journals.show',
+        component: require('../views/Journal.vue'),
+        meta: {
+            title: 'Journal',
+            requiresAuth: true,
+            requiresUnlock: true
+        }
     },
     {
-        path: '/user/:id',
-        component: User,
-        props: true
+        path: '/entries/:entryId',
+        name: 'entries.preview',
+        component : require('./../views/Entry.vue'),
+        meta: {
+            requiresUnlock: true
+        }
     },
     {
-        path: '/create-master-password',
-        name: 'auth.create-master-password',
-        component: {
-            'template': '<div>CREATE MASTERPASSWORD</div>'
+        path: '/entries/:entryId/edit',
+        name: 'entries.edit',
+        component : require('./../views/Editor.vue'),
+        meta: {
+            requiresUnlock: true
         }
     },
     {
         path: '/unlock',
-        name: 'auth.unlock',
-        component: {
-            'template': '<div>Just enter Masterpassword to unlock</div>'
-        }
-    },
-    {
-        path: '/journals',
-        name: 'journals.index',
-        component: {
-            'template': '<div>Single Journal</div>'
+        component: require('./../views/Unlock.vue'),
+        meta: {
+            requiresUnlock: false
         },
-        children: [
-            {
-                path: ':id',
-                name: 'journals.show',
-                component: {
-                    'template': '<div> Single JOURNAL </div>'
-                }
+        beforeEnter: (to, from, next) => {
+            if (store.getters.isUnlocked) {
+                next('/');
             }
-        ]
-    },
-    {
-        path: '/user/settings',
-        name: 'user.settings',
-        component: {
-            'template': '<div>Settings</div>'
+
+            next();
         }
     }
 ]
 
 
+const router =  new VueRouter({ routes });
 
 
-export default new VueRouter({
-  routes // short for routes: routes
-});
+router.beforeEach((to, from, next) => {
+
+    if (to.matched.some(record => record.meta.requiresUnlock)) {
+
+        if (! store.getters.isUnlocked) {
+            next({
+                path: '/unlock',
+                query: { redirect: to.fullPath }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next() // make sure to always call next()!
+    }
+})
+
+export default router;

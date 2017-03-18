@@ -21,7 +21,6 @@ require('./bootstrap');
 // Vue.use(VueLocalStorage);
 
 import store from './store/index.js';
-import AppDrawer from './components/AppDrawer.vue';
 import VueRouter from 'vue-router';
 
 
@@ -29,11 +28,13 @@ Vue.use(VueRouter);
 
 import router from './router/index.js';
 
-
+import Lock from './components/Util/Lock.vue';
 
 const app = new Vue({
     el: '#app',
-    components: { AppDrawer },
+    components: {
+        Lock
+    },
     store,
     router
 });

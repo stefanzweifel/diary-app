@@ -1,32 +1,25 @@
 <template>
-    <div class="o-journal-drawer">
-        <div class="list-group">
-            <journal
-                v-for="journal in journals"
-                :journal="journal">
-            </journal>
-        </div>
+    <div class="list-group">
+        <journal
+            v-for="journal in journals"
+            :journal="journal">
+        </journal>
     </div>
 </template>
 
 <script>
-    import Journal from './Journal.vue';
+import Journal from './Journal.vue';
 
-    export default {
+export default {
 
-        components: {
-            'journal': Journal
-        },
+    components: {
+        Journal
+    },
 
-        computed: {
-            journals () {
-                return this.$store.state.journals
-            }
+    computed: {
+        journals () {
+            return this.$store.state.journals
         }
     }
+}
 </script>
-
-<style lang="scss" scoped>
-    .o-journal-drawer {
-    }
-</style>
