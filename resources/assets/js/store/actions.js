@@ -94,28 +94,27 @@ export default {
             });
     },
 
-    updateEntry({ commit, state, dispatch}, entryId, title, content) {
+    updateEntry({ commit, state, dispatch}, payload) {
         new Entry(state.jwt.token)
-            .update(entryId, {
-                title: title,
-                content: content
+            .update(payload.entry, {
+                title: payload.title,
+                content: payload.content
             })
             .then((response) => {
                 commit(types.UPDATE_ENTRY);
-                // dispatch('getEntries');
             })
             .catch(function (error) {
                 console.log(error);
             });
     },
 
-    deleteEntry({ commit, state, dispatch}) {
+    deleteEntry({ commit, state, dispatch}, entryId) {
 
         new Entry(state.jwt.token)
-            .delete(entryId)
+            .destroy(entryId)
             .then((response) => {
                 commit(types.DELETE_ENTRY);
-                dispatch('getEntries');
+                // dispatch('getEntries');
             })
             .catch(function (error) {
                 console.log(error);

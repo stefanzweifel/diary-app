@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 import actions from './actions.js';
 import mutations from './mutations.js';
+import Crypto from './../classes/Crypto.js';
 
 export default new Vuex.Store({
     state: {
@@ -17,11 +18,19 @@ export default new Vuex.Store({
         hasMasterPassword: false,
         isUnlocked: false,
 
+        // The Entry the user is currently working with
+        entry: null,
 
+        // Encryption Password / Key
         encryption_password: null,
+
+        // All journals
         journals: null,
+
+        // Entries for the current journal
         entries: null,
-        active_entry: null,
+
+        // The logged in User
         user: null,
     },
     getters: {

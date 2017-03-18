@@ -1,138 +1,143 @@
 <template>
-    <div class="o-editor panel panel-default">
+    <div class="panel panel-default" v-if="entry">
         <div class="panel-body">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            v-model="title"
-                            placeholder="This is the title of your entry"
-                            class="form-control"
-                        >
-                    </div>
-                    <div class="form-group">
-                        <textarea
-                            :value="content"
-                            placeholder="The content of your entry. **Markdown** is *supported*!"
-                            class="form-control"
-                            @input="update"
-                        ></textarea>
-                    </div>
+            <form @submit.prevent="store">
+
+                <!-- For a weird reason I have to display the encrypted values
+                    in order to get the data override to work.
+                    Smells like bad code ...
+                 -->
+                <ul class="hidden">
+                    <li>Decrypted Title: <code>{{ decryptedTitle }}</code></li>
+                    <li>decrypt content: <code>{{ decryptedContent }}</code></li>
+                </ul>
+
+                <div class="form-group">
+                    <input
+                        type="text"
+                        v-model="title"
+                        placeholder="This is the title of your entry"
+                        class="form-control"
+                    >
                 </div>
-            </div>
+                <div class="form-group">
+                    <textarea
+                        :value="content"
+                        placeholder="The content of your entry. **Markdown** is *supported*!"
+                        class="form-control"
+                        @input="update"
+                    ></textarea>
+                </div>
 
-            <hr>
-
+            </form>
+        </div>
+        <div class="panel-footer">
             <div class="btn-group">
+                <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="btn btn-default btn-sm">Preview</router-link>
                 <button @click="store" @keyup.meta.31="store" class="btn btn-success btn-sm">Save</button>
                 <button @click="destroy" class="btn btn-danger btn-sm">Delete</button>
             </div>
-        </div>
-        <div class="panel-footer">
-            <editor-status-bar
+
+            <!-- <editor-status-bar
                 :entry="entry"
                 :content="content"
-            ></editor-status-bar>
+            ></editor-status-bar> -->
         </div>
     </div>
 </template>
 
 <script>
+import EditorStatusBar from './../components/EditorStatusBar.vue';
+import autosize from 'autosize';
+import Crypto from './../classes/Crypto.js';
 
-    import EditorStatusBar from './../components/EditorStatusBar.vue';
-    import autosize from 'autosize';
-    import Crypto from './../classes/Crypto.js';
+export default {
 
-    export default {
+    components: {
+        EditorStatusBar
+    },
 
-        components: {
-            EditorStatusBar
-        },
+    data() {
+        return {
+            title: '',
+            content: ''
+        }
+    },
 
-        data () {
-            return {
-                title: '',
-                content: ''
-            }
-        },
+    mounted() {
+        autosize(document.querySelector('textarea'));
+        this.$store.dispatch('getEntry', this.$route.params.entryId);
+    },
 
-        mounted() {
+    methods: {
+        update (e)  {
             autosize(document.querySelector('textarea'));
+            this.content = e.target.value;
+        },
 
-            // Decrypt Title and Content and store the encrypted Values inMemory
+        store () {
+            this.$store.dispatch('updateEntry', {
+                entry: this.entry.id,
+                title: new Crypto(this.$store.state.encryption_password).encrypt(this.title),
+                content: new Crypto(this.$store.state.encryption_password).encrypt(this.content)
+            });
+        },
+
+        destroy () {
+            this.$store.dispatch('deleteEntry', this.$route.params.entryId);
+        }
+
+    },
+
+    watch: {
+        decryptedTitle: (value) => {
+            this.title = value;
+        }
+    },
+
+    computed: {
+        entry() {
+            return this.$store.state.entry;
+        },
+
+        decryptedTitle() {
+            if (this.entry == null) {
+                return 'LOADING';
+            }
+
             let crypto = new Crypto(this.$store.state.encryption_password);
-            let title =  crypto.decrypt(
-                this.entry.title
-            );
 
-            this.title = title;
+            this.title = crypto.decrypt(this.entry.title);
 
-            let crypto2 = new Crypto(this.$store.state.encryption_password);
-            let content =  crypto2.decrypt(
-                this.entry.content
-            );
-
-            this.content = content;
-
+            return crypto.decrypt(this.entry.title);
         },
 
-        created() {
-            autosize(document.querySelector('textarea'));
-        },
-
-        computed: {
-            entry () {
-                return this.$store.state.active_entry;
+        decryptedContent() {
+            if (this.entry == null) {
+                return 'LOADING';
             }
-        },
 
-        methods: {
-            update (e)  {
-                this.content = e.target.value
-            },
+            let crypto = new Crypto(this.$store.state.encryption_password);
 
-            destroy () {
-                this.$store.dispatch('deleteEntry');
-            },
+            this.content= crypto.decrypt(this.entry.content);
 
-            edit () {
-                autosize(document.querySelector('textarea'));
-            },
-
-            store () {
-                let crypto = new Crypto(this.$store.state.encryption_password);
-
-                this.entry.title = crypto.encrypt(
-                    this.title
-                )
-
-                this.entry.content = crypto.encrypt(
-                    this.content
-                )
-
-                this.$store.dispatch('updateEntry', this.entry);
-
-                this.edit_mode = false;
-            }
+            return crypto.decrypt(this.entry.content);
         }
     }
+}
 </script>
 
 
 <style lang="scss" scoped>
-    // textarea {
-    //   display: inline-block;
-    //   width: 100%;
-    //   height: 100%;
-    //   vertical-align: top;
-    //   box-sizing: border-box;
-    //   padding: 20px;
-    //   border: none;
-    //   resize: none;
-    //   outline: none;
-    //   font-family: 'Monaco', courier, monospace;
-    // }
-</style>
+    .form-control {
+        border: none;
+        box-shadow: none;
+        padding: 1em;
 
+        // &:focus {
+        //     box-shadow: none;
+        //     border: none;
+        // }
+    }
+</style>

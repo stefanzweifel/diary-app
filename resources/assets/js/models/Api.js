@@ -56,7 +56,7 @@ export default class {
      * @param  {string} url
      * @return {Promise}
      */
-    delete(url) {
+    deleteCall(url) {
         return axios.delete(url, {
             headers: this.headers()
         });

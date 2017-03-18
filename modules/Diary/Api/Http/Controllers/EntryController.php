@@ -15,15 +15,6 @@ class EntryController extends Controller
     use Helpers;
 
     /**
-     * List all Journals for authenticated user
-     * @return Response
-     */
-    // public function index()
-    // {
-    //     return app(Auth::class)->user()->entries()->latest()->get();
-    // }
-
-    /**
      * Return single Entry Resource
      * @param  integer $entryId
      * @return Response
@@ -44,26 +35,28 @@ class EntryController extends Controller
      * @param  integer $entryId
      * @return Response
      */
-    // public function update($entryId)
-    // {
-    //     $payload = app('request')->only('content');
+    public function update($entryId)
+    {
+        $payload = app('request')->all();
 
-    //     $validator = app('validator')->make($payload, [
-    //         'content' => ['required']
-    //     ]);
+        $validator = app('validator')->make($payload, [
+            'title' => ['required'],
+            'content' => ['required']
+        ]);
 
-    //     if ($validator->fails()) {
-    //         throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
-    //     }
+        if ($validator->fails()) {
+            throw new StoreResourceFailedException('Could not update Entry.', $validator->errors());
+        }
 
-    //     $journal = app(Auth::class)->user()->entries()->findOrFail($entryId);
+        $entry = Entry::findOrFail($entryId);
 
-    //     $journal = $journal->update([
-    //         'content' => app('request')->content
-    //     ]);
+        $entry->update([
+            'title' => app('request')->title,
+            'content' => app('request')->content
+        ]);
 
-    //     return $this->response->created("/entries/{$journal->id}");
-    // }
+        return $this->response->noContent();
+    }
 
     /**
      * Destroy an Entry

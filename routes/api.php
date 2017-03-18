@@ -59,10 +59,10 @@ $api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 20
         'as' => 'journal.entries.store'
     ]);
 
-    $api->patch('journals/{id}/entries/{entriesId}', [
-        'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@update',
-        'as' => 'journal.entries.update'
-    ]);
+    // $api->patch('journals/{id}/entries/{entriesId}', [
+    //     'uses' => 'Diary\Api\Http\Controllers\JournalEntryController@update',
+    //     'as' => 'journal.entries.update'
+    // ]);
 
     // -----------------------------------------
 
@@ -70,7 +70,6 @@ $api->version('v1', ['middleware' => ['api.auth', 'api.throttle'], 'limit' => 20
         'uses' => 'Diary\Api\Http\Controllers\EntryController@index',
         'as' => 'entries.index'
     ]);
-
 
     $api->get('entries/{id}', [
         'uses' => 'Diary\Api\Http\Controllers\EntryController@show',

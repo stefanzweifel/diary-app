@@ -35,27 +35,4 @@ class JournalEntryController extends Controller
 
         return $this->response->created("/entries/{$journal->id}");
     }
-
-    public function update($journalId, $entryId)
-    {
-        $payload = app('request')->all();
-
-        $validator = app('validator')->make($payload, [
-            'title' => ['required'],
-            'content' => ['required']
-        ]);
-
-        if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not update Entry.', $validator->errors());
-        }
-
-        $entry = Entry::findOrFail($entryId);
-
-        $entry->update([
-            'title' => app('request')->title,
-            'content' => app('request')->content
-        ]);
-
-        return $this->response->noContent();
-    }
 }

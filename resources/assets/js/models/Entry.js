@@ -45,6 +45,6 @@ export default class extends Api {
      * @return {Promise}
      */
     destroy(entryId) {
-        return this.delete(`/api/entries/${entryId}/`);
+        return this.deleteCall(`/api/entries/${entryId}/`);
     }
 }

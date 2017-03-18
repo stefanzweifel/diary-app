@@ -5,8 +5,10 @@
             <i>{{ formatedDate }}</i>
         </p>
 
-        <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="btn btn-success">Preview</router-link>
-        <router-link :to="{ name: 'entries.edit', params: { entryId: entry.id }}" class="btn btn-default">Edit</router-link>
+        <div class="btn-group">
+            <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="btn btn-sm btn-success">Preview</router-link>
+            <router-link :to="{ name: 'entries.edit', params: { entryId: entry.id }}" class="btn btn-sm btn-default">Edit</router-link>
+        </div>
     </div>
 </template>
 

@@ -9,8 +9,6 @@ const routes = [
         name: 'home',
         component: require('./../views/Home.vue'),
         meta: {
-            title: 'Home',
-            requiresAuth: true,
             requiresUnlock: true
         }
     },
@@ -19,8 +17,6 @@ const routes = [
         name: 'journals.show',
         component: require('../views/Journal.vue'),
         meta: {
-            title: 'Journal',
-            requiresAuth: true,
             requiresUnlock: true
         }
     },

@@ -1,6 +1,7 @@
 <template>
     <div class="list-group">
         <journal
+            v-if="journals.length > 0"
             v-for="journal in journals"
             :journal="journal">
         </journal>

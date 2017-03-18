@@ -18,7 +18,7 @@ export default {
         state.entries = payload;
     },
     [types.SELECT_ENTRY] (state, payload) {
-        // state.active_entry = payload;
+        state.entry = payload;
     },
 
     [types.MASTERPASSWORD_CREATED] (state, payload) {
@@ -53,11 +53,11 @@ export default {
         // state.active_entry = payload;
     },
     [types.UPDATE_ENTRY] (state, payload) {
-        // state.active_entry = payload;
+        // state.entry = payload;
         // alert("Entry saved.");
     },
     [types.DELETE_ENTRY] (state, payload) {
-        // state.active_entry = null;
+        router.back();
     },
     [types.ADD_ENTRY] (state, payload) {
         // state.active_entry = payload;

@@ -2404,6 +2404,72 @@ function forEach(xs, f) {
 /***/ }),
 /* 10 */,
 /* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_aes_js__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_aes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_aes_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_pbkdf2__ = __webpack_require__(357);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_pbkdf2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_pbkdf2__);
+/**
+ * Custom implementation of `aes-js`
+ *
+ * https://github.com/ricmoo/aes-js
+ */
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = class {
+
+    constructor(encryptionKey) {
+        this.salt = window.Laravel.salt;
+        this.encryptionKey = encryptionKey;
+
+        this.key_256 = __WEBPACK_IMPORTED_MODULE_1_pbkdf2___default.a.pbkdf2Sync(this.encryptionKey, this.salt, 1, 256 / 8, 'sha512');
+    }
+
+    /**
+     * Encrypt given String
+     * @param  {string} stringToEncrypt
+     * @return {string}
+     */
+    encrypt(stringToEncrypt) {
+
+        // Convert text to bytes
+        let textBytes = __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.utf8.toBytes(stringToEncrypt);
+
+        // The counter is optional, and if omitted will begin at 1
+        let aesCtr = new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.ModeOfOperation.ctr(this.key_256, new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.Counter(5));
+        let encryptedBytes = aesCtr.encrypt(textBytes);
+
+        // To print or store the binary data, you may convert it to hex
+        return __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.hex.fromBytes(encryptedBytes);
+    }
+
+    /**
+     * Decrypt given String
+     * @param  {string} stringToDecrypt
+     * @return {string}
+     */
+    decrypt(stringToDecrypt) {
+
+        // When ready to decrypt the hex string, convert it back to bytes
+        let encryptedBytes = __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.hex.toBytes(stringToDecrypt);
+
+        // The counter mode of operation maintains internal state, so to
+        // decrypt a new instance must be instantiated.
+        let aesCtr = new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.ModeOfOperation.ctr(this.key_256, new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.Counter(5));
+        let decryptedBytes = aesCtr.decrypt(encryptedBytes);
+
+        // Convert our bytes back into text
+        return __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.utf8.fromBytes(decryptedBytes);
+    }
+
+};
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -2412,12 +2478,12 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var store      = __webpack_require__(66)('wks')
   , uid        = __webpack_require__(67)
-  , Symbol     = __webpack_require__(11).Symbol
+  , Symbol     = __webpack_require__(12).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
 var $exports = module.exports = function(name){
@@ -2428,7 +2494,7 @@ var $exports = module.exports = function(name){
 $exports.store = store;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
@@ -2502,72 +2568,6 @@ Hash.prototype._update = function () {
 module.exports = Hash
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_aes_js__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_aes_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_aes_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_pbkdf2__ = __webpack_require__(357);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_pbkdf2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_pbkdf2__);
-/**
- * Custom implementation of `aes-js`
- *
- * https://github.com/ricmoo/aes-js
- */
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = class {
-
-    constructor(encryptionKey) {
-        this.salt = window.Laravel.salt;
-        this.encryptionKey = encryptionKey;
-
-        this.key_256 = __WEBPACK_IMPORTED_MODULE_1_pbkdf2___default.a.pbkdf2Sync(this.encryptionKey, this.salt, 1, 256 / 8, 'sha512');
-    }
-
-    /**
-     * Encrypt given String
-     * @param  {string} stringToEncrypt
-     * @return {string}
-     */
-    encrypt(stringToEncrypt) {
-
-        // Convert text to bytes
-        let textBytes = __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.utf8.toBytes(stringToEncrypt);
-
-        // The counter is optional, and if omitted will begin at 1
-        let aesCtr = new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.ModeOfOperation.ctr(this.key_256, new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.Counter(5));
-        let encryptedBytes = aesCtr.encrypt(textBytes);
-
-        // To print or store the binary data, you may convert it to hex
-        return __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.hex.fromBytes(encryptedBytes);
-    }
-
-    /**
-     * Decrypt given String
-     * @param  {string} stringToDecrypt
-     * @return {string}
-     */
-    decrypt(stringToDecrypt) {
-
-        // When ready to decrypt the hex string, convert it back to bytes
-        let encryptedBytes = __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.hex.toBytes(stringToDecrypt);
-
-        // The counter mode of operation maintains internal state, so to
-        // decrypt a new instance must be instantiated.
-        let aesCtr = new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.ModeOfOperation.ctr(this.key_256, new __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.Counter(5));
-        let decryptedBytes = aesCtr.decrypt(encryptedBytes);
-
-        // Convert our bytes back into text
-        return __WEBPACK_IMPORTED_MODULE_0_aes_js___default.a.utils.utf8.fromBytes(decryptedBytes);
-    }
-
-};
 
 /***/ }),
 /* 15 */
@@ -2998,31 +2998,57 @@ Stream.prototype.pipe = function(dest, options) {
         this.token = token;
     }
 
+    /**
+     * Return HTTP Headers
+     * @return {object}
+     */
     headers() {
         return {
             'Authorization': `Bearer ${this.token}`
         };
     }
 
+    /**
+     * Send GET Request
+     * @param  {string} url
+     * @return {Promise}
+     */
     get(url) {
         return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url, {
             headers: this.headers()
         });
     }
 
+    /**
+     * Send POST Request
+     * @param  {string} url
+     * @param  {object} payload Data object to send
+     * @return {Promise}
+     */
     post(url, payload) {
         return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, payload, {
             headers: this.headers()
         });
     }
 
+    /**
+     * Send PATCH Request
+     * @param  {string} url
+     * @param  {object} payload Data Object to send
+     * @return {Promise}
+     */
     patch(url, payload) {
         return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.patch(url, payload, {
             headers: this.headers()
         });
     }
 
-    delete(url) {
+    /**
+     * Send DELETE Request
+     * @param  {string} url
+     * @return {Promise}
+     */
+    deleteCall(url) {
         return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete(url, {
             headers: this.headers()
         });
@@ -6673,8 +6699,6 @@ const routes = [{
     name: 'home',
     component: __webpack_require__(395),
     meta: {
-        title: 'Home',
-        requiresAuth: true,
         requiresUnlock: true
     }
 }, {
@@ -6682,8 +6706,6 @@ const routes = [{
     name: 'journals.show',
     component: __webpack_require__(396),
     meta: {
-        title: 'Journal',
-        requiresAuth: true,
         requiresUnlock: true
     }
 }, {
@@ -6747,10 +6769,12 @@ router.beforeEach((to, from, next) => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions_js__ = __webpack_require__(236);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations_js__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__classes_Crypto_js__ = __webpack_require__(11);
 
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex___default.a);
+
 
 
 
@@ -6766,10 +6790,19 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
         hasMasterPassword: false,
         isUnlocked: false,
 
+        // The Entry the user is currently working with
+        entry: null,
+
+        // Encryption Password / Key
         encryption_password: null,
+
+        // All journals
         journals: null,
+
+        // Entries for the current journal
         entries: null,
-        active_entry: null,
+
+        // The logged in User
         user: null
     },
     getters: {
@@ -6803,7 +6836,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(39)
-  , document = __webpack_require__(11).document
+  , document = __webpack_require__(12).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -6846,7 +6879,7 @@ var LIBRARY        = __webpack_require__(254)
   , $iterCreate    = __webpack_require__(252)
   , setToStringTag = __webpack_require__(65)
   , getPrototypeOf = __webpack_require__(257)
-  , ITERATOR       = __webpack_require__(12)('iterator')
+  , ITERATOR       = __webpack_require__(13)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
   , KEYS           = 'keys'
@@ -6926,7 +6959,7 @@ module.exports = function(bitmap, value){
 
 var def = __webpack_require__(40).f
   , has = __webpack_require__(23)
-  , TAG = __webpack_require__(12)('toStringTag');
+  , TAG = __webpack_require__(13)('toStringTag');
 
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
@@ -6936,7 +6969,7 @@ module.exports = function(it, tag, stat){
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(11)
+var global = __webpack_require__(12)
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
@@ -8765,7 +8798,7 @@ function indexOf(xs, x) {
  */
 
 var inherits = __webpack_require__(3)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -8898,7 +8931,7 @@ module.exports = Sha256
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var inherits = __webpack_require__(3)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var K = [
   0x428a2f98, 0xd728ae22, 0x71374491, 0x23ef65cd,
@@ -10597,7 +10630,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(11);
 //
 //
 //
@@ -10680,9 +10713,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+//
+//
 //
 //
 //
@@ -10723,7 +10758,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__ = __webpack_require__(11);
 //
 //
 //
@@ -10760,6 +10795,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Journal_vue__ = __webpack_require__(387);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Journal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Journal_vue__);
+//
 //
 //
 //
@@ -10983,49 +11019,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_EditorStatusBar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_EditorStatusBar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autosize__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autosize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_autosize__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__ = __webpack_require__(14);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__ = __webpack_require__(11);
+var _this = this;
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11046,52 +11091,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     mounted() {
         __WEBPACK_IMPORTED_MODULE_1_autosize___default()(document.querySelector('textarea'));
-
-        // Decrypt Title and Content and store the encrypted Values inMemory
-        let crypto = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
-        let title = crypto.decrypt(this.entry.title);
-
-        this.title = title;
-
-        let crypto2 = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
-        let content = crypto2.decrypt(this.entry.content);
-
-        this.content = content;
-    },
-
-    created() {
-        __WEBPACK_IMPORTED_MODULE_1_autosize___default()(document.querySelector('textarea'));
-    },
-
-    computed: {
-        entry() {
-            return this.$store.state.active_entry;
-        }
+        this.$store.dispatch('getEntry', this.$route.params.entryId);
     },
 
     methods: {
         update(e) {
+            __WEBPACK_IMPORTED_MODULE_1_autosize___default()(document.querySelector('textarea'));
             this.content = e.target.value;
         },
 
-        destroy() {
-            this.$store.dispatch('deleteEntry');
-        },
-
-        edit() {
-            __WEBPACK_IMPORTED_MODULE_1_autosize___default()(document.querySelector('textarea'));
-        },
-
         store() {
+            this.$store.dispatch('updateEntry', {
+                entry: this.entry.id,
+                title: new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).encrypt(this.title),
+                content: new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).encrypt(this.content)
+            });
+        },
+
+        destroy() {
+            this.$store.dispatch('deleteEntry', this.$route.params.entryId);
+        }
+
+    },
+
+    watch: {
+        decryptedTitle: value => {
+            _this.title = value;
+        }
+    },
+
+    computed: {
+        entry() {
+            return this.$store.state.entry;
+        },
+
+        decryptedTitle() {
+            if (this.entry == null) {
+                return 'LOADING';
+            }
+
             let crypto = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
 
-            this.entry.title = crypto.encrypt(this.title);
+            this.title = crypto.decrypt(this.entry.title);
 
-            this.entry.content = crypto.encrypt(this.content);
+            return crypto.decrypt(this.entry.title);
+        },
 
-            this.$store.dispatch('updateEntry', this.entry);
+        decryptedContent() {
+            if (this.entry == null) {
+                return 'LOADING';
+            }
 
-            this.edit_mode = false;
+            let crypto = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
+
+            this.content = crypto.decrypt(this.entry.content);
+
+            return crypto.decrypt(this.entry.content);
         }
     }
 };
@@ -11102,9 +11157,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_markdown__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_markdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_markdown__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11124,44 +11185,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         VueMarkdown: __WEBPACK_IMPORTED_MODULE_1_vue_markdown___default.a
     },
 
-    data() {
-        return {
-            title: '',
-            content: ''
-        };
-    },
-
     created() {
-
-        // Get Entry By ParamId
-
         this.$store.dispatch('getEntry', this.$route.params.entryId);
-    },
-
-    mounted() {
-
-        // We have to wait, till we have the single entry in the state
-
-        // // Decrypt Title and Content and store the encrypted Values inMemory
-        // let crypto = new Crypto(this.$store.state.encryption_password);
-        // let title =  crypto.decrypt(
-        //     this.entry.title
-        // );
-
-        // this.title = title;
-
-        // let crypto2 = new Crypto(this.$store.state.encryption_password);
-        // let content =  crypto2.decrypt(
-        //     this.entry.content
-        // );
-
-        // this.content = content;
-
     },
 
     computed: {
         entry() {
-            return this.$store.state.active_entry;
+            return this.$store.state.entry;
+        },
+
+        title() {
+            if (this.entry == null) {
+                return 'LOADING';
+            }
+
+            let crypto = new __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
+            return crypto.decrypt(this.entry.title);
+        },
+
+        content() {
+            if (this.entry == null) {
+                return 'LOADING';
+            }
+            let crypto2 = new __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
+            return crypto2.decrypt(this.entry.content);
         }
     }
 };
@@ -11394,7 +11441,7 @@ window.axios.defaults.headers.common = {
      * @return {Promise}
      */
     destroy(entryId) {
-        return this.delete(`/api/entries/${entryId}/`);
+        return this.deleteCall(`/api/entries/${entryId}/`);
     }
 };
 
@@ -11580,23 +11627,22 @@ window.axios.defaults.headers.common = {
         });
     },
 
-    updateEntry({ commit, state, dispatch }, entryId, title, content) {
-        new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */](state.jwt.token).update(entryId, {
-            title: title,
-            content: content
+    updateEntry({ commit, state, dispatch }, payload) {
+        new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */](state.jwt.token).update(payload.entry, {
+            title: payload.title,
+            content: payload.content
         }).then(response => {
             commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["j" /* UPDATE_ENTRY */]);
-            // dispatch('getEntries');
         }).catch(function (error) {
             console.log(error);
         });
     },
 
-    deleteEntry({ commit, state, dispatch }) {
+    deleteEntry({ commit, state, dispatch }, entryId) {
 
-        new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */](state.jwt.token).delete(entryId).then(response => {
+        new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */](state.jwt.token).destroy(entryId).then(response => {
             commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["k" /* DELETE_ENTRY */]);
-            dispatch('getEntries');
+            // dispatch('getEntries');
         }).catch(function (error) {
             console.log(error);
         });
@@ -11652,7 +11698,7 @@ window.axios.defaults.headers.common = {
         state.entries = payload;
     },
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["f" /* SELECT_ENTRY */]](state, payload) {
-        // state.active_entry = payload;
+        state.entry = payload;
     },
 
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["d" /* MASTERPASSWORD_CREATED */]](state, payload) {
@@ -11687,11 +11733,11 @@ window.axios.defaults.headers.common = {
         // state.active_entry = payload;
     },
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["j" /* UPDATE_ENTRY */]](state, payload) {
-        // state.active_entry = payload;
+        // state.entry = payload;
         // alert("Entry saved.");
     },
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["k" /* DELETE_ENTRY */]](state, payload) {
-        // state.active_entry = null;
+        __WEBPACK_IMPORTED_MODULE_1__router_index_js__["a" /* default */].back();
     },
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["i" /* ADD_ENTRY */]](state, payload) {
         // state.active_entry = payload;
@@ -12235,7 +12281,7 @@ module.exports = function(IS_INCLUDES){
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(59)
-  , TAG = __webpack_require__(12)('toStringTag')
+  , TAG = __webpack_require__(13)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
@@ -12286,7 +12332,7 @@ module.exports = function(fn, that, length){
 /* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(11)
+var global    = __webpack_require__(12)
   , core      = __webpack_require__(37)
   , ctx       = __webpack_require__(247)
   , hide      = __webpack_require__(15)
@@ -12352,7 +12398,7 @@ module.exports = $export;
 /* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(11).document && document.documentElement;
+module.exports = __webpack_require__(12).document && document.documentElement;
 
 /***/ }),
 /* 250 */
@@ -12384,7 +12430,7 @@ var create         = __webpack_require__(255)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(15)(IteratorPrototype, __webpack_require__(12)('iterator'), function(){ return this; });
+__webpack_require__(15)(IteratorPrototype, __webpack_require__(13)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -12605,7 +12651,7 @@ module.exports = function(it, S){
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof   = __webpack_require__(246)
-  , ITERATOR  = __webpack_require__(12)('iterator')
+  , ITERATOR  = __webpack_require__(13)('iterator')
   , Iterators = __webpack_require__(24);
 module.exports = __webpack_require__(37).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
@@ -12693,10 +12739,10 @@ __webpack_require__(63)(String, 'String', function(iterated){
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(268);
-var global        = __webpack_require__(11)
+var global        = __webpack_require__(12)
   , hide          = __webpack_require__(15)
   , Iterators     = __webpack_require__(24)
-  , TO_STRING_TAG = __webpack_require__(12)('toStringTag');
+  , TO_STRING_TAG = __webpack_require__(13)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
   var NAME       = collections[i]
@@ -13050,7 +13096,7 @@ module.exports = function createHmac(alg, key) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(68)();
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".form-control[data-v-2d4df4cc]{border:none;box-shadow:none;padding:1em}", ""]);
 
 /***/ }),
 /* 276 */
@@ -32293,7 +32339,7 @@ exports.sha512 = __webpack_require__(189)
  */
 
 var inherits = __webpack_require__(3)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var K = [
   0x5a827999, 0x6ed9eba1, 0x8f1bbcdc | 0, 0xca62c1d6 | 0
@@ -32394,7 +32440,7 @@ module.exports = Sha
  */
 
 var inherits = __webpack_require__(3)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var K = [
   0x5a827999, 0x6ed9eba1, 0x8f1bbcdc | 0, 0xca62c1d6 | 0
@@ -32499,7 +32545,7 @@ module.exports = Sha1
 
 var inherits = __webpack_require__(3)
 var Sha256 = __webpack_require__(188)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var W = new Array(64)
 
@@ -32550,7 +32596,7 @@ module.exports = Sha224
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var inherits = __webpack_require__(3)
 var SHA512 = __webpack_require__(189)
-var Hash = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var W = new Array(160)
 
@@ -33675,8 +33721,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "list-group-item"
   }, [_c('p', {
     staticClass: "list-group-item-text"
-  }), _c('h4', [_vm._v(_vm._s(_vm.decryptedTitle))]), _vm._v(" "), _c('i', [_vm._v(_vm._s(_vm.formatedDate))]), _vm._v(" "), _c('p'), _vm._v(" "), _c('router-link', {
-    staticClass: "btn btn-success",
+  }), _c('h4', [_vm._v(_vm._s(_vm.decryptedTitle))]), _vm._v(" "), _c('i', [_vm._v(_vm._s(_vm.formatedDate))]), _vm._v(" "), _c('p'), _vm._v(" "), _c('div', {
+    staticClass: "btn-group"
+  }, [_c('router-link', {
+    staticClass: "btn btn-sm btn-success",
     attrs: {
       "to": {
         name: 'entries.preview',
@@ -33686,7 +33734,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("Preview")]), _vm._v(" "), _c('router-link', {
-    staticClass: "btn btn-default",
+    staticClass: "btn btn-sm btn-default",
     attrs: {
       "to": {
         name: 'entries.edit',
@@ -33695,7 +33743,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }, [_vm._v("Edit")])], 1)
+  }, [_vm._v("Edit")])], 1)])
 },staticRenderFns: []}
 
 /***/ }),
@@ -33703,15 +33751,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "o-editor panel panel-default"
+  return (_vm.entry) ? _c('div', {
+    staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-body"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-sm-12"
-  }, [_c('div', {
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.store($event)
+      }
+    }
+  }, [_c('ul', {
+    staticClass: "hidden"
+  }, [_c('li', [_vm._v("Decrypted Title: "), _c('code', [_vm._v(_vm._s(_vm.decryptedTitle))])]), _vm._v(" "), _c('li', [_vm._v("decrypt content: "), _c('code', [_vm._v(_vm._s(_vm.decryptedContent))])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('input', {
     directives: [{
@@ -33747,9 +33800,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "input": _vm.update
     }
-  })])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-footer"
+  }, [_c('div', {
     staticClass: "btn-group"
-  }, [_c('button', {
+  }, [_c('router-link', {
+    staticClass: "btn btn-default btn-sm",
+    attrs: {
+      "to": {
+        name: 'entries.preview',
+        params: {
+          entryId: _vm.entry.id
+        }
+      }
+    }
+  }, [_vm._v("Preview")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-success btn-sm",
     on: {
       "click": _vm.store,
@@ -33764,14 +33829,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.destroy
     }
-  }, [_vm._v("Delete")])])]), _vm._v(" "), _c('div', {
-    staticClass: "panel-footer"
-  }, [_c('editor-status-bar', {
-    attrs: {
-      "entry": _vm.entry,
-      "content": _vm.content
-    }
-  })], 1)])
+  }, [_vm._v("Delete")])], 1)])]) : _vm._e()
 },staticRenderFns: []}
 
 /***/ }),
@@ -33870,7 +33928,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return (_vm.entry) ? _c('div', {
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-heading"
@@ -33880,7 +33938,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "source": _vm.content
     }
-  })], 1)])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "panel-footer"
+  }, [_c('router-link', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "to": {
+        name: 'entries.edit',
+        params: {
+          entryId: _vm.entry.id
+        }
+      }
+    }
+  }, [_vm._v("Edit")])], 1)]) : _c('div', [_c('h1', [_vm._v("Loading")])])
 },staticRenderFns: []}
 
 /***/ }),
@@ -33891,11 +33961,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "list-group"
   }, _vm._l((_vm.journals), function(journal) {
-    return _c('journal', {
+    return (_vm.journals.length > 0) ? _c('journal', {
       attrs: {
         "journal": journal
       }
-    })
+    }) : _vm._e()
   }))
 },staticRenderFns: []}
 
