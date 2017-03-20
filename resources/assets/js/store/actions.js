@@ -102,6 +102,7 @@ export default {
             })
             .then((response) => {
                 commit(types.UPDATE_ENTRY);
+                dispatch('getEntry', payload.entry);
             })
             .catch(function (error) {
                 console.log(error);

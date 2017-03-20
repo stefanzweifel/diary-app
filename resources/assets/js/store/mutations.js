@@ -1,6 +1,7 @@
 import * as types from './mutation-types.js';
 
 import router from './../router/index.js';
+import Crypto from './../classes/Crypto.js';
 
 export default {
     [types.GET_JWT_TOKEN] (state, payload) {
@@ -19,6 +20,9 @@ export default {
     },
     [types.SELECT_ENTRY] (state, payload) {
         state.entry = payload;
+
+        state.decryptedTitle = new Crypto(state.encryption_password).decrypt(payload.title);
+        state.decryptedContent = new Crypto(state.encryption_password).decrypt(payload.content);
     },
 
     [types.MASTERPASSWORD_CREATED] (state, payload) {

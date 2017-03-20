@@ -32,6 +32,10 @@ export default new Vuex.Store({
 
         // The logged in User
         user: null,
+
+
+        decryptedTitle: '',
+        decryptedContent: ''
     },
     getters: {
         isUnlocked: state => {

@@ -29,14 +29,6 @@ const routes = [
         }
     },
     {
-        path: '/entries/:entryId/edit',
-        name: 'entries.edit',
-        component : require('./../views/Editor.vue'),
-        meta: {
-            requiresUnlock: true
-        }
-    },
-    {
         path: '/unlock',
         component: require('./../views/Unlock.vue'),
         meta: {

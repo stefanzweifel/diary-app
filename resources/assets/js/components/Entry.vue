@@ -1,15 +1,10 @@
 <template>
-    <div class="list-group-item">
+    <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="list-group-item" tag="div">
         <p class="list-group-item-text">
             <h4>{{ decryptedTitle }}</h4>
             <i>{{ formatedDate }}</i>
         </p>
-
-        <div class="btn-group">
-            <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="btn btn-sm btn-success">Preview</router-link>
-            <router-link :to="{ name: 'entries.edit', params: { entryId: entry.id }}" class="btn btn-sm btn-default">Edit</router-link>
-        </div>
-    </div>
+    </router-link>
 </template>
 
 <script>
@@ -34,3 +29,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+    .list-group-item:hover {
+        cursor: pointer;
+    }
+</style>
