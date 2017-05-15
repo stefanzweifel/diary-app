@@ -27,3 +27,14 @@ mix.js('resources/assets/js/app.js', 'public/js')
 //        new OfflinePlugin()
 //     ]
 // });
+//
+//
+
+let webpack = require("webpack");
+
+mix.webpackConfig({
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+       // new OfflinePlugin()
+    ]
+});
