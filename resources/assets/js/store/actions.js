@@ -148,5 +148,9 @@ export default {
                 console.log(error);
                 // commit(types.ERROR_ENTRIES, error);
             });
+    },
+
+    deleteJournal({commit, state, dispatch}, journalId) {
+        // Delete Journal
     }
 };

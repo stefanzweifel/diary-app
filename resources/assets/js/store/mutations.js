@@ -38,6 +38,10 @@ export default {
         state.isUnlocked = true;
         state.encryption_password = payload.encryption_password;
 
+        if (payload.redirect === undefined) {
+            return router.push('/');
+        }
+
         router.push(payload.redirect);
     },
 
