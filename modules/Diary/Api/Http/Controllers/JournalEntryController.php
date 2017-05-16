@@ -13,7 +13,7 @@ class JournalEntryController extends Controller
     {
         $journal = $request->user()->journals()->where('id', $journalId)->firstOrFail();
 
-        return $journal->entries()->latest()->get();
+        return ['entries' => $journal->entries()->latest()->get()];
     }
 
     /**
