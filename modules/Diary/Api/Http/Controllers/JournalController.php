@@ -4,46 +4,44 @@ namespace Diary\Api\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Journal;
-use Dingo\Api\Auth\Auth;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JournalController extends Controller
 {
-    use Helpers;
-
     /**
      * List all Journals for authenticated user
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return app(Auth::class)->user()->journals()->latest()->get();
+        return response([
+            'journals' => $request->user()->journals()->latest()->get()
+        ]);
     }
 
     /**
      * Store new Journal
      * @return Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        $payload = app('request')->only('title');
+        $payload = $request->only('title');
 
         $validator = app('validator')->make($payload, [
             'title' => ['required']
         ]);
 
-        if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not create new journal.', $validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     throw new StoreResourceFailedException('Could not create new journal.', $validator->errors());
+        // }
 
         $journal = Journal::create([
-            'title' => app('request')->title,
-            'user_id' => app(Auth::class)->user()->id
+            'title' => $request->title,
+            'user_id' => $request->user()->id
         ]);
 
-        return $this->response->created("/journals/{$journal->id}");
+        return response([], 201);
     }
 
     /**
@@ -51,15 +49,15 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function show($journalId)
+    public function show($journalId, Request $request)
     {
-        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->first();
+        $journal = $request->user()->journals()->where('id', $journalId)->first();
 
         if (is_null($journal)) {
             throw new NotFoundHttpException;
         }
 
-        return $journal;
+        return response(compact('journal'), 200);
     }
 
     /**
@@ -67,7 +65,7 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function update($journalId)
+    public function update($journalId, Request $request)
     {
         $validator = app('validator')->make(
             app('request')->only('title'),
@@ -78,13 +76,13 @@ class JournalController extends Controller
             throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
         }
 
-        $journal = app(Auth::class)->user()->journals()->findOrFail($journalId);
+        $journal = $request->user()->journals()->findOrFail($journalId);
 
         $journal = $journal->update([
             'title' => app('request')->title
         ]);
 
-        return $this->response->created("/journals/{$journal->id}");
+        return response([], 201);
     }
 
     /**
@@ -92,9 +90,9 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function destroy($journalId)
+    public function destroy($journalId, Request $request)
     {
-        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->first();
+        $journal = $request->user()->journals()->where('id', $journalId)->first();
 
         if (is_null($journal)) {
             throw new NotFoundHttpException;
@@ -102,7 +100,7 @@ class JournalController extends Controller
 
         $journal->delete();
 
-        return $this->response->noContent();
+        return response([], 204);
     }
 
 }
