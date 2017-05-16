@@ -26,7 +26,7 @@ class DiaryServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace('App\Http\Controllers')
+             ->namespace('Diary\Api\Http\Controllers')
              ->group(base_path('modules/Diary/routes/api.php'));
     }
 }
