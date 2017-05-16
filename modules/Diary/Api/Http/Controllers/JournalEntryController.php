@@ -5,17 +5,13 @@ namespace Diary\Api\Http\Controllers;
 use App\Entry;
 use App\Http\Controllers\Controller;
 use App\Journal;
-use Dingo\Api\Auth\Auth;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 
 class JournalEntryController extends Controller
 {
-    use Helpers;
-
-    public function index($journalId)
+    public function index($journalId, Request $request)
     {
-        $journal = app(Auth::class)->user()->journals()->where('id', $journalId)->firstOrFail();
+        $journal = $request->user()->journals()->where('id', $journalId)->firstOrFail();
 
         return $journal->entries()->latest()->get();
     }
@@ -24,15 +20,15 @@ class JournalEntryController extends Controller
      * Store new Journal
      * @return Response
      */
-    public function store($journalId)
+    public function store($journalId, Request $request)
     {
         $journal = Entry::create([
             'content' => '',
             'title' => '',
             'journal_id' => $journalId,
-            'user_id' => app(Auth::class)->user()->id
+            'user_id' => $request->user()->id
         ]);
 
-        return $this->response->created("/entries/{$journal->id}");
+        return response([], 201);
     }
 }

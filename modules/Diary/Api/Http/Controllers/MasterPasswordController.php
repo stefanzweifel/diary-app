@@ -3,19 +3,15 @@
 namespace Diary\Api\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Dingo\Api\Auth\Auth;
-use Dingo\Api\Exception\ResourceException;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 class MasterPasswordController extends Controller
 {
-    use Helpers;
-
-    public function store()
+    public function store(Request $request)
     {
-        $payload = app('request')->all();
+        $payload = $request->all();
 
         $validator = app('validator')->make($payload, [
             'password' => ['required'],
@@ -26,25 +22,24 @@ class MasterPasswordController extends Controller
             throw new StoreResourceFailedException('Could not create Master Password.', $validator->errors());
         }
 
-        app(Auth::class)->user()->update([
+        $request->user()->update([
             'master_password' => bcrypt($payload['password']),
             'encryption_key' => bcrypt(str_random(100))
         ]);
 
-        return $this->response->noContent();
+        return response([]);
     }
 
-    public function unlock()
+    public function unlock(Request $request)
     {
-        $password = app('request')->get('password');
-        $user = app(Auth::class)->user()->first();
+        $password = $request->password;
+        $user = $request->user();
 
         if (! Hash::check($password, $user->master_password)) {
-            throw new ResourceException('Master Password does not match.');
+            throw new Exception('Master Password does not match.');
         }
 
-        return $this->response->array([
-            // Maybe we should encrypt the password hash again?
+        return response([
             'encryption_key' => $user->encryption_key
         ]);
     }
