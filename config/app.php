@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Passport\PassportServiceProvider::class,
+        Diary\Providers\DiaryServiceProvider::class,
 
 
         /*

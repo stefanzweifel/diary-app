@@ -23,7 +23,7 @@
             <directory suffix=".php">./modules</directory>
             <exclude>
                 <directory suffix="blade.php">./modules</directory>
-                <directory suffix="php">./modules/Diary/Http/routes</directory>
+                <directory suffix="php">./modules/Diary/routes</directory>
             </exclude>
         </whitelist>
     </filter>
