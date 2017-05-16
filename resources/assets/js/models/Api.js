@@ -2,29 +2,13 @@ import axios from 'axios';
 
 export default class {
 
-    constructor(token) {
-        this.token = token;
-    }
-
-    /**
-     * Return HTTP Headers
-     * @return {object}
-     */
-    headers() {
-        return  {
-            'Authorization': `Bearer ${this.token}`
-        }
-    }
-
     /**
      * Send GET Request
      * @param  {string} url
      * @return {Promise}
      */
     get(url) {
-        return axios.get(url, {
-            headers: this.headers()
-        });
+        return axios.get(url);
     }
 
     /**
@@ -34,9 +18,7 @@ export default class {
      * @return {Promise}
      */
     post(url, payload) {
-        return axios.post(url, payload, {
-            headers: this.headers()
-        })
+        return axios.post(url, payload)
     }
 
     /**
@@ -46,9 +28,7 @@ export default class {
      * @return {Promise}
      */
     patch(url, payload) {
-        return axios.patch(url, payload, {
-            headers: this.headers()
-        })
+        return axios.patch(url, payload)
     }
 
     /**
@@ -57,9 +37,7 @@ export default class {
      * @return {Promise}
      */
     deleteCall(url) {
-        return axios.delete(url, {
-            headers: this.headers()
-        });
+        return axios.delete(url);
     }
 
 }
