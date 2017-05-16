@@ -3,12 +3,12 @@
 namespace Diary\Api\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Dingo\Api\Auth\Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return app(Auth::class)->user()->first();
+        return ['user' => $request->user()->first()];
     }
 }

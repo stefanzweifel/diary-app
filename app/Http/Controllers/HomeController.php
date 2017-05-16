@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Entry;
 use App\Journal;
 use Carbon\Carbon;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class HomeController extends Controller
 {
-    use Helpers;
 
     /**
      * Create a new controller instance.

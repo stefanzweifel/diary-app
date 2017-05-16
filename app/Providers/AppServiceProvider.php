@@ -15,15 +15,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-
-        app('Dingo\Api\Auth\Auth')->extend('basic', function ($app) {
-            return new \Dingo\Api\Auth\Provider\Basic($app['auth'], 'email');
-        });
-
-        app('Dingo\Api\Auth\Auth')->extend('jwt', function ($app) {
-            return new \Dingo\Api\Auth\Provider\JWT($app['Tymon\JWTAuth\JWTAuth']);
-        });
-
     }
 
     /**

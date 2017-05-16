@@ -10,11 +10,6 @@ import Crypto from './../classes/Crypto.js';
 export default new Vuex.Store({
     state: {
 
-        // Jwt / Auth could be a separate module
-        jwt: {
-            token: null,
-            expiresAt: null
-        },
         hasMasterPassword: false,
         isUnlocked: false,
 

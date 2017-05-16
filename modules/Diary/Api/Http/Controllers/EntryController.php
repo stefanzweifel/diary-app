@@ -5,27 +5,25 @@ namespace Diary\Api\Http\Controllers;
 use App\Entry;
 use App\Http\Controllers\Controller;
 use App\Journal;
-use Dingo\Api\Auth\Auth;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EntryController extends Controller
 {
-    use Helpers;
-
     /**
      * Return single Entry Resource
      * @param  integer $entryId
      * @return Response
      */
-    public function show($entryId)
+    public function show($entryId, Request $request)
     {
-        $entry = app(Auth::class)->user()->entries()->where('id', $entryId)->first();
+        $entry = $request->user()->entries()->where('id', $entryId)->first();
 
         if (is_null($entry)) {
             throw new NotFoundHttpException;
         }
+
+        return response(['entry' => $entry]);
 
         return $entry;
     }
@@ -35,9 +33,9 @@ class EntryController extends Controller
      * @param  integer $entryId
      * @return Response
      */
-    public function update($entryId)
+    public function update($entryId, Request $request)
     {
-        $payload = app('request')->all();
+        $payload = $request->all();
 
         $validator = app('validator')->make($payload, [
             'title' => ['required'],
@@ -51,11 +49,11 @@ class EntryController extends Controller
         $entry = Entry::findOrFail($entryId);
 
         $entry->update([
-            'title' => app('request')->title,
-            'content' => app('request')->content
+            'title' => $request->title,
+            'content' => $request->content
         ]);
 
-        return $this->response->noContent();
+        return response([]);
     }
 
     /**
@@ -63,12 +61,12 @@ class EntryController extends Controller
      * @param  integer $entryId
      * @return Response
      */
-    public function destroy($entryId)
+    public function destroy($entryId, Request $request)
     {
-        $journal = app(Auth::class)->user()->entries()->findOrFail($entryId);
+        $journal = $request->user()->entries()->findOrFail($entryId);
         $journal->delete();
 
-        return $this->response->noContent();
+        return response([], 204);
     }
 
 }

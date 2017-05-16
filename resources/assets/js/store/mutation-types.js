@@ -12,7 +12,6 @@ export const LOCKED = 'LOCKED';
 
 export const GET_USER = 'GET_USER';
 
-export const GET_JWT_TOKEN = 'GET_JWT_TOKEN';
 
 export const ADD_JOURNAL = 'ADD_JOURNAL';
 export const SELECT_JOURNAL = 'SELECT_JOURNAL';

@@ -7,30 +7,22 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EntryTest extends TestCase
 {
     use DatabaseMigrations;
-
-    public function getToken($user = null)
-    {
-        if (is_null($user)) {
-            $user = factory(User::class)->create();
-        }
-
-        return JWTAuth::fromUser($user);
-    }
 
     /** @test */
     public function it_returnsa_single_entry()
     {
         $entries = factory(Entry::class, 5)->create();
         $user = $entries[0]->user;
-        $token = $this->getToken($user);
+        Passport::actingAs($user);
 
-        $response = $this->call('GET', "api/entries/{$entries[0]->id}", [/* parameters */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
+        $response = $this->get("/api/entries/{$entries[0]->id}");
+
         $response->assertJsonFragment(['content' => $entries[0]->content]);
         $response->assertStatus(200);
     }
@@ -40,11 +32,11 @@ class EntryTest extends TestCase
     {
         $entries = factory(Entry::class, 5)->create();
         $user = $entries[0]->user;
-        $token = $this->getToken($user);
+        Passport::actingAs($user);
 
         $entry = factory(Entry::class)->create();
 
-        $response = $this->call('GET', "api/entries/{$entry->id}", [/* parameters */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
+        $response = $this->get("/api/entries/{$entry->id}");
         $response->assertStatus(404);
     }
 
@@ -53,9 +45,9 @@ class EntryTest extends TestCase
     {
         $entries = factory(Entry::class, 5)->create();
         $user = $entries[0]->user;
-        $token = $this->getToken($user);
+        Passport::actingAs($user);
 
-        $response = $this->call('DELETE', "api/entries/{$entries[0]->id}", [/* parameters */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
+        $response = $this->delete("/api/entries/{$entries[0]->id}");
         $response->assertStatus(204);
     }
 

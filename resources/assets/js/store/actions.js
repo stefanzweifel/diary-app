@@ -6,19 +6,8 @@ import Entry from './../models/Entry.js';
 
 export default {
 
-    jwtToken ({ commit, state, dispatch }) {
+    getUser ({ commit }) {
         new User()
-            .jwtToken()
-            .then((response) => {
-                commit(types.GET_JWT_TOKEN, response.data);
-
-                // When we get the Token, we then start loading the journals
-                dispatch('getUser');
-            })
-    },
-
-    getUser ({ commit, state}) {
-        new User(state.jwt.token)
             .me()
             .then((response) => {
                 commit(types.GET_USER, response.data.user);
@@ -30,8 +19,8 @@ export default {
 
     // ----------------------------------------------------------
 
-    createMasterPassword ({ commit, state, dispatch }, payload) {
-        new MasterPassword(state.jwt.token)
+    createMasterPassword ({ commit, dispatch }, payload) {
+        new MasterPassword()
             .create(payload.password, payload.password_confirmation)
             .then((response) => {
                 commit(types.MASTERPASSWORD_CREATED);
@@ -42,8 +31,8 @@ export default {
             });
     },
 
-    unlock ({ commit, state, dispatch }, payload) {
-        new MasterPassword(state.jwt.token)
+    unlock ({ commit, dispatch }, payload) {
+        new MasterPassword()
             .verify(payload.password)
             .then((response) => {
                 commit(types.UNLOCKED, {
@@ -59,8 +48,8 @@ export default {
 
     // ----------------------------------------------------------
 
-    getEntry({ commit, state}, entryId) {
-        new Entry(state.jwt.token)
+    getEntry({ commit }, entryId) {
+        new Entry()
             .find(entryId)
             .then((response) => {
                 commit(types.SELECT_ENTRY, response.data.entry);
@@ -70,8 +59,8 @@ export default {
             });
     },
 
-    getEntries ({ commit, state }, journalId) {
-        new Entry(state.jwt.token)
+    getEntries ({ commit }, journalId) {
+        new Entry()
             .all(journalId)
             .then((response) => {
                 commit(types.RECEIVE_ENTRIES, response.data.entries);
@@ -81,8 +70,8 @@ export default {
             });
     },
 
-    createNewEntry ({ commit, state, dispatch }, journalId) {
-        new Entry(state.jwt.token)
+    createNewEntry ({ commit, dispatch }, journalId) {
+        new Entry()
             .create(journalId)
             .then((response) => {
                 commit(types.ADD_ENTRY);
@@ -94,8 +83,8 @@ export default {
             });
     },
 
-    updateEntry({ commit, state, dispatch}, payload) {
-        new Entry(state.jwt.token)
+    updateEntry({ commit, dispatch }, payload) {
+        new Entry()
             .update(payload.entry, {
                 title: payload.title,
                 content: payload.content
@@ -109,9 +98,9 @@ export default {
             });
     },
 
-    deleteEntry({ commit, state, dispatch}, entryId) {
+    deleteEntry({ commit, dispatch }, entryId) {
 
-        new Entry(state.jwt.token)
+        new Entry()
             .destroy(entryId)
             .then((response) => {
                 commit(types.DELETE_ENTRY);
@@ -125,8 +114,8 @@ export default {
     // ----------------------------------------------------------
 
     // Load Journals
-    getJournals ({ commit, state }) {
-        new Journal(state.jwt.token)
+    getJournals ({ commit }) {
+        new Journal()
             .all()
             .then((response) => {
                 commit(types.RECEIVE_JOURNALS, response.data.journals);
@@ -136,8 +125,8 @@ export default {
             });
     },
 
-    createNewJournal({ commit, state, dispatch }, title) {
-        new Journal(state.jwt.token)
+    createNewJournal({ commit, dispatch }, title) {
+        new Journal()
             .create(title)
             .then((response) => {
                 commit(types.ADD_JOURNAL);
@@ -150,7 +139,7 @@ export default {
             });
     },
 
-    deleteJournal({commit, state, dispatch}, journalId) {
+    deleteJournal({ commit, dispatch }, journalId) {
         // Delete Journal
     }
 };
