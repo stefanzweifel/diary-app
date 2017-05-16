@@ -17,7 +17,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('jwtToken');
+        this.$store.dispatch('getUser');
     },
 }
 

@@ -4,10 +4,6 @@ import router from './../router/index.js';
 import Crypto from './../classes/Crypto.js';
 
 export default {
-    [types.GET_JWT_TOKEN] (state, payload) {
-        state.jwt.token = payload.token;
-        state.jwt.expiresAt = payload.expires_at * 1000;
-    },
     [types.RECEIVE_JOURNALS] (state, payload) {
         state.journals = payload;
     },

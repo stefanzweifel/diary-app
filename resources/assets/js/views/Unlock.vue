@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <master-password v-if="!is_unlocked"></master-password>
-    </div>
+    <master-password v-if="!is_unlocked"></master-password>
 </template>
 
 <script>
@@ -14,7 +12,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('jwtToken');
+        this.$store.dispatch('getUser');
     },
 
     computed: {
