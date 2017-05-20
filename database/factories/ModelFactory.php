@@ -20,10 +20,13 @@ use Faker\Generator;
 $factory->define(User::class, function (Generator $faker) {
     static $password;
 
+    // $preHashedPassword = bcrypt('secret');
+    $preHashedPassword = '$2y$10$5lGkea6X.I0.R/gUfdItWerLxkfhJNBk8W.5/DZTUcUGNLUF3NA72';
+
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = $preHashedPassword,
         'remember_token' => str_random(10),
     ];
 });
