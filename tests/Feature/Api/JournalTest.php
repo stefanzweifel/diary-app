@@ -15,22 +15,6 @@ class JournalTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function it_returns_401_if_no_token_was_passed()
-    {
-        $response = $this->get('/api/journals');
-        $response->assertStatus(401);
-    }
-
-    /** @test */
-    public function it_returns_401_if_invalid_token_was_passed()
-    {
-        $token = 'this_is_an_invalid_token';
-
-        $response = $this->call('GET', 'api/journals', [/* params */], [/* cookies */], [/* files */], ['HTTP_Authorization' => 'Bearer '.$token]);
-        $response->assertStatus(401);
-    }
-
-    /** @test */
     public function it_returns_an_empty_array_of_journals_for_a_valid_user()
     {
         $user     = factory(User::class)->create();
