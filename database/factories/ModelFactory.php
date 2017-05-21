@@ -31,6 +31,20 @@ $factory->define(User::class, function (Generator $faker) {
     ];
 });
 
+$factory->state(User::class, 'with_master_password', function ($faker) {
+
+    // bcrypt('master-password')
+    $masterPassword = '$2y$10$NNt6pEURH2KsBYOO98OB4e1ZT8KVqbLJJ4c4x02qFXEeMQ2pXw92y';
+
+    // bcrypt(str_random(10))
+    $encryptionKey = '$2y$10$VB5YJiWtap8T4DhBrJ7TGOC7447JgbEN6SFv/lzZP4vJUZP5m6WXe';
+
+    return [
+        'master_password' => $masterPassword,
+        'encryption_key' => $encryptionKey
+    ];
+});
+
 $factory->define(Journal::class, function(Generator $faker) {
     return [
         'user_id' => factory(User::class)->create()->id,

@@ -9,7 +9,7 @@ Route::group(['middleware' => ['auth:api', 'throttle']], function() {
         Route::get('user', 'UserController@index')->name('api.user.index');
 
         // MasterPassword
-        Route::post('master-password', 'MasterPasswordController@store')->name('api.master-password.index');
+        Route::post('master-password', 'MasterPasswordController@store')->name('api.master-password.store');
         Route::post('master-password/unlock', 'MasterPasswordController@unlock')->name('api.master-password.unlock');
 
         // Journals
