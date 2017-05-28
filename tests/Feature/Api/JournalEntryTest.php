@@ -29,8 +29,19 @@ class JournalEntryTest extends TestCase
         $response = $this->json('GET', "/api/journals/{$journal->id}/entries");
 
         $response->assertStatus(200);
-        $response->assertJsonStructure(['entries']);
-        $response->assertJson(['entries' => $entries->toArray()]);
+        $response->assertJson([
+            'data' => [
+                [
+                    'type' => 'entry',
+                    'id' => $entries[0]->id,
+                    'attributes' => [
+                        'title' => $entries[0]->title,
+                        'content' => $entries[0]->content,
+                        'date' => $entries[0]->date
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /** @test */

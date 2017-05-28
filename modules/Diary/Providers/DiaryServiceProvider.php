@@ -2,6 +2,8 @@
 
 namespace Diary\Providers;
 
+use App\Entry;
+use App\Journal;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +16,8 @@ class DiaryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::model('entry', Entry::class);
+        Route::model('journal', Journal::class);
     }
 
     /**

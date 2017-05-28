@@ -4,7 +4,12 @@ namespace Diary\Api\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Journal;
+use Diary\Api\Http\Requests\CreateJournalRequest;
+use Diary\Api\Http\Requests\JournalRequest;
+use Diary\Api\Http\Requests\UpdateJournalRequest;
+use Diary\Transformers\JournalTransformer;
 use Illuminate\Http\Request;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JournalController extends Controller
@@ -15,27 +20,23 @@ class JournalController extends Controller
      */
     public function index(Request $request)
     {
-        return response([
-            'journals' => $request->user()->journals()->latest()->get()
-        ]);
+        $paginator = $request->user()->journals()->latest()->paginate(25);
+        $journals = $paginator->getCollection();
+
+        return fractal()
+           ->collection($journals)
+           ->transformWith(new JournalTransformer())
+           ->paginateWith(new IlluminatePaginatorAdapter($paginator))
+           ->withResourceName('journal')
+           ->respond();
     }
 
     /**
      * Store new Journal
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateJournalRequest $request)
     {
-        $payload = $request->only('title');
-
-        $validator = app('validator')->make($payload, [
-            'title' => ['required']
-        ]);
-
-        // if ($validator->fails()) {
-        //     throw new StoreResourceFailedException('Could not create new journal.', $validator->errors());
-        // }
-
         $journal = Journal::create([
             'title' => $request->title,
             'user_id' => $request->user()->id
@@ -49,15 +50,13 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function show($journalId, Request $request)
+    public function show($journal, JournalRequest $request)
     {
-        $journal = $request->user()->journals()->where('id', $journalId)->first();
-
-        if (is_null($journal)) {
-            throw new NotFoundHttpException;
-        }
-
-        return response(compact('journal'), 200);
+        return fractal()
+           ->item($journal)
+           ->transformWith(new JournalTransformer())
+           ->withResourceName('journal')
+           ->respond();
     }
 
     /**
@@ -65,24 +64,13 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function update($journalId, Request $request)
+    public function update($journal, UpdateJournalRequest $request)
     {
-        $validator = app('validator')->make(
-            app('request')->only('title'),
-            ['title' => ['required']]
-        );
-
-        if ($validator->fails()) {
-            throw new UpdateResourceFailedException('Could not update journal.', $validator->errors());
-        }
-
-        $journal = $request->user()->journals()->findOrFail($journalId);
-
         $journal = $journal->update([
-            'title' => app('request')->title
+            'title' => $request->title
         ]);
 
-        return response([], 201);
+        return response([], 200);
     }
 
     /**
@@ -90,14 +78,8 @@ class JournalController extends Controller
      * @param  integer $journalId
      * @return Response
      */
-    public function destroy($journalId, Request $request)
+    public function destroy($journal, JournalRequest $request)
     {
-        $journal = $request->user()->journals()->where('id', $journalId)->first();
-
-        if (is_null($journal)) {
-            throw new NotFoundHttpException;
-        }
-
         $journal->delete();
 
         return response([], 204);

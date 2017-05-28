@@ -3,68 +3,52 @@
 namespace Diary\Api\Http\Controllers;
 
 use App\Entry;
-use App\Http\Controllers\Controller;
-use App\Journal;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Http\Controllers\Controller;;
+use Diary\Api\Http\Requests\EntryRequest;
+use Diary\Api\Http\Requests\UpdateEntryRequest;
+use Diary\Transformers\EntryTransformer;
 
 class EntryController extends Controller
 {
     /**
      * Return single Entry Resource
-     * @param  integer $entryId
+     * @param  Entry $entry
      * @return Response
      */
-    public function show($entryId, Request $request)
+    public function show(Entry $entry, EntryRequest $request)
     {
-        $entry = $request->user()->entries()->where('id', $entryId)->first();
+        abort_if(is_null($entry), 404);
 
-        if (is_null($entry)) {
-            throw new NotFoundHttpException;
-        }
-
-        return response(['entry' => $entry]);
-
-        return $entry;
+        return fractal()
+           ->item($entry)
+           ->transformWith(new EntryTransformer())
+           ->withResourceName('entry')
+           ->respond();
     }
 
     /**
      * Update an Entry
-     * @param  integer $entryId
+     * @param  Entry $entry
      * @return Response
      */
-    public function update($entryId, Request $request)
+    public function update(Entry $entry, UpdateEntryRequest $request)
     {
-        $payload = $request->all();
-
-        $validator = app('validator')->make($payload, [
-            'title' => ['required'],
-            'content' => ['required']
-        ]);
-
-        if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not update Entry.', $validator->errors());
-        }
-
-        $entry = Entry::findOrFail($entryId);
-
         $entry->update([
             'title' => $request->title,
             'content' => $request->content
         ]);
 
-        return response([]);
+        return response([], 200);
     }
 
     /**
      * Destroy an Entry
-     * @param  integer $entryId
+     * @param  Entry $entry
      * @return Response
      */
-    public function destroy($entryId, Request $request)
+    public function destroy(Entry $entry, EntryRequest $request)
     {
-        $journal = $request->user()->entries()->findOrFail($entryId);
-        $journal->delete();
+        $entry->delete();
 
         return response([], 204);
     }

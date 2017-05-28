@@ -5,27 +5,32 @@ namespace Diary\Api\Http\Controllers;
 use App\Entry;
 use App\Http\Controllers\Controller;
 use App\Journal;
-use Illuminate\Http\Request;
+use Diary\Api\Http\Requests\CreateEntryRequest;
+use Diary\Api\Http\Requests\JournalRequest;
+use Diary\Transformers\EntryTransformer;
 
 class JournalEntryController extends Controller
 {
-    public function index($journalId, Request $request)
+    public function index(Journal $journal, JournalRequest $request)
     {
-        $journal = $request->user()->journals()->where('id', $journalId)->firstOrFail();
+        return fractal()
+           ->collection($journal->entries()->latest()->get())
+           ->transformWith(new EntryTransformer())
+           ->withResourceName('entry')
+           ->respond();
 
-        return ['entries' => $journal->entries()->latest()->get()];
     }
 
     /**
-     * Store new Journal
+     * Store new Entry for a Journal
      * @return Response
      */
-    public function store($journalId, Request $request)
+    public function store(Journal $journal, CreateEntryRequest $request)
     {
         $journal = Entry::create([
             'content' => '',
             'title' => '',
-            'journal_id' => $journalId,
+            'journal_id' => $journal->id,
             'user_id' => $request->user()->id
         ]);
 

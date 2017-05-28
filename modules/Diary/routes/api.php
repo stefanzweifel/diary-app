@@ -1,5 +1,18 @@
 <?php
 
+Route::get('test', function() {
+
+    $paginator = App\Journal::paginate(1);
+    $journals = $paginator->getCollection();
+
+    return fractal()
+       ->collection($journals)
+       ->transformWith(new Diary\Transformers\JournalTransformer())
+       ->addMeta(['key1' => 'value1'], ['key2' => 'value2'])
+       ->paginateWith(new League\Fractal\Pagination\IlluminatePaginatorAdapter($paginator))
+       ->withResourceName('journal')
+       ->respond();
+});
 
 Route::group(['middleware' => ['auth:api', 'throttle']], function() {
 

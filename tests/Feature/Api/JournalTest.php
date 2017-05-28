@@ -22,7 +22,9 @@ class JournalTest extends TestCase
         $response = $this->json('GET', '/api/journals');
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([]);
+        $response->assertJson([
+            'data' => []
+        ]);
     }
 
     /** @test */
@@ -33,12 +35,21 @@ class JournalTest extends TestCase
 
         Passport::actingAs($user);
 
-
         $response = $this->json('get', '/api/journals');
 
         $response->assertStatus(200);
-        $response->assertJson([
-            'journals' => $journals->toArray()
+        $response->assertJsonFragment([
+            'id' => $journals[0]->id,
+            'title' => $journals[0]->title
+        ]);
+        $response->assertJsonFragment([
+            'pagination' => [
+                'count' => 5,
+                'current_page' => 1,
+                'per_page' => 25,
+                'total' => 5,
+                'total_pages' => 1
+            ]
         ]);
     }
 
@@ -48,7 +59,6 @@ class JournalTest extends TestCase
         $user     = factory(User::class)->create();
         Passport::actingAs($user);
 
-
         $response = $this->json('post', '/api/journals', ['title' => 'This is a Demo']);
         $response->assertStatus(201);
 
@@ -57,9 +67,6 @@ class JournalTest extends TestCase
 
         $response = $this->json('GET', '/api/journals');
         $response->assertJsonFragment(['title' => 'This is a Demo']);
-
-        $data = $response->json();
-        $this->assertEquals($data['journals'][0]['title'], 'This is a Demo');
     }
 
     /** @test */
@@ -74,25 +81,56 @@ class JournalTest extends TestCase
         $response = $this->json('GET', "/api/journals/{$journal->id}");
         $response->assertStatus(200);
         $response->assertJsonFragment(['title' => $journal->title]);
+
+        $response->assertJson([
+            'data' => [
+                'type' => 'journal',
+                'id' => $journal->id,
+                'attributes' => [
+                    'title' => $journal->title
+                ]
+            ]
+        ]);
     }
 
     /** @test */
-    public function it_returns_a_404_error_if_user_tries_to_access_journal_which_does_not_belong_to_him()
+    public function it_returns_a_403_error_if_user_tries_to_access_journal_which_does_not_belong_to_him()
     {
         $user = factory(User::class)->create();
         $journal = factory(Journal::class)->create();
         Passport::actingAs($user);
 
-        // Assert Call was successful
         $response = $this->json('GET', "/api/journals/{$journal->id}");
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /** @test */
     public function it_updates_journal_title()
     {
-        // it updates journal title
+        $journal = factory(Journal::class)->create();
+        Passport::actingAs($journal->user);
+
+        $response = $this->json('PATCH', "/api/journals/{$journal->id}", [
+            'title' => 'Demo'
+        ]);
+
+        $response->assertStatus(200);
     }
+
+    /** @test */
+    public function it_returns_error_if_user_wants_to_update_journal_which_does_not_belong_to_him()
+    {
+        $journal = factory(Journal::class)->create();
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $response = $this->json('PATCH', "/api/journals/{$journal->id}", [
+            'title' => 'Demo'
+        ]);
+
+        $response->assertStatus(403);
+    }
+
 
     /** @test */
     public function it_deletes_journal()
@@ -101,9 +139,29 @@ class JournalTest extends TestCase
         Passport::actingAs($user);
         $journal = factory(Journal::class)->create(['user_id' => $user->id]);
 
-        // Assert Call was successful
         $response = $this->json('DELETE', "/api/journals/{$journal->id}");
         $response->assertStatus(204);
+    }
+
+    /** @test */
+    public function it_throws_error_if_user_tries_to_delete_journal_which_does_not_belong_to_him()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+        $journal = factory(Journal::class)->create();
+
+        $response = $this->json('DELETE', "/api/journals/{$journal->id}");
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    public function it_throws_error_if_user_tries_to_delete_journal_which_does_not_exist()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $response = $this->json('DELETE', "/api/journals/foo-bar");
+        $response->assertStatus(404);
     }
 
 }
