@@ -19,7 +19,7 @@ class JournalTest extends TestCase
     {
         $user     = factory(User::class)->create();
         Passport::actingAs($user);
-        $response = $this->get('/api/journals');
+        $response = $this->json('GET', '/api/journals');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([]);
@@ -34,7 +34,7 @@ class JournalTest extends TestCase
         Passport::actingAs($user);
 
 
-        $response = $this->get('/api/journals');
+        $response = $this->json('get', '/api/journals');
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -49,13 +49,13 @@ class JournalTest extends TestCase
         Passport::actingAs($user);
 
 
-        $response = $this->post('/api/journals', ['title' => 'This is a Demo']);
+        $response = $this->json('post', '/api/journals', ['title' => 'This is a Demo']);
         $response->assertStatus(201);
 
         // Assert Data was correctly stored
         // (Can't query database directly, because data is encrypted)
 
-        $response = $this->get('/api/journals');
+        $response = $this->json('GET', '/api/journals');
         $response->assertJsonFragment(['title' => 'This is a Demo']);
 
         $data = $response->json();
@@ -71,7 +71,7 @@ class JournalTest extends TestCase
         $journal = factory(Journal::class)->create(['user_id' => $user->id]);
 
         // Assert Call was successful
-        $response = $this->get("/api/journals/{$journal->id}");
+        $response = $this->json('GET', "/api/journals/{$journal->id}");
         $response->assertStatus(200);
         $response->assertJsonFragment(['title' => $journal->title]);
     }
@@ -84,7 +84,7 @@ class JournalTest extends TestCase
         Passport::actingAs($user);
 
         // Assert Call was successful
-        $response = $this->get("/api/journals/{$journal->id}");
+        $response = $this->json('GET', "/api/journals/{$journal->id}");
         $response->assertStatus(404);
     }
 
@@ -102,7 +102,7 @@ class JournalTest extends TestCase
         $journal = factory(Journal::class)->create(['user_id' => $user->id]);
 
         // Assert Call was successful
-        $response = $this->delete("/api/journals/{$journal->id}");
+        $response = $this->json('DELETE', "/api/journals/{$journal->id}");
         $response->assertStatus(204);
     }
 

@@ -21,7 +21,7 @@ class EntryTest extends TestCase
         $user = $entries[0]->user;
         Passport::actingAs($user);
 
-        $response = $this->get("/api/entries/{$entries[0]->id}");
+        $response = $this->json('GET', "/api/entries/{$entries[0]->id}");
 
         $response->assertJsonFragment(['content' => $entries[0]->content]);
         $response->assertStatus(200);
@@ -36,7 +36,7 @@ class EntryTest extends TestCase
 
         $entry = factory(Entry::class)->create();
 
-        $response = $this->get("/api/entries/{$entry->id}");
+        $response = $this->json('GET', "/api/entries/{$entry->id}");
         $response->assertStatus(404);
     }
 
@@ -47,7 +47,7 @@ class EntryTest extends TestCase
         $user = $entries[0]->user;
         Passport::actingAs($user);
 
-        $response = $this->delete("/api/entries/{$entries[0]->id}");
+        $response = $this->json('delete', "/api/entries/{$entries[0]->id}");
         $response->assertStatus(204);
     }
 

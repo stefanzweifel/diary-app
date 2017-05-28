@@ -26,7 +26,7 @@ class JournalEntryTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->get("/api/journals/{$journal->id}/entries");
+        $response = $this->json('GET', "/api/journals/{$journal->id}/entries");
 
         $response->assertStatus(200);
         $response->assertJsonStructure(['entries']);
@@ -41,13 +41,13 @@ class JournalEntryTest extends TestCase
         $journal = factory(Journal::class)->create(['user_id' => $user->id]);
 
         // Assert Call was successful
-        $response = $this->post("api/journals/{$journal->id}/entries", []);
+        $response = $this->json('POST', "api/journals/{$journal->id}/entries", []);
         $response->assertStatus(201);
 
 
         // Assert Data was correctly stored
         // (Can't query database directly, because data is encrypted)
-        $response = $this->get("api/journals/{$journal->id}/entries");
+        $response = $this->json('GET', "api/journals/{$journal->id}/entries");
         $response->assertStatus(200);
     }
 }
