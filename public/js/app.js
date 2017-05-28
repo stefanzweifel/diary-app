@@ -6776,10 +6776,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
         },
         isLocked: state => {
             return !state.isUnlocked;
-        },
-        hasTokenExpired: state => {
-            let d = new Date();
-            return d.getTime() > state.jwt.expiresAt;
         }
     },
     mutations: __WEBPACK_IMPORTED_MODULE_3__mutations_js__["a" /* default */],
@@ -10602,7 +10598,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         decryptedTitle() {
             let crypto = new __WEBPACK_IMPORTED_MODULE_0__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
 
-            return crypto.decrypt(this.entry.title);
+            return crypto.decrypt(this.entry.attributes.title);
         }
     }
 };
@@ -10639,7 +10635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         decryptedTitle() {
             let crypto = new __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password);
-            return crypto.decrypt(this.journal.title);
+            return crypto.decrypt(this.journal.attributes.title);
         }
     }
 };
@@ -10944,8 +10940,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$store.dispatch('getEntry', this.$route.params.entryId);
 
         this.$on('receivedEntry', function (entry) {
-            this.title = new __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).decrypt(entry.title);
-            this.content = new __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).decrypt(entry.content);
+            this.title = new __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).decrypt(entry.attributes.title);
+            this.content = new __WEBPACK_IMPORTED_MODULE_1__classes_Crypto_js__["a" /* default */](this.$store.state.encryption_password).decrypt(entry.attributes.content);
         });
     },
 
@@ -11362,7 +11358,7 @@ window.axios.defaults.headers.common = {
 
     getEntry({ commit }, entryId) {
         new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */]().find(entryId).then(response => {
-            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["e" /* SELECT_ENTRY */], response.data.entry);
+            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["e" /* SELECT_ENTRY */], response.data.data);
         }).catch(function (error) {
             commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["f" /* ERROR_ENTRIES */], error);
         });
@@ -11370,7 +11366,7 @@ window.axios.defaults.headers.common = {
 
     getEntries({ commit }, journalId) {
         new __WEBPACK_IMPORTED_MODULE_4__models_Entry_js__["a" /* default */]().all(journalId).then(response => {
-            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["g" /* RECEIVE_ENTRIES */], response.data.entries);
+            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["g" /* RECEIVE_ENTRIES */], response.data.data);
         }).catch(function (error) {
             commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["f" /* ERROR_ENTRIES */], error);
         });
@@ -11413,7 +11409,7 @@ window.axios.defaults.headers.common = {
     // Load Journals
     getJournals({ commit }) {
         new __WEBPACK_IMPORTED_MODULE_3__models_Journal_js__["a" /* default */]().all().then(response => {
-            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["k" /* RECEIVE_JOURNALS */], response.data.journals);
+            commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["k" /* RECEIVE_JOURNALS */], response.data.data);
         }).catch(function (error) {
             commit(__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["b" /* ERROR_JOURNALS */], error);
         });
@@ -11462,8 +11458,8 @@ window.axios.defaults.headers.common = {
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["e" /* SELECT_ENTRY */]](state, payload) {
         state.entry = payload;
 
-        state.decryptedTitle = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](state.encryption_password).decrypt(payload.title);
-        state.decryptedContent = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](state.encryption_password).decrypt(payload.content);
+        state.decryptedTitle = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](state.encryption_password).decrypt(payload.attributes.title);
+        state.decryptedContent = new __WEBPACK_IMPORTED_MODULE_2__classes_Crypto_js__["a" /* default */](state.encryption_password).decrypt(payload.attributes.content);
     },
 
     [__WEBPACK_IMPORTED_MODULE_0__mutation_types_js__["c" /* MASTERPASSWORD_CREATED */]](state, payload) {

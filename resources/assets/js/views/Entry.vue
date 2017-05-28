@@ -63,8 +63,8 @@ export default {
         this.$store.dispatch('getEntry', this.$route.params.entryId);
 
         this.$on('receivedEntry', function(entry) {
-            this.title = new Crypto(this.$store.state.encryption_password).decrypt(entry.title);
-            this.content = new Crypto(this.$store.state.encryption_password).decrypt(entry.content);
+            this.title = new Crypto(this.$store.state.encryption_password).decrypt(entry.attributes.title);
+            this.content = new Crypto(this.$store.state.encryption_password).decrypt(entry.attributes.content);
         });
     },
 

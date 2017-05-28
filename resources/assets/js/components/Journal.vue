@@ -22,7 +22,7 @@ export default {
         decryptedTitle () {
             let crypto = new Crypto(this.$store.state.encryption_password);
             return crypto.decrypt(
-                this.journal.title
+                this.journal.attributes.title
             );
         }
     }

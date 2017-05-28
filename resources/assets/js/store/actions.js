@@ -52,7 +52,7 @@ export default {
         new Entry()
             .find(entryId)
             .then((response) => {
-                commit(types.SELECT_ENTRY, response.data.entry);
+                commit(types.SELECT_ENTRY, response.data.data);
             })
             .catch(function (error) {
                 commit(types.ERROR_ENTRIES, error);
@@ -63,7 +63,7 @@ export default {
         new Entry()
             .all(journalId)
             .then((response) => {
-                commit(types.RECEIVE_ENTRIES, response.data.entries);
+                commit(types.RECEIVE_ENTRIES, response.data.data);
             })
             .catch(function (error) {
                 commit(types.ERROR_ENTRIES, error);
@@ -118,7 +118,7 @@ export default {
         new Journal()
             .all()
             .then((response) => {
-                commit(types.RECEIVE_JOURNALS, response.data.journals);
+                commit(types.RECEIVE_JOURNALS, response.data.data);
             })
             .catch(function (error) {
                 commit(types.ERROR_JOURNALS, error);

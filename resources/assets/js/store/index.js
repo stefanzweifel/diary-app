@@ -38,10 +38,6 @@ export default new Vuex.Store({
         },
         isLocked: state => {
             return !state.isUnlocked
-        },
-        hasTokenExpired: state => {
-            let d = new Date();
-            return d.getTime() > state.jwt.expiresAt;
         }
     },
     mutations,
