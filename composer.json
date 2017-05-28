@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
+        "spatie/laravel-fractal": "^4.0",
         "webpatser/laravel-uuid": "^2.0"
     },
     "require-dev": {

@@ -168,6 +168,7 @@ return [
          */
         Laravel\Passport\PassportServiceProvider::class,
         Diary\Providers\DiaryServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
 
 
         /*
