@@ -1,10 +1,15 @@
 <template>
-    <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" tag="div" class="list-group-item">
-        <h4 class="list-group-item-heading">{{ decryptedTitle }}</h4>
-        <p class="list-group-item-text">
-            <small>created {{ createdAt }}</small>
-        </p>
-    </router-link>
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">{{ decryptedTitle }}</h4>
+            <p class="card-text">
+                <small class="text-muted">
+                    Last updated {{ createdAt }}
+                </small>
+            </p>
+            <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="card-link">Read</router-link>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -16,7 +21,7 @@ export default {
 
     computed: {
         createdAt () {
-            return moment(this.journal.created_at).fromNow();
+            return moment(this.journal.attributes.created_at).fromNow();
         },
 
         decryptedTitle () {

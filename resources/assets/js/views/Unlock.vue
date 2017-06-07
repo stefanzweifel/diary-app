@@ -1,5 +1,7 @@
 <template>
-    <master-password v-if="!is_unlocked"></master-password>
+    <div class="d-flex justify-content-center align-items-center">
+        <master-password v-if="!is_unlocked"></master-password>
+    </div>
 </template>
 
 <script>

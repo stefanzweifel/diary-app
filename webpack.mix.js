@@ -16,6 +16,7 @@ const { mix } = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
     .extract(['axios', 'vue', 'vuex', 'marked', 'moment', 'vue-router'])
     .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/app_v4.scss', 'public/css')
     // .version()
 
 

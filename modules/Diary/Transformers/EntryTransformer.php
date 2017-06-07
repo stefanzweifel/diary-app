@@ -18,6 +18,8 @@ class EntryTransformer extends TransformerAbstract
             'title' => $entry->title,
             'content' => $entry->content,
             'date' => $entry->date,
+            'created_at' => $entry->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $entry->updated_at->format('Y-m-d H:i:s'),
             'links' => [
                 [
                     'rel' => 'self',

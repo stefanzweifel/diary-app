@@ -1,10 +1,17 @@
 <template>
-    <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="list-group-item" tag="div">
-        <p class="list-group-item-text">
-            <h4>{{ decryptedTitle }}</h4>
-            <i>{{ formatedDate }}</i>
-        </p>
-    </router-link>
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">{{ decryptedTitle }}</h4>
+            <p class="card-text">
+                <small class="text-muted">
+                    Last updated {{ formatedDate }}
+                </small>
+            </p>
+            <router-link :to="{ name: 'entries.preview', params: { entryId: entry.id }}" class="card-link">
+                Read
+            </router-link>
+        </div>
+    </div>
 </template>
 
 <script>
