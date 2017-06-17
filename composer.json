@@ -44,7 +44,9 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
-        ]
+        ],
+        "test": "phpunit",
+        "test-all": "phpunit && npm run test"
     },
     "config": {
         "preferred-install": "dist",
