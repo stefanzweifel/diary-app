@@ -9,6 +9,7 @@ const routes = [
         name: 'home',
         component: require('./../views/Home.vue'),
         meta: {
+            breadcrumb: 'Home Page',
             requiresUnlock: true
         }
     },
@@ -17,7 +18,8 @@ const routes = [
         name: 'journals.show',
         component: require('../views/Journal.vue'),
         meta: {
-            requiresUnlock: true
+            requiresUnlock: true,
+            breadcrumb: 'Journal Details'
         }
     },
     {
@@ -25,14 +27,16 @@ const routes = [
         name: 'entries.preview',
         component : require('./../views/Entry.vue'),
         meta: {
-            requiresUnlock: true
+            requiresUnlock: true,
+            breadcrumb: 'Entry Details'
         }
     },
     {
         path: '/unlock',
         component: require('./../views/Unlock.vue'),
         meta: {
-            requiresUnlock: false
+            requiresUnlock: false,
+            breadcrumb: 'Unlock'
         },
         beforeEnter: (to, from, next) => {
             if (store.getters.isUnlocked) {

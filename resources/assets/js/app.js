@@ -30,6 +30,13 @@ import router from './router/index.js';
 
 import Lock from './components/Util/Lock.vue';
 
+import VueBreadcrumbs from 'vue-breadcrumbs'
+Vue.use(VueBreadcrumbs, {
+  template: '<ol class="breadcrumb" v-if="$breadcrumbs.length"> ' +
+    '<router-link class="breadcrumb-item" v-for="(crumb, key) in $breadcrumbs" :to="linkProp(crumb)" :key="key" tag="li">{{ crumb | crumbText }}</router-link> ' +
+    '</ol>'
+});
+
 const app = new Vue({
     el: '#app',
     components: {

@@ -4,11 +4,9 @@
 
     <div id="app" class="container">
 
-        <lock></lock>
+        <breadcrumbs></breadcrumbs>
 
-        <ul class="list-inline">
-            <li><router-link :to="{ name: 'home' }">Home</router-link></li>
-        </ul>
+        <lock></lock>
 
         <router-view></router-view>
     </div>

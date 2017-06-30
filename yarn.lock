@@ -5251,6 +5251,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-breadcrumbs:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vue-breadcrumbs/-/vue-breadcrumbs-1.1.2.tgz#b83e03693d07628614c3d5683d74a5dd20d36f6c"
+
 vue-class-component@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-5.0.1.tgz#feda06c3da266cee9064e224ba491e089923dce8"
