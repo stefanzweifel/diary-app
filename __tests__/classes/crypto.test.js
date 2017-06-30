@@ -1,4 +1,4 @@
-import Crypto from './../resources/assets/js/classes/Crypto.js';
+import Crypto from './../../resources/assets/js/classes/Crypto.js';
 
 
 describe('crypto-class', function() {

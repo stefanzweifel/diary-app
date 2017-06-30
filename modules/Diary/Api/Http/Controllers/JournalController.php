@@ -80,6 +80,7 @@ class JournalController extends Controller
      */
     public function destroy($journal, JournalRequest $request)
     {
+        $journal->entries()->delete();
         $journal->delete();
 
         return response([], 204);

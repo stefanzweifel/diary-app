@@ -19,4 +19,8 @@ export default class extends Api {
         return this.post('/api/journals/', { title });
     }
 
+    destroy(journalId) {
+        return this.deleteCall(`/api/journals/${journalId}/`)
+    }
+
 }

@@ -140,6 +140,16 @@ export default {
     },
 
     deleteJournal({ commit, dispatch }, journalId) {
-        // Delete Journal
+        new Journal()
+            .destroy(journalId)
+            .then((response) => {
+                commit(types.DELETE_JOURNAL);
+                // Sync Journals
+                dispatch('getJournals');
+            })
+            .catch(function (error) {
+                console.log(error);
+                // commit(types.ERROR_ENTRIES, error);
+            });
     }
 };

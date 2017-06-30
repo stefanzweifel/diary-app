@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Crypto from './../classes/Crypto.js';
+import Crypto from './../../classes/Crypto.js';
 
 export default {
 

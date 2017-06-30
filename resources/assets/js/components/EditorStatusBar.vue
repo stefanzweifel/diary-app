@@ -1,17 +1,11 @@
 <template>
-    <div class="row">
-        <div class="col-sm-6">
-            Words: {{ wordCount }}
-        </div>
-        <div class="col-sm-6 text-right">
-            Last Updated {{ lastUpdated }}
-        </div>
+    <div>
+        {{ wordCount }} Words
     </div>
 </template>
 
 <script>
 import count from 'word-count';
-import moment from 'moment';
 
 export default {
     props: ['entry', 'content'],
@@ -19,10 +13,6 @@ export default {
     computed: {
         wordCount() {
             return count(this.content);
-        },
-
-        lastUpdated() {
-            return moment(this.entry.updated_at).fromNow();
         }
     }
 }

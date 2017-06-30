@@ -14,6 +14,7 @@ export const GET_USER = 'GET_USER';
 
 
 export const ADD_JOURNAL = 'ADD_JOURNAL';
+export const DELETE_JOURNAL = 'DELETE_JOURNAL';
 export const SELECT_JOURNAL = 'SELECT_JOURNAL';
 export const REQUEST_JOURNALS = 'REQUEST_JOURNALS';
 export const RECEIVE_JOURNALS = 'RECEIVE_JOURNALS';

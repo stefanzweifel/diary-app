@@ -4,10 +4,12 @@
 
 <script>
 export default {
+
     props: ['journal'],
+
     methods: {
         destroy () {
-            this.$store.dispatch('deleteJournal', journal.id);
+            this.$store.dispatch('deleteJournal', this.journal.id);
         }
     }
 }

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CreateJournal from './../components/CreateJournal.vue';
-import JournalDrawer from './../components/JournalDrawer.vue';
+import CreateJournal from './../components/Journal/CreateJournal.vue';
+import JournalDrawer from './../components/Journal/JournalDrawer.vue';
 
 export default {
 

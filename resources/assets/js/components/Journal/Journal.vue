@@ -7,17 +7,23 @@
                     Last updated {{ createdAt }}
                 </small>
             </p>
-            <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="card-link">Read</router-link>
+            <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="btn btn-primary">Read</router-link>
+            <delete-journal :journal="journal"></delete-journal>
         </div>
     </div>
 </template>
 
 <script>
 import moment from 'moment';
-import Crypto from './../classes/Crypto.js';
+import Crypto from './../../classes/Crypto.js';
+import DeleteJournal from './DeleteJournal.vue';
 
 export default {
     props: ['journal'],
+
+    components: {
+        DeleteJournal
+    },
 
     computed: {
         createdAt () {

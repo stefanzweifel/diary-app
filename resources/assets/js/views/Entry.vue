@@ -1,45 +1,52 @@
 <template>
-    <div class="panel panel-default" v-if="entry">
-        <div v-if="editMode == false">
-            <div class="panel-heading">{{ title }}</div>
-            <div class="panel-body">
-                <vue-markdown :source="content"></vue-markdown>
+    <div class="card" v-if="entry">
+        <div class="card-block">
+            <div v-if="editMode == false">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <vue-markdown :source="content"></vue-markdown>
+
+            </div>
+            <div v-else>
+
+                <form @submit.prevent="store">
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            v-model="title"
+                            placeholder="This is the title of your entry"
+                            class="form-control"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <textarea
+                            :value="content"
+                            placeholder="The content of your entry. **Markdown** is *supported*!"
+                            class="form-control"
+                            @input="update"
+                        ></textarea>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col">
+                    <div class="btn-group">
+                        <button class="btn btn-default" v-if="!editMode" @click="toggle">Edit</button>
+                        <button class="btn btn-default" v-if="editMode" @click="toggle">Cancel</button>
+                        <button v-if="editMode" @click="store" @keyup.meta.31="store" class="btn btn-success">Save</button>
+                        <delete-entry-button></delete-entry-button>
+                    </div>
+                </div>
+                <div class="col text-right" v-if="editMode == false">
+                    <editor-status-bar
+                        :entry="entry"
+                        :content="content"
+                    ></editor-status-bar>
+                </div>
             </div>
 
-        </div>
-        <div v-else>
-
-            <form @submit.prevent="store">
-                <div class="form-group">
-                    <input
-                        type="text"
-                        v-model="title"
-                        placeholder="This is the title of your entry"
-                        class="form-control"
-                    >
-                </div>
-                <div class="form-group">
-                    <textarea
-                        :value="content"
-                        placeholder="The content of your entry. **Markdown** is *supported*!"
-                        class="form-control"
-                        @input="update"
-                    ></textarea>
-                </div>
-            </form>
-
-        </div>
-        <div class="panel-footer">
-            <div class="btn-group">
-                <button class="btn btn-default btn-sm" @click="editMode = ! editMode">Toggle</button>
-                <button v-if="editMode" @click="store" @keyup.meta.31="store" class="btn btn-success btn-sm">Save</button>
-                <button v-if="editMode" @click="destroy" class="btn btn-danger btn-sm">Delete</button>
-            </div>
-
-            <editor-status-bar
-                :entry="entry"
-                :content="content"
-            ></editor-status-bar>
         </div>
     </div>
     <div v-else>
@@ -51,12 +58,14 @@
 import autosize from 'autosize';
 import Crypto from './../classes/Crypto.js';
 import EditorStatusBar from './../components/EditorStatusBar.vue';
+import DeleteEntryButton from './../components/Entry/DeleteEntryButton.vue';
 import VueMarkdown from 'vue-markdown';
 
 export default {
     components: {
         VueMarkdown,
-        EditorStatusBar
+        EditorStatusBar,
+        DeleteEntryButton
     },
 
     created() {
@@ -93,8 +102,9 @@ export default {
             this.editMode = false;
         },
 
-        destroy () {
-            this.$store.dispatch('deleteEntry', this.$route.params.entryId);
+        toggle() {
+            this.editMode = ! this.editMode;
+            autosize(document.querySelector('textarea'));
         }
     },
 
