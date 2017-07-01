@@ -53,7 +53,7 @@ class JournalEntryTest extends TestCase
 
         // Assert Call was successful
         $response = $this->json('POST', "api/journals/{$journal->id}/entries", []);
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
 
         // Assert Data was correctly stored
