@@ -70,41 +70,37 @@ export default {
             });
     },
 
-    createNewEntry ({ commit, dispatch }, journalId) {
-        new Entry()
+    createNewEntry ({ commit }, journalId) {
+        return new Entry()
             .create(journalId)
             .then((response) => {
-                commit(types.ADD_ENTRY);
-                dispatch('getEntries', journalId);
+                commit(
+                    types.ADD_ENTRY,
+                    response
+                );
             })
-            .catch(function (error) {
-                console.log(error);
-                // commit(types.ERROR_ENTRIES, error);
-            });
     },
 
     updateEntry({ commit, dispatch }, payload) {
         new Entry()
-            .update(payload.entry, {
+            .update(payload.entryId, {
                 title: payload.title,
                 content: payload.content
             })
             .then((response) => {
                 commit(types.UPDATE_ENTRY);
-                dispatch('getEntry', payload.entry);
             })
             .catch(function (error) {
                 console.log(error);
+
             });
     },
 
     deleteEntry({ commit, dispatch }, entryId) {
-
         new Entry()
             .destroy(entryId)
             .then((response) => {
                 commit(types.DELETE_ENTRY);
-                // dispatch('getEntries');
             })
             .catch(function (error) {
                 console.log(error);

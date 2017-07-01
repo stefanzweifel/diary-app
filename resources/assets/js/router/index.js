@@ -6,34 +6,44 @@ import store from './../store/index.js';
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: require('./../views/Home.vue'),
-        meta: {
-            breadcrumb: 'Home Page',
-            requiresUnlock: true
-        }
+        redirect: { name: 'journals.index'}
     },
     {
-        path: '/journals/:journalId',
-        name: 'journals.show',
-        component: require('../views/Journal.vue'),
+        path: '/j',
+        name: 'journals.index',
+        component: require('./views/HomeView.vue'),
         meta: {
             requiresUnlock: true,
-            breadcrumb: 'Journal Details'
-        }
-    },
-    {
-        path: '/entries/:entryId',
-        name: 'entries.preview',
-        component : require('./../views/Entry.vue'),
-        meta: {
-            requiresUnlock: true,
-            breadcrumb: 'Entry Details'
-        }
+            breadcrumb: 'Journals'
+        },
+        children: [
+            {
+                path: ':journalId',
+                name: 'journals.show',
+                component: require('./views/JournalView.vue'),
+                props: true,
+                meta: {
+                    requiresUnlock: true,
+                    breadcrumb: 'Journal Details'
+                },
+                children: [
+                    {
+                        path: '/j/:journalId/e/:entryId',
+                        name: 'entries.show',
+                        component : require('./views/EntryView.vue'),
+                        props: true,
+                        meta: {
+                            requiresUnlock: true,
+                            breadcrumb: 'Entry Details'
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         path: '/unlock',
-        component: require('./../views/Unlock.vue'),
+        component: require('./views/UnlockView.vue'),
         meta: {
             requiresUnlock: false,
             breadcrumb: 'Unlock'

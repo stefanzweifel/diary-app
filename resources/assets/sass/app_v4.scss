@@ -1,4 +1,29 @@
 // Bootstrap
+// @import "variables_v4";
+
+$body-bg: #f1f5f9 !default;
+
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
 
+.btn:hover {
+    cursor: pointer;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid__item {
+  width: 100%;
+  height: 200px;
+  background: skyblue;
+  padding: 10px;
+}

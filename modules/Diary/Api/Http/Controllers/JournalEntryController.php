@@ -27,12 +27,18 @@ class JournalEntryController extends Controller
      */
     public function store(Journal $journal, CreateEntryRequest $request)
     {
-        $journal = Entry::create([
+        $entry = Entry::create([
             'content' => '',
             'title' => '',
             'journal_id' => $journal->id,
             'user_id' => $request->user()->id
         ]);
+
+        return fractal()
+           ->item($entry)
+           ->transformWith(new EntryTransformer())
+           ->withResourceName('entry')
+           ->respond();
 
         return response([], 201);
     }

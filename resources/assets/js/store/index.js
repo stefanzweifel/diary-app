@@ -5,7 +5,6 @@ Vue.use(Vuex);
 
 import actions from './actions.js';
 import mutations from './mutations.js';
-import Crypto from './../classes/Crypto.js';
 
 export default new Vuex.Store({
     state: {
@@ -21,9 +20,11 @@ export default new Vuex.Store({
 
         // All journals
         journals: null,
+        selected_journal: null,
 
         // Entries for the current journal
         entries: null,
+        selected_entry: null,
 
         // The logged in User
         user: null,

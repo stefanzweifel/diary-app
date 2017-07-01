@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MasterPassword from './../components/Util/MasterPassword.vue';
+import MasterPassword from './../../components/Util/MasterPassword.vue';
 
 export default {
 

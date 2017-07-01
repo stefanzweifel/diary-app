@@ -1,13 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "dev": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "test": "jest --coverage"
   },
   "devDependencies": {
@@ -20,7 +17,6 @@
     "jest": "^20.0.4",
     "jest-vue-preprocessor": "^1.0.1",
     "jquery": "^3.1.1",
-    "laravel-mix": "^0.8.1",
     "lodash": "^4.17.4",
     "regenerator-runtime": "^0.10.5",
     "vue": "^2.1.10"
@@ -28,8 +24,12 @@
   "dependencies": {
     "aes-js": "^3.0.0",
     "autosize": "^3.0.20",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "es6-store": "^1.0.0",
     "laravel-echo": "^1.2.4",
+    "laravel-mix": "^1.0.7",
     "marked": "^0.3.6",
     "moment": "^2.17.1",
     "pbkdf2": "^3.0.9",

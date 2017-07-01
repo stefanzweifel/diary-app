@@ -5,9 +5,16 @@
 <script>
 export default {
 
+    props: ['entryId', 'journalId'],
+
     methods: {
         destroy () {
-            this.$store.dispatch('deleteEntry', this.$route.params.entryId);
+            this.$store.dispatch('deleteEntry', this.entryId).then(() => {
+                this.$store.dispatch('getEntries', this.journalId);
+
+                let journalId = this.journalId;
+                this.$router.push({ name: 'journals.show', params: { journalId }});
+            });
         }
     }
 }

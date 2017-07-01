@@ -1,13 +1,15 @@
 <template>
-    <button @click="createEmptyEntry" class="btn btn-success btn-block">New entry</button>
+    <button @click="createEntry" class="btn btn-success">New entry</button>
 </template>
 
 <script>
 export default {
 
+    props: ['journalId'],
+
     methods: {
-        createEmptyEntry () {
-            this.$store.dispatch('createNewEntry', this.$route.params.journalId);
+        createEntry () {
+            this.$store.dispatch('createNewEntry', this.journalId);
         }
     }
 

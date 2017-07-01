@@ -1,35 +1,24 @@
 <template>
-    <div class="card">
-        <div class="card-block">
-            <h4 class="card-title">{{ decryptedTitle }}</h4>
-            <p class="card-text">
-                {{ decryptedContent }}
-            </p>
-            <p class="card-text">
-                <small class="text-muted">
-                    Last updated {{ formatedDate }}
-                </small>
-            </p>
-            <show-entry-button :entry="entry"></show-entry-button>
-        </div>
-    </div>
+    <router-link :to="{ name: 'entries.show', params: { entryId: entry.id }}" class="list-group-item list-group-item-action flex-column align-items-start" tag="div">
+        {{ decryptedTitle }}
+        <small>{{ createdAt }}</small>
+        <small>updated {{ updatedAt }}</small>
+    </router-link>
 </template>
 
 <script>
 import Crypto from './../../classes/Crypto.js';
 import moment from 'moment';
-import ShowEntryButton from './ShowEntryButton.vue';
 
 export default {
     props: ['entry'],
 
-    components: {
-        ShowEntryButton
-    },
-
     computed: {
-        formatedDate () {
-            return moment(this.entry.created_at).format('DD.MM.YYYY, hh:mm');
+        createdAt () {
+            return moment(this.entry.attributes.created_at).format('DD.MM.YYYY, HH:mm');
+        },
+        updatedAt () {
+            return moment(this.entry.attributes.updated_at).fromNow();
         },
 
         decryptedTitle () {
@@ -37,14 +26,6 @@ export default {
 
             return crypto.decrypt(
                 this.entry.attributes.title
-            );
-        },
-
-        decryptedContent () {
-            let crypto = new Crypto(this.$store.state.encryption_password);
-
-            return crypto.decrypt(
-                this.entry.attributes.content
             );
         }
     }

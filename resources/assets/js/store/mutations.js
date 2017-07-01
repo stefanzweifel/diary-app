@@ -61,9 +61,22 @@ export default {
         // alert("Entry saved.");
     },
     [types.DELETE_ENTRY] (state, payload) {
-        router.back();
+        // router.back();
+    },
+    [types.DELETE_JOURNAL] (state, payload) {
+        router.push({ name: 'journals.index'})
     },
     [types.ADD_ENTRY] (state, payload) {
-        // state.active_entry = payload;
+        // Append new Entry to Global Entries List
+        state.entries.unshift(payload.data.data);
+
+        // Switch to Entry Details View
+        router.push({
+            name: 'entries.show',
+            params: {
+                entryId: payload.data.data.id
+            }
+        });
     }
+
 }

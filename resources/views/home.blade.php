@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <div id="app" class="container">
+    <div id="app" class="container-fluid p-2">
 
-        <breadcrumbs></breadcrumbs>
+        <breadcrumbs class="align-self-stretch"></breadcrumbs>
 
-        <lock></lock>
+        {{-- <lock></lock> --}}
 
         <router-view></router-view>
     </div>

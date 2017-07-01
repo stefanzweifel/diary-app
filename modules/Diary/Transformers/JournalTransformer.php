@@ -22,6 +22,7 @@ class JournalTransformer extends TransformerAbstract
             'id'      => $journal->id,
             'title'   => $journal->title,
             'created_at' => $journal->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $journal->updated_at->format('Y-m-d H:i:s'),
             'links'   => [
                 [
                     'rel' => 'self',

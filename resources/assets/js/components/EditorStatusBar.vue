@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="wordCount > 0">
         {{ wordCount }} Words
     </div>
 </template>

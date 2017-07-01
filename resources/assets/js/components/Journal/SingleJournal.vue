@@ -1,33 +1,24 @@
 <template>
-    <div class="card">
-        <div class="card-block">
-            <h4 class="card-title">{{ decryptedTitle }}</h4>
-            <p class="card-text">
-                <small class="text-muted">
-                    Last updated {{ createdAt }}
-                </small>
-            </p>
-            <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="btn btn-primary">Read</router-link>
-            <delete-journal :journal="journal"></delete-journal>
-        </div>
-    </div>
+    <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="list-group-item justify-content-between" tag="div">
+        {{ decryptedTitle }}
+        <small>{{ updatedAt }}</small>
+    </router-link>
 </template>
 
 <script>
 import moment from 'moment';
 import Crypto from './../../classes/Crypto.js';
-import DeleteJournal from './DeleteJournal.vue';
 
 export default {
     props: ['journal'],
 
-    components: {
-        DeleteJournal
-    },
-
     computed: {
         createdAt () {
             return moment(this.journal.attributes.created_at).fromNow();
+        },
+
+        updatedAt () {
+            return moment(this.journal.attributes.updated_at).fromNow();
         },
 
         decryptedTitle () {

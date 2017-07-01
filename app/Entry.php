@@ -9,6 +9,8 @@ class Entry extends UuidModel
 {
     protected $fillable = ['title', 'content', 'date', 'journal_id', 'user_id'];
 
+    protected $touches = ['journal'];
+
     /**
      * Retrieve the content attribute.
      *
