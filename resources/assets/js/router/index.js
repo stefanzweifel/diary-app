@@ -22,7 +22,6 @@ const routes = [
             {
                 path: ':journalId',
                 name: 'journals.show',
-
                 component: (resolve) => {
                     require(['./views/JournalView.vue'], resolve)
                 },
@@ -35,7 +34,6 @@ const routes = [
                     {
                         path: '/j/:journalId/e/:entryId',
                         name: 'entries.show',
-
                         component: (resolve) => {
                             require(['./views/EntryView.vue'], resolve)
                         },
@@ -51,7 +49,6 @@ const routes = [
     },
     {
         path: '/unlock',
-
         component: (resolve) => {
             require(['./views/UnlockView.vue'], resolve)
         },
