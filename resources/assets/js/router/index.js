@@ -11,7 +11,9 @@ const routes = [
     {
         path: '/j',
         name: 'journals.index',
-        component: require('./views/HomeView.vue'),
+        component: (resolve) => {
+            require(['./views/HomeView.vue'], resolve)
+        },
         meta: {
             requiresUnlock: true,
             breadcrumb: 'Journals'
@@ -20,7 +22,10 @@ const routes = [
             {
                 path: ':journalId',
                 name: 'journals.show',
-                component: require('./views/JournalView.vue'),
+
+                component: (resolve) => {
+                    require(['./views/JournalView.vue'], resolve)
+                },
                 props: true,
                 meta: {
                     requiresUnlock: true,
@@ -30,7 +35,10 @@ const routes = [
                     {
                         path: '/j/:journalId/e/:entryId',
                         name: 'entries.show',
-                        component : require('./views/EntryView.vue'),
+
+                        component: (resolve) => {
+                            require(['./views/EntryView.vue'], resolve)
+                        },
                         props: true,
                         meta: {
                             requiresUnlock: true,
@@ -43,7 +51,10 @@ const routes = [
     },
     {
         path: '/unlock',
-        component: require('./views/UnlockView.vue'),
+
+        component: (resolve) => {
+            require(['./views/UnlockView.vue'], resolve)
+        },
         meta: {
             requiresUnlock: false,
             breadcrumb: 'Unlock'
