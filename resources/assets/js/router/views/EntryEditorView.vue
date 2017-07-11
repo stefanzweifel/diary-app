@@ -22,7 +22,7 @@
 
                 {{ entry.attributes.id }}
 
-                <files-bag :files="files"></files-bag>
+                <files-bag :files="files" :entryId="entryId"></files-bag>
 
                 <div v-for="(file, index) in files" :key="index" class="media">
                     <img :src="file.uri" alt="" class="d-flex mr-3">

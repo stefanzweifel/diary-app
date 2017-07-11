@@ -14,7 +14,8 @@ class CreateEntriesTable extends Migration
     public function up()
     {
         Schema::create('entries', function (Blueprint $table) {
-            // $table->increments('id');
+
+            $table->increments('int_id');
             $table->uuid('id');
             $table->uuid('journal_id');
 

@@ -27,4 +27,9 @@ Route::group(['middleware' => ['auth:api', 'throttle']], function() {
     Route::patch('entries/{entry}', 'EntryController@update')->name('api.entries.update');
     Route::delete('entries/{entry}', 'EntryController@destroy')->name('api.entries.destroy');
 
+    // Entry Media
+    Route::get('entries/{entry}/media', 'EntryMediaController@index')->name('api.entries.media.index');
+    Route::post('entries/{entry}/media', 'EntryMediaController@store')->name('api.entries.media.store');
+    Route::delete('entries/{entry}/media/{media}', 'EntryMediaController@destroy')->name('api.entries.media.destroy');
+
 });

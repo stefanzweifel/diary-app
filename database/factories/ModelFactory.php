@@ -2,8 +2,10 @@
 
 use App\Entry;
 use App\Journal;
+use App\Media;
 use App\User;
 use Faker\Generator;
+use Illuminate\Http\UploadedFile;
 
 /*
 |--------------------------------------------------------------------------

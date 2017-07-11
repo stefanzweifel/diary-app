@@ -9,6 +9,7 @@
         "laravel/framework": "5.4.*",
         "laravel/passport": "^3.0",
         "spatie/laravel-fractal": "^4.0",
+        "spatie/laravel-medialibrary": "^5.0.0",
         "webpatser/laravel-uuid": "^2.0"
     },
     "require-dev": {

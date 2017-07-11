@@ -3,7 +3,7 @@
 namespace Diary\Api\Http\Controllers;
 
 use App\Entry;
-use App\Http\Controllers\Controller;;
+use App\Http\Controllers\Controller;
 use Diary\Api\Http\Requests\EntryRequest;
 use Diary\Api\Http\Requests\UpdateEntryRequest;
 use Diary\Transformers\EntryTransformer;

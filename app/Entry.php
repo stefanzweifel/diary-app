@@ -3,10 +3,15 @@
 namespace App;
 
 use App\Journal;
+use App\Media;
 use App\User;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class Entry extends UuidModel
+class Entry extends UuidModel implements HasMedia
 {
+    use HasMediaTrait;
+
     protected $fillable = ['title', 'content', 'date', 'journal_id', 'user_id'];
 
     protected $touches = ['journal'];
@@ -76,4 +81,16 @@ class Entry extends UuidModel
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Set the polymorphic relation.
+     *
+     * @return mixed
+     */
+    public function media()
+    {
+        // Override media relationship because package does not support UUIDs
+        return $this->morphMany(config('medialibrary.media_model'), 'model', 'model_type', 'model_id', 'int_id');
+    }
+
 }

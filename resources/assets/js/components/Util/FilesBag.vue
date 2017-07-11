@@ -12,7 +12,7 @@ import Crypto from './../../classes/Crypto.js';
 
 export default {
 
-    props: ['files'],
+    props: ['files', 'entryId'],
 
     methods: {
 
@@ -24,6 +24,13 @@ export default {
             let files = event.target.files || event.dataTransfer.files;
             for (var i = 0; i < files.length; i++) {
                 this.createImage(files[i]);
+
+                this.$store.dispatch('storeMedia', {
+                    entryId: this.entryId,
+                    blob: files[i],
+                    // blob: new Crypto(this.$store.state.encryption_password).encrypt(e.target.result)
+                });
+
             }
         },
 
@@ -32,6 +39,7 @@ export default {
             let vm = this;
 
             reader.onload = (e) => {
+
                 vm.files.push({
                     uri: e.target.result,
                     uri_encrypted: new Crypto(this.$store.state.encryption_password).encrypt(e.target.result),

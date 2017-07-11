@@ -3,6 +3,7 @@ import User from './../models/User.js';
 import MasterPassword from './../models/MasterPassword.js';
 import Journal from './../models/Journal.js';
 import Entry from './../models/Entry.js';
+import Media from './../models/Media.js';
 
 export default {
 
@@ -106,6 +107,31 @@ export default {
                 console.log(error);
             });
     },
+
+    // ----------------------------------------------------------
+
+    getMedia({commit, dispatch}, entryId) {
+        new Media()
+            .all(entryId)
+            .then((response) => {
+                commit('LOAD_MEDIA', response)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+
+    storeMedia({commit, dispatch}, payload ) {
+        new Media()
+            .create(payload.entryId, payload.blob)
+            .then((response) => {
+                commit('ADD_MEDIA', response)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    },
+
 
     // ----------------------------------------------------------
 
