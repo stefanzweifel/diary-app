@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Journal;
+use App\Media;
 use App\User;
 
 class Entry extends UuidModel
@@ -75,5 +76,15 @@ class Entry extends UuidModel
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relationship with the Media model.
+     *
+     * @return    Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function media()
+    {
+        return $this->hasMany(Media::class);
     }
 }

@@ -2,8 +2,10 @@
 
 use App\Entry;
 use App\Journal;
+use App\Media;
 use App\User;
 use Faker\Generator;
+use Illuminate\Http\UploadedFile;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,5 +61,12 @@ $factory->define(Entry::class, function(Generator $faker) {
         'content' => $faker->text,
         'journal_id' => factory(Journal::class)->create()->id,
         'user_id' => factory(User::class)->create()->id
+    ];
+});
+
+$factory->define(Media::class, function(Generator $faker) {
+    return [
+        'entry_id' => factory(Entry::class)->create()->id,
+        'blob' => base64_encode(UploadedFile::fake()->create('demo.text', 1000)),
     ];
 });
