@@ -63,10 +63,3 @@ $factory->define(Entry::class, function(Generator $faker) {
         'user_id' => factory(User::class)->create()->id
     ];
 });
-
-$factory->define(Media::class, function(Generator $faker) {
-    return [
-        'entry_id' => factory(Entry::class)->create()->id,
-        'blob' => base64_encode(UploadedFile::fake()->create('demo.text', 1000)),
-    ];
-});

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -35,15 +36,13 @@ class EntryMediaTest extends TestCase
     /** @test */
     public function it_returns_attached_media_files_to_an_entry()
     {
+        Storage::fake('media');
+
         $entry = factory(Entry::class)->create();
         $user = $entry->user;
         Passport::actingAs($user);
 
-        $base64 = base64_encode(UploadedFile::fake()->create('demo.text', 1000));
-
-        $entry->media()->create([
-            'blob' => $base64
-        ]);
+        $entry->addMedia(UploadedFile::fake()->create('demo.text', 1000))->toMediaCollection();
 
         $response = $this->json('GET', "/api/entries/{$entry->id}/media");
 
@@ -51,9 +50,7 @@ class EntryMediaTest extends TestCase
             'data' => [
                 [
                     'type' => 'media',
-                    'attributes' => [
-                        'blob' => $base64
-                    ]
+                    'attributes' => []
                 ]
             ]
         ]);
@@ -64,45 +61,41 @@ class EntryMediaTest extends TestCase
     /** @test */
     public function it_stores_encrypted_file_for_an_entry()
     {
+        Storage::fake('media');
+
         $entry = factory(Entry::class)->create();
         $user = $entry->user;
         Passport::actingAs($user);
 
-        $base64 = base64_encode(UploadedFile::fake()->create('demo.text', 1000));
-
         $response = $this->json('POST', "/api/entries/{$entry->id}/media", [
-            'file' => $base64
+            'file' => UploadedFile::fake()->create('demo.text', 1000)
         ]);
 
         $response->assertJson([
             'data' => [
                 'type' => 'media',
-                'attributes' => [
-                    'blob' => $base64
-                ]
+                'attributes' => []
             ]
         ]);
         $response->assertStatus(200);
-
-
         $this->assertDatabaseHas('media', [
-            'entry_id' => $entry->id
+            'model_id' => $entry->id
         ]);
     }
 
     /** @test */
     public function it_deletes_media_from_database()
     {
-        $media = factory(Media::class)->create();
-        $user = $media->entry->user;
-        Passport::actingAs($user);
+        $entry = factory(Entry::class)->create();
+        $media = $entry->addMedia(UploadedFile::fake()->create('demo.text', 1000))->toMediaCollection();
+        Passport::actingAs($entry->user);
 
-        $response = $this->json('DELETE', "/api/entries/{$media->entry->id}/media/{$media->id}");
+        $response = $this->json('DELETE', "/api/entries/{$entry->id}/media/{$media->id}");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('media', [
             'id' => $media->id,
-            'entry_id' => $media->entry->id
+            'model_id' => $entry->id
         ]);
     }
 }

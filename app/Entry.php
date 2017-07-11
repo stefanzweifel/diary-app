@@ -5,9 +5,13 @@ namespace App;
 use App\Journal;
 use App\Media;
 use App\User;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class Entry extends UuidModel
+class Entry extends UuidModel implements HasMedia
 {
+    use HasMediaTrait;
+
     protected $fillable = ['title', 'content', 'date', 'journal_id', 'user_id'];
 
     protected $touches = ['journal'];
@@ -76,15 +80,5 @@ class Entry extends UuidModel
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Relationship with the Media model.
-     *
-     * @return    Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function media()
-    {
-        return $this->hasMany(Media::class);
     }
 }

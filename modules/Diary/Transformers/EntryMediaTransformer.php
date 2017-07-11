@@ -2,8 +2,8 @@
 
 namespace Diary\Transformers;
 
-use App\Media;
 use League\Fractal\TransformerAbstract;
+use Spatie\MediaLibrary\Media;
 
 class EntryMediaTransformer extends TransformerAbstract
 {
@@ -11,13 +11,17 @@ class EntryMediaTransformer extends TransformerAbstract
     {
         return [
             'id' => $media->id,
-            'blob' => $media->blob,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'mime_type' => $media->mime_type,
+            'disk' => $media->disk,
+            'size' => $media->size,
             'created_at' => $media->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $media->updated_at->format('Y-m-d H:i:s'),
             'links' => [
                 [
                     'rel' => 'self',
-                    'uri' => "/entries/{$media->entry->id}/media/{$media->id}",
+                    'uri' => "/entries/{$media->model->id}/media/{$media->id}",
                 ]
             ],
         ];
