@@ -53,6 +53,10 @@ export default {
         state.hasMasterPassword = payload.has_master_password;
     },
 
+    [types.ADD_MEDIA] (state, payload) {
+        //
+    },
+
     [types.ADD_JOURNAL] (state, payload) {
         // state.active_entry = payload;
     },

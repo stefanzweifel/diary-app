@@ -125,7 +125,7 @@ export default {
         new Media()
             .create(payload.entryId, payload.blob)
             .then((response) => {
-                commit('CREATE_MEDIA', response)
+                commit('ADD_MEDIA', response)
             })
             .catch(function (error) {
                 console.log(error);

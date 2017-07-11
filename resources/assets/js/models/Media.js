@@ -18,9 +18,10 @@ export default class extends Api {
      * @return {Promise}
      */
     create(entryId, fileBlob) {
-        return this.post(`/api/entries/${entryId}/media`, {
-            file: fileBlob
-        });
+        let form = new FormData();
+        form.append('file', fileBlob);
+
+        return this.post(`/api/entries/${entryId}/media`, form);
     }
 
     /**

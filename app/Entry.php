@@ -81,4 +81,16 @@ class Entry extends UuidModel implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Set the polymorphic relation.
+     *
+     * @return mixed
+     */
+    public function media()
+    {
+        // Override media relationship because package does not support UUIDs
+        return $this->morphMany(config('medialibrary.media_model'), 'model', 'model_type', 'model_id', 'int_id');
+    }
+
 }

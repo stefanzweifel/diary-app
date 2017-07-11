@@ -13,10 +13,10 @@ class EntryMediaController extends Controller
     public function index(Entry $entry)
     {
         return fractal()
-           ->collection($entry->getMedia())
-           ->transformWith(new EntryMediaTransformer())
-           ->withResourceName('media')
-           ->respond();
+            ->collection($entry->getMedia())
+            ->transformWith(new EntryMediaTransformer())
+            ->withResourceName('media')
+            ->respond();
     }
 
     public function store(Entry $entry, Request $request)
@@ -24,10 +24,10 @@ class EntryMediaController extends Controller
         $media = $entry->addMedia($request->file)->toMediaCollection();
 
         return fractal()
-           ->item($media)
-           ->transformWith(new EntryMediaTransformer())
-           ->withResourceName('media')
-           ->respond();
+            ->item($media)
+            ->transformWith(new EntryMediaTransformer())
+            ->withResourceName('media')
+            ->respond();
 
     }
 

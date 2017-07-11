@@ -21,7 +21,7 @@ class EntryMediaTransformer extends TransformerAbstract
             'links' => [
                 [
                     'rel' => 'self',
-                    'uri' => "/entries/{$media->model->id}/media/{$media->id}",
+                    // 'uri' => "/entries/{$media->model->id}/media/{$media->id}",
                 ]
             ],
         ];
