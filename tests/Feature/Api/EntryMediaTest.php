@@ -86,6 +86,8 @@ class EntryMediaTest extends TestCase
     /** @test */
     public function it_deletes_media_from_database()
     {
+        Storage::fake('media');
+
         $entry = factory(Entry::class)->create();
         $media = $entry->addMedia(UploadedFile::fake()->create('demo.text', 1000))->toMediaCollection();
         Passport::actingAs($entry->user);
