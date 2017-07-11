@@ -4,12 +4,12 @@
         <div class="col-md-3 journal-list">
             <create-journal></create-journal>
             <div class="list-group">
-                <journal
+                <single-journal
                     v-if="journals.length > 0"
                     v-for="journal in journals"
                     :key="journal.id"
                     :journal="journal">
-                </journal>
+                </single-journal>
             </div>
         </div>
         <div class="col-md-9" v-if="journals && journals.length > 0">
@@ -20,13 +20,13 @@
 
 <script>
 import CreateJournal from './../../components/Journal/CreateJournal.vue';
-import Journal from './../../components/Journal/SingleJournal.vue';
+import SingleJournal from './../../components/Journal/SingleJournal.vue';
 
 export default {
 
     components: {
         CreateJournal,
-        Journal
+        SingleJournal
     },
 
     computed: {

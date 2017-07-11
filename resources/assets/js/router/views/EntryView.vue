@@ -1,44 +1,20 @@
 <template>
     <div class="card" v-if="entry">
         <div class="card-block">
-            <div v-if="editMode == false">
-                <h4 class="card-title">{{ title }}</h4>
-                <vue-markdown :source="content"></vue-markdown>
-            </div>
-            <div v-else>
-
-                <form @submit.prevent="store">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            v-model="title"
-                            placeholder="This is the title of your entry"
-                            class="form-control"
-                        >
-                    </div>
-                    <div class="form-group">
-                        <textarea
-                            :value="content"
-                            placeholder="The content of your entry. **Markdown** is *supported*!"
-                            class="form-control"
-                            @input="update"
-                        ></textarea>
-                    </div>
-                </form>
-
-            </div>
+            <h4 class="card-title">{{ title }}</h4>
+            <vue-markdown :source="content"></vue-markdown>
         </div>
         <div class="card-footer">
             <div class="row">
                 <div class="col">
                     <div class="btn-group">
-                        <button class="btn btn-primary" v-if="!editMode" @click="toggle">Edit</button>
-                        <button class="btn btn-default" v-if="editMode" @click="toggle">Cancel</button>
-                        <button v-if="editMode" @click="store" @keyup.meta.31="store" class="btn btn-success">Save</button>
+                        <router-link :to="{ name: 'entries.editor', params: { journalId: journalId, entryId: entryId }}" class="btn btn-primary" tag="div">
+                            Edit
+                        </router-link>
                         <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
                     </div>
                 </div>
-                <div class="col text-right" v-if="editMode == false">
+                <div class="col text-right">
                     <editor-status-bar
                         :entry="entry"
                         :content="content"
@@ -54,8 +30,8 @@
 </template>
 
 <script>
-import autosize from 'autosize';
 import Crypto from './../../classes/Crypto.js';
+import FilesBag from './../../components/Util/FilesBag.vue';
 import EditorStatusBar from './../../components/EditorStatusBar.vue';
 import DeleteEntryButton from './../../components/Entry/DeleteEntryButton.vue';
 import VueMarkdown from 'vue-markdown';
@@ -66,16 +42,17 @@ export default {
 
     data() {
         return {
-            editMode: false,
             title: '',
-            content: ''
+            content: '',
+            files: []
         }
     },
 
     components: {
         VueMarkdown,
         EditorStatusBar,
-        DeleteEntryButton
+        DeleteEntryButton,
+        FilesBag
     },
 
     created() {
@@ -93,29 +70,6 @@ export default {
     methods: {
         fetchData () {
             this.$store.dispatch('getEntry', this.entryId);
-        },
-
-        update (e)  {
-            autosize(document.querySelector('textarea'));
-            this.content = e.target.value;
-        },
-
-        store () {
-            this.$store.dispatch('updateEntry', {
-                entryId: this.entry.id,
-                title: new Crypto(this.$store.state.encryption_password).encrypt(this.title),
-                content: new Crypto(this.$store.state.encryption_password).encrypt(this.content)
-            }).then(() => {
-                this.$store.dispatch('getEntries', this.journalId);
-                this.$store.dispatch('getEntry', this.entryId);
-            });
-
-            this.editMode = false;
-        },
-
-        toggle() {
-            this.editMode = ! this.editMode;
-            autosize(document.querySelector('textarea'));
         }
     },
 
@@ -135,6 +89,11 @@ export default {
 
 <style scoped>
     textarea {
-        min-height: 400px;
+        min-height: 200px;
     }
+
+    .media img {
+        height: 150px;
+    }
+
 </style>

@@ -23,10 +23,9 @@ class MasterPasswordController extends Controller
 
     public function unlock(UnlockMasterPasswordRequest $request)
     {
-        $password = $request->password;
         $user = $request->user();
 
-        if (! Hash::check($password, $user->master_password)) {
+        if (! Hash::check($request->password, $user->master_password)) {
             return response([
                 'password' => [
                     'Masterpassword does not match.'

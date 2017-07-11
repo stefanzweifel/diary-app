@@ -1,5 +1,4 @@
 import Api from './Api.js';
-import axios from 'axios';
 
 export default class extends Api {
 

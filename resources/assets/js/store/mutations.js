@@ -72,7 +72,7 @@ export default {
 
         // Switch to Entry Details View
         router.push({
-            name: 'entries.show',
+            name: 'entries.editor',
             params: {
                 entryId: payload.data.data.id
             }

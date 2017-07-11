@@ -12,7 +12,7 @@ const routes = [
         path: '/j',
         name: 'journals.index',
         component: (resolve) => {
-            require(['./views/HomeView.vue'], resolve)
+            require(['./views/JournalListView.vue'], resolve)
         },
         meta: {
             requiresUnlock: true,
@@ -41,6 +41,18 @@ const routes = [
                         meta: {
                             requiresUnlock: true,
                             breadcrumb: 'Entry Details'
+                        }
+                    },
+                    {
+                        path: '/j/:journalId/e/:entryId/editor',
+                        name: 'entries.editor',
+                        component: (resolve) => {
+                            require(['./views/EntryEditorView.vue'], resolve)
+                        },
+                        props: true,
+                        meta: {
+                            requiresUnlock: true,
+                            breadcrumb: 'Entry Editor'
                         }
                     }
                 ]
