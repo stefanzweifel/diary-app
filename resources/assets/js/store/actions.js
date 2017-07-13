@@ -89,7 +89,7 @@ export default {
                 content: payload.content
             })
             .then((response) => {
-                commit(types.UPDATE_ENTRY);
+                commit(types.UPDATE_ENTRY, response);
             })
             .catch(function (error) {
                 console.log(error);
@@ -114,7 +114,7 @@ export default {
         new Media()
             .all(entryId)
             .then((response) => {
-                commit('LOAD_MEDIA', response)
+                commit('GET_MEDIA', response)
             })
             .catch((error) => {
                 console.log(error);
@@ -126,10 +126,19 @@ export default {
             .create(payload.entryId, payload.blob)
             .then((response) => {
                 commit('ADD_MEDIA', response)
+                dispatch('getMedia', payload.entryId);
             })
             .catch(function (error) {
                 console.log(error);
             });
+    },
+
+    deleteMedia({commit, dispatch}, payload) {
+        new Media()
+            .destroy(payload.entryId, payload.mediaId)
+            .then((response) => {
+                console.log('DELETE');
+            })
     },
 
 

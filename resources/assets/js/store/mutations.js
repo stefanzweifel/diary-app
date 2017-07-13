@@ -56,11 +56,14 @@ export default {
     [types.ADD_MEDIA] (state, payload) {
         //
     },
+    [types.GET_MEDIA] (state, payload) {
+        state.files = payload.data.data;
+    },
 
     [types.ADD_JOURNAL] (state, payload) {
         // state.active_entry = payload;
     },
-    [types.UPDATE_ENTRY] (state, payload) {
+    [types.UPDATE_ENTRY] (state, response) {
         // state.entry = payload;
         // alert("Entry saved.");
     },

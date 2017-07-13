@@ -50,7 +50,9 @@ return [
 
         'media' => [
             'driver' => 'local',
-            'root'   => storage_path('media'),
+            'root'   => public_path('media'),
+            'url' => env('APP_URL').'/media',
+            'visibility' => 'public',
         ],
 
         'public' => [

@@ -14,6 +14,7 @@ class EntryMediaTransformer extends TransformerAbstract
             'name' => $media->name,
             'file_name' => $media->file_name,
             'mime_type' => $media->mime_type,
+            'url' => $media->getFullUrl(),
             'disk' => $media->disk,
             'size' => $media->size,
             'created_at' => $media->created_at->format('Y-m-d H:i:s'),
@@ -21,7 +22,7 @@ class EntryMediaTransformer extends TransformerAbstract
             'links' => [
                 [
                     'rel' => 'self',
-                    // 'uri' => "/entries/{$media->model->id}/media/{$media->id}",
+                    'uri' => "/media/{$media->id}",
                 ]
             ],
         ];

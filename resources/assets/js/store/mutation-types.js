@@ -22,9 +22,11 @@ export const ERROR_JOURNALS = 'ERROR_JOURNALS';
 export const ERROR_ENTRIES = 'ERROR_ENTRIES';
 
 export const ADD_ENTRY = 'ADD_ENTRY';
-export const ADD_MEDIA = 'ADD_MEDIA';
 export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const DELETE_ENTRY = 'DELETE_ENTRY';
 export const SELECT_ENTRY = 'SELECT_ENTRY';
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
+
+export const ADD_MEDIA = 'ADD_MEDIA';
+export const GET_MEDIA = 'GET_MEDIA';

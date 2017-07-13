@@ -3,6 +3,10 @@
         <div class="card-block">
             <h4 class="card-title">{{ title }}</h4>
             <vue-markdown :source="content"></vue-markdown>
+
+            <hr>
+            <files-bag :files="files" :entryId="entryId"></files-bag>
+            <files-list :entryId="entryId" :files="files"></files-list>
         </div>
         <div class="card-footer">
             <div class="row">
@@ -15,10 +19,10 @@
                     </div>
                 </div>
                 <div class="col text-right">
-                    <editor-status-bar
+                    <!-- <editor-status-bar
                         :entry="entry"
                         :content="content"
-                    ></editor-status-bar>
+                    ></editor-status-bar> -->
                 </div>
             </div>
 
@@ -32,6 +36,7 @@
 <script>
 import Crypto from './../../classes/Crypto.js';
 import FilesBag from './../../components/Util/FilesBag.vue';
+import FilesList from './../../components/Util/FilesList.vue';
 import EditorStatusBar from './../../components/EditorStatusBar.vue';
 import DeleteEntryButton from './../../components/Entry/DeleteEntryButton.vue';
 import VueMarkdown from 'vue-markdown';
@@ -43,8 +48,7 @@ export default {
     data() {
         return {
             title: '',
-            content: '',
-            files: []
+            content: ''
         }
     },
 
@@ -52,7 +56,8 @@ export default {
         VueMarkdown,
         EditorStatusBar,
         DeleteEntryButton,
-        FilesBag
+        FilesBag,
+        FilesList
     },
 
     created() {
@@ -74,12 +79,20 @@ export default {
     },
 
     computed: {
+
+        files() {
+            return this.$store.state.files;
+        },
+
         entry() {
             // Emit a custom event to trigger decrypt entry content
             // and write title and content to local properties
             if (this.$store.state.entry != null) {
                 this.$emit('receivedEntry', this.$store.state.entry);
             }
+
+            this.$store.dispatch('getMedia', this.entryId);
+
             return this.$store.state.entry;
         }
     }

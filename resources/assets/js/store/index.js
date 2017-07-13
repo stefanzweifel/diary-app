@@ -31,7 +31,9 @@ export default new Vuex.Store({
 
 
         decryptedTitle: '',
-        decryptedContent: ''
+        decryptedContent: '',
+
+        files: []
     },
     getters: {
         isUnlocked: state => {
