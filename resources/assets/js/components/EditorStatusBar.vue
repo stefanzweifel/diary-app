@@ -8,7 +8,7 @@
 import count from 'word-count';
 
 export default {
-    props: ['entry', 'content'],
+    props: ['content'],
 
     computed: {
         wordCount() {

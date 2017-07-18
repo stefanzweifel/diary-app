@@ -7,7 +7,6 @@
     "prod": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "test": "jest --coverage"
   },
-
   "scripts": {
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -15,7 +14,6 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-
   "devDependencies": {
     "axios": "^0.15.3",
     "babel-jest": "^20.0.3",
@@ -37,6 +35,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "es6-store": "^1.0.0",
+    "global": "^4.3.2",
     "laravel-echo": "^1.2.4",
     "laravel-mix": "^1.0.7",
     "marked": "^0.3.6",

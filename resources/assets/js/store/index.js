@@ -3,46 +3,17 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import actions from './actions.js';
+import state from './state.js';
+import getters from './getters.js';
 import mutations from './mutations.js';
+import actions from './actions.js';
 
-export default new Vuex.Store({
-    state: {
-
-        hasMasterPassword: false,
-        isUnlocked: false,
-
-        // The Entry the user is currently working with
-        entry: null,
-
-        // Encryption Password / Key
-        encryption_password: null,
-
-        // All journals
-        journals: null,
-        selected_journal: null,
-
-        // Entries for the current journal
-        entries: null,
-        selected_entry: null,
-
-        // The logged in User
-        user: null,
-
-
-        decryptedTitle: '',
-        decryptedContent: '',
-
-        files: []
-    },
-    getters: {
-        isUnlocked: state => {
-            return state.isUnlocked;
-        },
-        isLocked: state => {
-            return !state.isUnlocked
-        }
-    },
+const options = {
+    state,
+    getters,
     mutations,
     actions
-})
+};
+
+export default new Vuex.Store(options);
+export { options }

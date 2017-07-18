@@ -20,7 +20,6 @@
                 </div>
                 <div class="col text-right">
                     <!-- <editor-status-bar
-                        :entry="entry"
                         :content="content"
                     ></editor-status-bar> -->
                 </div>
