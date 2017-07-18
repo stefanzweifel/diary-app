@@ -56,6 +56,7 @@ $factory->define(Journal::class, function(Generator $faker) {
 
 $factory->define(Entry::class, function(Generator $faker) {
     return [
+        'int_id' => $faker->randomNumber(),
         'title' => $faker->sentence,
         'date' => $faker->date(),
         'content' => $faker->text,

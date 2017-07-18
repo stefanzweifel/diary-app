@@ -26,9 +26,7 @@ class EntryMediaTest extends TestCase
         $response = $this->json('GET', "/api/entries/{$entry->id}/media");
 
         $response->assertJson([
-            'data' => [
-
-            ]
+            'data' => []
         ]);
         $response->assertStatus(200);
     }
@@ -37,20 +35,21 @@ class EntryMediaTest extends TestCase
     public function it_returns_attached_media_files_to_an_entry()
     {
         Storage::fake('media');
-
         $entry = factory(Entry::class)->create();
         $user = $entry->user;
         Passport::actingAs($user);
 
-        $entry->addMedia(UploadedFile::fake()->create('demo.text', 1000))->toMediaCollection();
+        $entry->addMedia(UploadedFile::fake()->image('demo.png'))->toMediaCollection();
 
         $response = $this->json('GET', "/api/entries/{$entry->id}/media");
-
         $response->assertJson([
             'data' => [
                 [
                     'type' => 'media',
-                    'attributes' => []
+                    'attributes' => [
+                        'name' => 'demo',
+                        'file_name' => 'demo.png'
+                    ]
                 ]
             ]
         ]);
@@ -59,7 +58,7 @@ class EntryMediaTest extends TestCase
 
 
     /** @test */
-    public function it_stores_encrypted_file_for_an_entry()
+    public function it_stores_file_for_an_entry()
     {
         Storage::fake('media');
 
@@ -68,18 +67,20 @@ class EntryMediaTest extends TestCase
         Passport::actingAs($user);
 
         $response = $this->json('POST', "/api/entries/{$entry->id}/media", [
-            'file' => UploadedFile::fake()->create('demo.text', 1000)
+            'file' => UploadedFile::fake()->image('foo-bar.png')
         ]);
 
         $response->assertJson([
             'data' => [
                 'type' => 'media',
-                'attributes' => []
+                'attributes' => [
+                    'name' => 'foo-bar'
+                ]
             ]
         ]);
         $response->assertStatus(200);
         $this->assertDatabaseHas('media', [
-            'model_id' => $entry->id
+            'model_id' => $entry->int_id
         ]);
     }
 
