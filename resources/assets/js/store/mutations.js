@@ -17,8 +17,8 @@ export default {
     [types.SELECT_ENTRY] (state, payload) {
         state.entry = payload;
 
-        state.decryptedTitle = new Crypto(state.encryption_password).decrypt(payload.attributes.title);
-        state.decryptedContent = new Crypto(state.encryption_password).decrypt(payload.attributes.content);
+        // state.decryptedTitle = new Crypto(state.encryption_password).decrypt(payload.attributes.title);
+        // state.decryptedContent = new Crypto(state.encryption_password).decrypt(payload.attributes.content);
     },
 
     [types.MASTERPASSWORD_CREATED] (state, payload) {

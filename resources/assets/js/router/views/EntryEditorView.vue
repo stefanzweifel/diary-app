@@ -96,7 +96,6 @@ export default {
                 content: new Crypto(this.$store.state.encryption_password).encrypt(this.content)
             }).then(() => {
 
-                // this.fetchData();
                 this.$store.dispatch('getEntry', this.entryId);
                 this.$store.dispatch('getEntries', this.journalId);
                 this.$router.push({

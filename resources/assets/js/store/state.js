@@ -20,9 +20,5 @@ export default {
     // The logged in User
     user: null,
 
-
-    decryptedTitle: '',
-    decryptedContent: '',
-
     files: []
 }

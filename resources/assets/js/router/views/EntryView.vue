@@ -9,22 +9,12 @@
             <files-list :entryId="entryId" :files="files"></files-list>
         </div>
         <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    <div class="btn-group">
-                        <router-link :to="{ name: 'entries.editor', params: { journalId: journalId, entryId: entryId }}" class="btn btn-primary" tag="div">
-                            Edit
-                        </router-link>
-                        <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
-                    </div>
-                </div>
-                <div class="col text-right">
-                    <!-- <editor-status-bar
-                        :content="content"
-                    ></editor-status-bar> -->
-                </div>
+            <div class="btn-group">
+                <router-link :to="{ name: 'entries.editor', params: { journalId: journalId, entryId: entryId }}" class="btn btn-primary" tag="div">
+                    Edit
+                </router-link>
+                <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
             </div>
-
         </div>
     </div>
     <div v-else>
@@ -36,7 +26,6 @@
 import Crypto from './../../classes/Crypto.js';
 import FilesBag from './../../components/Util/FilesBag.vue';
 import FilesList from './../../components/Util/FilesList.vue';
-import EditorStatusBar from './../../components/EditorStatusBar.vue';
 import DeleteEntryButton from './../../components/Entry/DeleteEntryButton.vue';
 import VueMarkdown from 'vue-markdown';
 
@@ -53,7 +42,6 @@ export default {
 
     components: {
         VueMarkdown,
-        EditorStatusBar,
         DeleteEntryButton,
         FilesBag,
         FilesList

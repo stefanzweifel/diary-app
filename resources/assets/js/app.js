@@ -13,13 +13,6 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-// OfflinePluginRuntime.install();
-
-// import VueLocalStorage from 'vue-localstorage';
-// Vue.use(VueLocalStorage);
-
 import store from './store/index.js';
 import VueRouter from 'vue-router';
 
