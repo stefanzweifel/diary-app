@@ -1701,16 +1701,16 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "4.01",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "3b95780f5f3ca79e29d445a5df87eac9f7c7c053"
+                "reference": "0d44b16662df0c5513564a2a52000dd3de498add"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/3b95780f5f3ca79e29d445a5df87eac9f7c7c053",
-                "reference": "3b95780f5f3ca79e29d445a5df87eac9f7c7c053",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/0d44b16662df0c5513564a2a52000dd3de498add",
+                "reference": "0d44b16662df0c5513564a2a52000dd3de498add",
                 "shasum": ""
             },
             "require": {
@@ -1724,6 +1724,16 @@
                 "phpunit/phpunit": "^5.7.5"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Fractal\\FractalServiceProvider"
+                    ],
+                    "aliases": {
+                        "Fractal": "Spatie\\Fractal\\FractalFacade"
+                    }
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Spatie\\Fractal\\": "src"
@@ -1755,7 +1765,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-05-05T19:01:43+00:00"
+            "time": "2017-08-20T21:20:01+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
