@@ -10,7 +10,7 @@
         "laravel/passport": "^3.0",
         "spatie/laravel-fractal": "^4.0",
         "spatie/laravel-medialibrary": "^5.0.0",
-        "webpatser/laravel-uuid": "^2.0"
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
