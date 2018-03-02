@@ -12,6 +12,14 @@ I've written a blog post about the project. You can read it [here](https://stefa
 - [Vue Components](https://github.com/stefanzweifel/diary-app/tree/master/resources/assets/js/components)
 - [crypto.js Class](https://github.com/stefanzweifel/diary-app/blob/master/resources/assets/js/classes/Crypto.js)
 
+## Basic Installation Instructions
+
+- Clone Repository
+- Install PHP Dependencies: `composer install`
+- Install Frontend Dependencies: `npm install`
+- Create .env file: `cp .env.example .env`
+- Migrate Database: `php artisan migrate`
+- Create OAuth Key Pair: `php artisan passport:install`
 
 ## Security Vulnerabilities
 
