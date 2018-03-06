@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "aes-js": "^3.0.0",
-    "autosize": "^3.0.20",
+    "autosize": "~4.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
@@ -42,7 +42,7 @@
     "moment": "^2.17.1",
     "pbkdf2": "^3.0.9",
     "vue-breadcrumbs": "^1.1.2",
-    "vue-localstorage": "^0.1.3",
+    "vue-localstorage": "~0.6.0",
     "vue-markdown": "^2.1.3",
     "vue-router": "^2.3.0",
     "vuex": "^2.1.2",
