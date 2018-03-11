@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <div class="form-group dropzone" @drop.prevent="readFiles" @dragover.prevent="dragover">
-            DROP MEDA FILES HERE
-        </div>
+    <div class="text-xs dropzone" @drop.prevent="readFiles" @dragover.prevent="dragover">
+        Drop Images Here
     </div>
 </template>
 
@@ -32,7 +30,6 @@ export default {
             }
         },
 
-
     }
 
 }
@@ -41,11 +38,12 @@ export default {
 <style scoped>
     .dropzone {
        border: 2px dashed #bbb;
-        border-radius: 5px;
-        padding: 25px;
-        text-align: center;
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #bbb;
+       border-radius: 5px;
+       padding: 20px;
+       text-align: center;
+       font-weight: bold;
+       color: #bbb;
+
+       text-transform: uppercase;
     }
 </style>

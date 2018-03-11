@@ -1,7 +1,9 @@
 <template>
-    <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="list-group-item justify-content-between" tag="div">
-        {{ decryptedTitle }}
-        <small>{{ updatedAt }}</small>
+    <router-link :to="{ name: 'journals.show', params: { journalId: journal.id }}" class="border-b overflow-hidden bg-white hover:bg-grey-lighter cursor-pointer" tag="div">
+        <div class=" p-4">
+            <h4 class="font-bold text-lg mb-2">{{ decryptedTitle }}</h4>
+            <span class="inline-block text-sm font-normal text-grey-darker mr-2">Updated {{ updatedAt }}</span>
+        </div>
     </router-link>
 </template>
 
@@ -30,11 +32,4 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .list-group-item:hover {
-        cursor: pointer;
-        background-color: #f1f1f1;
-    }
-</style>
 

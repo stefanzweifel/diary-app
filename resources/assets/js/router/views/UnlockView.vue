@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="h-screen flex items-center content-center justify-center">
         <master-password v-if="!is_unlocked"></master-password>
     </div>
 </template>

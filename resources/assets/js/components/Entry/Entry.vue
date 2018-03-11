@@ -1,8 +1,12 @@
 <template>
-    <router-link :to="{ name: 'entries.show', params: { entryId: entry.id }}" class="list-group-item list-group-item-action flex-column align-items-start" tag="div">
-        {{ decryptedTitle }}
-        <small>{{ createdAt }}</small>
-        <small>updated {{ updatedAt }}</small>
+    <router-link
+        :to="{ name: 'entries.show', params: { entryId: entry.id }}"
+        class="p-4 text-black border-b bg-white cursor-pointer hover:bg-grey-lighter"
+        tag="div"
+    >
+        <h4 class="mb-2">{{ decryptedTitle }}</h4>
+        <small class="block">{{ createdAt }}</small>
+        <small class="block text-grey-darker">updated {{ updatedAt }}</small>
     </router-link>
 </template>
 

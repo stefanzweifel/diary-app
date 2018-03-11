@@ -1,5 +1,5 @@
 <template>
-    <button @click="destroy" class="btn btn-danger">Delete</button>
+    <button @click="destroy" class="bg-red hover:bg-red-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer">Delete</button>
 </template>
 
 <script>
