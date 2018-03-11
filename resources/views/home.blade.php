@@ -2,11 +2,9 @@
 
 @section('content')
 
-    <div id="app" class="container-fluid p-2">
+    <div id="app" class="h-screen overflow-hidden">
 
-        <breadcrumbs class="align-self-stretch"></breadcrumbs>
-
-        {{-- <lock></lock> --}}
+        {{-- <breadcrumbs class="align-self-stretch"></breadcrumbs> --}}
 
         <router-view></router-view>
     </div>

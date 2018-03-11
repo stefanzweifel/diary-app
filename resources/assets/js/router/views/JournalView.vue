@@ -1,18 +1,19 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <div class="btn-group">
-                <create-entry-button :journalId="journalId" v-if="entries && entries.length > 0"></create-entry-button>
-                <delete-journal :journalId="journalId"></delete-journal>
-            </div>
-            <div v-if="entries && entries.length == 0">
-                <div class="alert alert-info mt-2">
-                    No Entries for this journal. Create one!
+    <div class="flex">
+        <div class="h-screen bg-white flex flex-col w-1/2 border-r">
 
-                    <create-entry-button :journalId="journalId"></create-entry-button>
-                </div>
+            <div class="p-4 border-b shadow z-10">
+                <create-entry-button :journalId="journalId" v-if="entries && entries.length > 0" />
+                <delete-journal :journalId="journalId" />
             </div>
-            <div class="list-group">
+
+            <div class="bg-grey-lightest flex-grow overflow-scroll">
+                <div v-if="entries && entries.length == 0">
+                    <div class="text-center p-4 rounded mt-2">
+                        <p class="mb-4 text-grey-dark">No entries for this journal</p>
+                        <create-entry-button :journalId="journalId" />
+                    </div>
+                </div>
                 <entry
                     v-if="entries.length > 0"
                     v-for="entry in entries"
@@ -21,8 +22,11 @@
                 </entry>
             </div>
         </div>
-        <div class="col col-md-9" v-if="entries && entries.length > 0">
+        <div class="md:w-full" v-if="entries && entries.length > 0">
             <router-view></router-view>
+        </div>
+        <div v-else class="flex justify-center items-center w-full">
+            <p class="text-grey text-3xl italic">Create a new entry or select an existing one</p>
         </div>
     </div>
 </template>

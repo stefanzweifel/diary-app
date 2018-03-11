@@ -8,7 +8,7 @@
                     <small>Added {{ file.attributes.created_at }}</small>
                 </p>
 
-                <button type="button" @click="destroy(file.id)" class="btn btn-danger btn-sm">Delete File</button>
+                <button type="button" @click="destroy(file.id)" class="bg-red hover:bg-red-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer">Delete File</button>
             </div>
         </div>
     </div>

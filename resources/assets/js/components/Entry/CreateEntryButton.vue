@@ -1,5 +1,5 @@
 <template>
-    <button @click="createEntry" class="btn btn-success">New entry</button>
+    <button @click="createEntry" class="bg-green hover:bg-green-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer">New entry</button>
 </template>
 
 <script>

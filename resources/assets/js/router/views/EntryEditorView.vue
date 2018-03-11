@@ -1,20 +1,25 @@
 <template>
-    <div class="card">
-        <div class="card-block">
+    <div class="h-screen bg-white flex flex-col">
+        <div class="p-4 border-b shadow text-right">
+            <button @click="store" @keyup.meta.31="store" class="bg-green hover:bg-green-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer">Save</button>
+            <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
+        </div>
+        <div class="p-8 flex-grow overflow-scroll">
             <form @submit.prevent="store">
-                <div class="form-group">
+                <div class="mb-4">
                     <input
                         type="text"
                         v-model="title"
                         placeholder="This is the title of your entry"
-                        class="form-control"
+                        class="shadow appearance-none inline-block border rounded py-2 px-3 text-grey-darker w-full"
                     >
                 </div>
                 <div class="form-group">
                     <textarea
                     :value="content"
+                    rows="10"
                     placeholder="The content of your entry. **Markdown** is *supported*!"
-                    class="form-control"
+                    class="shadow appearance-none inline-block border rounded py-2 px-3 text-grey-darker w-full"
                     @focus="updateSizeOfTextarea"
                     @input="update"
                     ></textarea>
@@ -22,14 +27,11 @@
 
                 {{ entry.attributes.id }}
 
-                <files-bag :files="files" :entryId="entryId"></files-bag>
                 <files-list :files="files" :entryId="entryId"></files-list>
-
             </form>
         </div>
-        <div class="card-footer">
-            <button @click="store" @keyup.meta.31="store" class="btn btn-success">Save</button>
-            <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
+        <div class="p-4 border-t">
+            <files-bag :files="files" :entryId="entryId"></files-bag>
         </div>
     </div>
 </template>

@@ -1,20 +1,21 @@
 <template>
-    <div class="card" v-if="entry">
-        <div class="card-block">
-            <h4 class="card-title">{{ title }}</h4>
-            <vue-markdown :source="content"></vue-markdown>
-
-            <hr>
-            <files-bag :files="files" :entryId="entryId"></files-bag>
-            <files-list :entryId="entryId" :files="files"></files-list>
+    <div class="h-screen bg-white flex flex-col" v-if="entry">
+        <div class="p-4 border-b shadow text-right">
+            <router-link :to="{ name: 'entries.editor', params: { journalId: journalId, entryId: entryId }}" class="bg-blue hover:bg-blue-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer" tag="div">
+                Edit
+            </router-link>
+            <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
         </div>
-        <div class="card-footer">
-            <div class="btn-group">
-                <router-link :to="{ name: 'entries.editor', params: { journalId: journalId, entryId: entryId }}" class="btn btn-primary" tag="div">
-                    Edit
-                </router-link>
-                <delete-entry-button :entryId="entryId" :journalId="journalId"></delete-entry-button>
+        <div class="p-8 flex-grow overflow-scroll">
+            <h1 class="font-bold mb-2">{{ title }}</h1>
+            <vue-markdown :source="content" class="leading-normal text-lg"></vue-markdown>
+
+            <div class="border-t pt-4 mt-4">
+                <files-list :entryId="entryId" :files="files"></files-list>
             </div>
+        </div>
+        <div class="p-4 border-t">
+            <files-bag :files="files" :entryId="entryId"></files-bag>
         </div>
     </div>
     <div v-else>

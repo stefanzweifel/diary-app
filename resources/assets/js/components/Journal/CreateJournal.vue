@@ -1,15 +1,9 @@
 <template>
-    <form @submit.prevent="store"style="margin-bottom: 1em;">
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" class="form-control" v-model="title" placeholder="Name of your Journal">
-                <span class="input-group-btn">
-                   <button type="submit" class="btn btn-success" v-bind:disabled="!title">
-                        Create Journal
-                    </button>
-                </span>
-            </div>
-        </div>
+    <form @submit.prevent="store">
+        <input type="text" class="shadow appearance-none inline-block border rounded py-2 px-3 text-grey-darker" v-model="title" placeholder="Name of your Journal">
+        <button type="submit" class="bg-green hover:bg-green-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer" v-bind:disabled="!title">
+            Create Journal
+        </button>
     </form>
 </template>
 

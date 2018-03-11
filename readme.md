@@ -20,6 +20,7 @@ I've written a blog post about the project. You can read it [here](https://stefa
 - Create .env file: `cp .env.example .env`
 - Migrate Database: `php artisan migrate`
 - Create OAuth Key Pair: `php artisan passport:install`
+- Link storage with `php artisan storage:link`
 
 ## Security Vulnerabilities
 

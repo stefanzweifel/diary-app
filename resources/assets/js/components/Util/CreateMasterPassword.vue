@@ -1,21 +1,22 @@
 <template>
     <div>
-        <div class="alert alert-warning">
-            You haven't setup a Master Password yet. Creat Master Password now!
+        <div class="bg-blue-lightest border border-blue-light text-blue-dark px-4 py-3 rounded relative mb-4" role="alert">
+            You haven't setup a master password yet. Creat master password now!
         </div>
 
         <form v-on:submit.prevent="create">
-            <div class="form-group">
-                <label>Master Password</label>
-                <input type="password" class="form-control" v-model="password" placeholder="Password">
+
+            <div class="mb-4">
+                <label for="password" class="block text-grey-darker text-sm font-bold mb-2">Master Password</label>
+                <input id="password" type="password" class="shadow appearance-none inline-block border rounded py-2 px-3 text-grey-darker w-full" v-model="password" placeholder="Password">
             </div>
 
-            <div class="form-group">
-                <label>Confirm your password</label>
-                <input type="password" class="form-control" v-model="password_confirmation" placeholder="Password Confirmation">
+            <div class="mb-4">
+                <label for="password_confirmation" class="block text-grey-darker text-sm font-bold mb-2">Confirm your password</label>
+                <input id="password_confirmation" type="password" class="shadow appearance-none inline-block border rounded py-2 px-3 text-grey-darker w-full" v-model="password_confirmation" placeholder="Password Confirmation">
             </div>
 
-            <button @click="create" v-bind:disabled="!password_match" class="btn btn-success">Create Master Password</button>
+            <button @click="create" type="submit" v-bind:disabled="!password_match" class="bg-green hover:bg-green-dark inline-block text-white no-underline font-bold py-2 px-4 rounded cursor-pointer">Create Master Password</button>
         </form>
     </div>
 </template>
