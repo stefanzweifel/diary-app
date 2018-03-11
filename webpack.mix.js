@@ -1,4 +1,7 @@
 const { mix } = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
+const webpack = require("webpack");
+require('laravel-mix-purgecss');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,27 +14,20 @@ const { mix } = require('laravel-mix');
  |
  */
 
-
-
 mix.js('resources/assets/js/app.js', 'public/js')
     .extract(['axios', 'vue', 'vuex', 'marked', 'moment', 'vue-router'])
+    .postCss('resources/assets/css/tailwind.css', 'public/css', [
+      tailwindcss('./tailwind.js'),
+    ])
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/app_v4.scss', 'public/css')
-    // .version()
+    .version()
+    .purgeCss({
+        enabled: mix.inProduction(),
+    });
 
 
-// Enabling the `OfflinePlugin` will prepare service workers and more
 
-// var OfflinePlugin = require('offline-plugin');
-// mix.webpackConfig({
-//     plugins: [
-//        new OfflinePlugin()
-//     ]
-// });
-//
-//
-
-let webpack = require("webpack");
 
 mix.webpackConfig({
     plugins: [
