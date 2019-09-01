@@ -1,5 +1,11 @@
 # Diary App
 
+## Word of Warning:
+
+This app has been written in 2017. Back then I didn't knew that much about encryption. Since then, many people pointed out to me, that the app in it's current state has design flaws: App encryption key is available in the frontend/public, Master Password of a user is not connected with the app encryption key.
+
+So yeah, I'm by no means a cryptographic expert! **Please, don't use the source code of the app as the basis of your next security project!**
+
 ## About
 
 This is an example app to showcase how you can use End-to-End Encryption in your Laravel Apps. I've used Vue as the Frontend Framework but the code should be easily portable to any Framework of your choice.
@@ -21,10 +27,6 @@ I've written a blog post about the project. You can read it [here](https://stefa
 - Migrate Database: `php artisan migrate`
 - Create OAuth Key Pair: `php artisan passport:install`
 - Link storage with `php artisan storage:link`
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within this project, please send an e-mail to Stefan Zweifel at hello@stefanzweifel.io. All security vulnerabilities will be promptly addressed.
 
 ## License
 
